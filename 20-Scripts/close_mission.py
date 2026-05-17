@@ -42,8 +42,8 @@ def main():
     workspace_root = script_dir.parents[1]
     vault_root = workspace_root / "obsidian-brain"
     
-    # Exclude internal folders and templates from the mandatory audit
-    EXCLUSIONS = [".git", ".obsidian", ".gemini", "Templates"]
+    # Exclude internal folders, templates, and programmatic manuals from the mandatory audit
+    EXCLUSIONS = [".git", ".obsidian", ".gemini", "Templates", "MODE-MANUAL.md"]
     
     engine = Sovereignty(workspace_root=workspace_root)
     
@@ -95,9 +95,10 @@ def main():
     print("📊 SOVEREIGNTY GATE STATUS")
     print("─"*60)
     
-    status_icon = "✅" if (report["success"] and state_updated) else "❌"
-    print(f"  {status_icon} METADATA  : {'PASSED' if report['success'] else 'VIOLATED'}")
-    print(f"  {'✅' if state_updated else '❌'} STATE LOG : {'SYNCED' if state_updated else 'MISSING'}")
+    metadata_icon = "✅" if report["success"] else "❌"
+    state_icon = "✅" if state_updated else "❌"
+    print(f"  {metadata_icon} METADATA  : {'PASSED' if report['success'] else 'VIOLATED'}")
+    print(f"  {state_icon} STATE LOG : {'SYNCED' if state_updated else 'MISSING'}")
     
     if report["success"] and state_updated:
         print("\n✨ VERDICT: MISSION ACCOMPLISHED")

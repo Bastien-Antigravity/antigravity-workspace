@@ -144,12 +144,20 @@ def check_session_health() -> None:
     Ensures the mission was properly closed.
     """
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    # Exclude internal folders, templates, and programmatic manuals from the mandatory audit
+    EXCLUSIONS = [".git", ".obsidian", ".gemini", "Templates", "MODE-MANUAL.md"]
     try:
         result = subprocessRun(
             ["git", "status", "--porcelain"], 
             cwd=vault_root, capture_output=True, text=True, check=True
         )
-        uncommitted = [line for line in result.stdout.splitlines() if line.strip().endswith(".md")]
+        uncommitted = []
+        for line in result.stdout.splitlines():
+            status_path = line[3:].strip()
+            if status_path.endswith(".md"):
+                if any(x in status_path for x in EXCLUSIONS):
+                    continue
+                uncommitted.append(status_path)
         
         if uncommitted:
             print("\n" + "!"*60)

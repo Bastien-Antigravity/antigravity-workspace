@@ -4,7 +4,7 @@ microservice: obsidian-brain
 type: session-state
 status: active
 Mission-ID: KMS-FIX-AUTOGEN
-active-protocol: "[[MODE-MANUAL#Mode-1]]"
+active-protocol: "[[MODE-MANUAL#Mode-3]]"
 tags:
 - '#service/obsidian-brain'
 - '#zone/3-fleet'
