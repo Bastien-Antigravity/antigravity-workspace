@@ -186,6 +186,7 @@
   },
   "active": "0d3909c2451173a3",
   "lastOpenFiles": [
+    "20-Scripts/vault-sentinel.py",
     "scratch_search_malformed_tags_body.py",
     "scratch_search_malformed_tags.py",
     "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas",
@@ -209,7 +210,6 @@
     "01-Strategic-Nexus/PHIL-001-Beyond-The-Reductive-View.md",
     "01-Strategic-Nexus/STRAT-006-The-Context-Window-Debt.md",
     "01-Strategic-Nexus/STRAT-005-The-Sovereignty-Ritual.md",
-    "20-Scripts/__pycache__/switch_mode.cpython-312.pyc",
     "99-Humans/Domain-Dashboard.md",
     "quick-overview/00-Dashboards/Domain-Dashboard.md",
     "quick-overview/Domain-Dashboard.md",
