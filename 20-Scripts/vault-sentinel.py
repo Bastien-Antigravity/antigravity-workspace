@@ -188,7 +188,7 @@ class VaultSentinel:
                 print(f" [SKIP] File is not a markdown (.md) file: {target_dir.name}")
         else:
             for root, dirs, files in osWalk(target_dir):
-                if any(x in root for x in [".git", ".obsidian", "experiments", "deployments", "plans", "Templates"]):
+                if any(x in root for x in [".git", ".obsidian", ".gemini", "experiments", "deployments", "plans", "Templates"]):
                     continue
                 for file in files:
                     if file.endswith(".md"):

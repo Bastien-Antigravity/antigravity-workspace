@@ -246,6 +246,25 @@ class Sovereignty:
                             if "tags:" in yaml_block and service_tag not in yaml_block:
                                 yaml_block = re.sub(r'(tags:\s*\n)', r'\1- \'' + service_tag + r'\'\n', yaml_block)
                                 
+                    # Inject default transversal tag (#zone/3-fleet) if none are present
+                    if not any(t in yaml_block for t in ["#tech/", "#tier/", "#zone/"]):
+                        default_transversal = "#zone/3-fleet"
+                        if "tags:" in yaml_block:
+                            if default_transversal not in yaml_block:
+                                inline_match = re.search(r'tags:\s*\[([^\]]*)\]', yaml_block)
+                                if inline_match:
+                                    tags_content = inline_match.group(1).strip()
+                                    if tags_content:
+                                        new_inline = f"tags: [{tags_content}, '{default_transversal}']"
+                                    else:
+                                        new_inline = f"tags: ['{default_transversal}']"
+                                    yaml_block = yaml_block.replace(inline_match.group(0), new_inline)
+                                else:
+                                    yaml_block = re.sub(r'(tags:\s*\n)', r'\1- \'' + default_transversal + r'\'\n', yaml_block)
+                        else:
+                            # Append tags block to yaml_block
+                            yaml_block = yaml_block.rstrip() + f"\ntags:\n- '{default_transversal}'\n"
+                                
                     if yaml_block != parts[1]:
                         content = f"---{yaml_block}---{parts[2]}"
             

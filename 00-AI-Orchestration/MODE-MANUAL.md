@@ -1,4 +1,5 @@
---- 
+---
+ 
 microservice: obsidian-brain
 title: 'AI Operating Manual: Multi-Mode Protocols'
 version: 2.0
@@ -6,12 +7,11 @@ type: architecture
 status: active
 active_mode: 3
 tags:
+- \'#zone/3-fleet\'
 - \'#service/obsidian-brain\'
 - '#state/active'
-- null
 - '#type/architecture'
 ---
-
 # 🕹️ AI Operating Manual: Multi-Mode Protocols
 
 This document defines the "Rules of Engagement" for the Antigravity AI assistant. By switching

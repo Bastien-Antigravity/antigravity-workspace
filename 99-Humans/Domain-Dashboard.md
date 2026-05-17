@@ -3,6 +3,7 @@ microservice: obsidian-brain
 type: task
 status: active
 tags:
+- \'#zone/3-fleet\'
 - \'#service/obsidian-brain\'
 - '#type/dashboard'
 - '#state/active'

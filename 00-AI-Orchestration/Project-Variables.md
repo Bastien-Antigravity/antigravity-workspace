@@ -1,4 +1,5 @@
---- 
+---
+ 
 microservice: obsidian-brain
 type: configuration
 status: active
@@ -14,9 +15,9 @@ templates_path: 00-AI-Orchestration/Templates
 labs_brain_path: 04-Rapid-Prototyping
 ops_brain_path: 05-Fleet-Operation
 tags:
+- \'#zone/3-fleet\'
 - \'#service/obsidian-brain\'
 - '#state/active'
-- null
 - '#type/configuration'
 ---
 # Project Context Map

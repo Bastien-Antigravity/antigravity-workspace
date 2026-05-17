@@ -1,14 +1,14 @@
---- 
+---
+ 
 microservice: obsidian-brain
 type: governance
 status: active
 tags:
+- \'#zone/3-fleet\'
 - \'#service/obsidian-brain\'
 - '#type/governance'
-- null
 - '#state/active'
 ---
-
 # Knowledge Organization Strategy for Bastien-Antigravity
 
 When dealing with a complex microservice ecosystem, a simple folder hierarchy is insufficient. We need a fluid architecture that supports multiple dimensions: strict categorization, dynamic states, contextual relationships, and algorithmic querying (both for you and me, the AI).
