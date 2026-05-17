@@ -186,6 +186,7 @@
   },
   "active": "0d3909c2451173a3",
   "lastOpenFiles": [
+    "20-Scripts/__pycache__/mission_help.cpython-312.pyc",
     "update_kms.py",
     "20-Scripts/vault-sentinel.py",
     "scratch_search_malformed_tags_body.py",
@@ -205,7 +206,6 @@
     "03-Tech-Stack/03-Project-Coding/11-Unified-Comment-Standards.md",
     "03-Tech-Stack/03-Project-Coding/10-VBA-Excel-Integration.md",
     "03-Tech-Stack/03-Project-Coding/09-CPP-Performance-and-FFI.md",
-    "02-Business-BDD/sanitize_bdd.py",
     "02-Business-BDD/02-Behavior-Specs/ontime-scheduler/FEAT-008-Scheduler-Migration.md",
     "01-Strategic-Nexus/PHIL-001-Beyond-The-Reductive-View.md",
     "01-Strategic-Nexus/STRAT-006-The-Context-Window-Debt.md",

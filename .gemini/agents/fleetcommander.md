@@ -67,7 +67,7 @@ After a successful fleet action, you must follow this exact sequence:
 3. Report the final fleet state to the USER.
 
 ---
-*Reference: [[05-Fleet-Operation/00-Repo-Control/inventory.json]], [[Global-Architecture-Rules]]*
+*Reference: [inventory.json](../../../05-Fleet-Operation/00-Repo-Control/inventory.json), [[Global-Architecture-Rules]]*
 
 
 # 💾 STATE MANAGEMENT RULE (CRITICAL)
