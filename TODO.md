@@ -4,11 +4,10 @@ type: task
 status: active
 priority: high
 tags:
-- \'#service/obsidian-brain\'
-- meta-logic
-- governance
+- '#service/obsidian-brain'
 - '#type/task'
 - '#state/active'
+- '#zone/3-fleet'
 ---
 # TODO: obsidian-brain (Governance & Meta-Logic)
 

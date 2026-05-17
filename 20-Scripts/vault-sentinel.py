@@ -158,37 +158,54 @@ class VaultSentinel:
         return errors, warnings
 
     def audit_directory(self, target_dir: Path, fix: bool = False) -> Tuple[int, int]:
-        """Audits all markdown files under a specific target directory."""
+        """Audits a single markdown file or all markdown files under a target directory."""
         print(f"\n📡 Starting Vault Sentinel audit on: {target_dir.resolve()}")
         print(f"   Indexed workspace files: {len(self.valid_stems)} stems")
         
         if not target_dir.exists():
-            print(f"❌ Error: Target directory does not exist: {target_dir}")
+            print(f"❌ Error: Target path does not exist: {target_dir}")
             return 1, 0
 
         files_audited = 0
         total_errors = 0
         total_warnings = 0
 
-        for root, dirs, files in osWalk(target_dir):
-            if any(x in root for x in [".git", ".obsidian", "experiments", "deployments", "plans", "Templates"]):
-                continue
-            for file in files:
-                if file.endswith(".md"):
-                    filepath = Path(root) / file
-                    files_audited += 1
-                    errs, warns = self.check_file_tags_and_links(filepath, fix)
-                    
-                    if errs or warns:
-                        print(f"\n⚠️  Issues found in: {filepath.relative_to(self.workspace_root).as_posix()}")
-                        for err in errs:
-                            print(f"   [!] Error  : {err}")
-                            total_errors += 1
-                        for warn in warns:
-                            print(f"   [~] Warning: {warn}")
-                            total_warnings += 1
-                    elif self.verbose:
-                        print(f"   [OK] {file}")
+        if target_dir.is_file():
+            if target_dir.suffix == ".md":
+                files_audited += 1
+                errs, warns = self.check_file_tags_and_links(target_dir, fix)
+                if errs or warns:
+                    print(f"\n⚠️  Issues found in: {target_dir.relative_to(self.workspace_root).as_posix()}")
+                    for err in errs:
+                        print(f"   [!] Error  : {err}")
+                        total_errors += 1
+                    for warn in warns:
+                        print(f"   [~] Warning: {warn}")
+                        total_warnings += 1
+                elif self.verbose:
+                    print(f"   [OK] {target_dir.name}")
+            else:
+                print(f" [SKIP] File is not a markdown (.md) file: {target_dir.name}")
+        else:
+            for root, dirs, files in osWalk(target_dir):
+                if any(x in root for x in [".git", ".obsidian", "experiments", "deployments", "plans", "Templates"]):
+                    continue
+                for file in files:
+                    if file.endswith(".md"):
+                        filepath = Path(root) / file
+                        files_audited += 1
+                        errs, warns = self.check_file_tags_and_links(filepath, fix)
+                        
+                        if errs or warns:
+                            print(f"\n⚠️  Issues found in: {filepath.relative_to(self.workspace_root).as_posix()}")
+                            for err in errs:
+                                print(f"   [!] Error  : {err}")
+                                total_errors += 1
+                            for warn in warns:
+                                print(f"   [~] Warning: {warn}")
+                                total_warnings += 1
+                        elif self.verbose:
+                            print(f"   [OK] {file}")
 
         print("\n" + "="*80)
         print(f"📋 SENTINEL AUDIT COMPLETE for {target_dir.name}")

@@ -4,10 +4,10 @@ type: moc
 status: active
 author: Ruzava & Antigravity
 tags:
-- \'#service/ecosystem-core\'
+- '#service/ecosystem-core'
 - '#state/active'
-- null
 - '#type/moc'
+- '#zone/3-fleet'
 ---
 
 # 🌌 Bastien-Antigravity: Master Knowledge Hub (MOC)
@@ -58,7 +58,7 @@ The structural paradigms for all polyglot microservices, coding idioms, and depl
 
 ### 🏛️ Architecture
 - [[03-Tech-Stack/02-Project-Architecture/Global-Architecture-Rules|The System Hub (Primary Rules)]]
-- [[03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas|🎨 Visual Ecosystem Topology]]
+- [🎨 Visual Ecosystem Topology](03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas)
 - [[03-Tech-Stack/02-Project-Architecture/01-Facade-Pattern|The Facade Pattern Rules]]
 - [[03-Tech-Stack/02-Project-Architecture/02-Decoupling-and-Interfaces|Decoupling & Interfaces]]
 - [[03-Tech-Stack/02-Project-Architecture/03-Repository-Structure|Repository Layouts]]
@@ -95,7 +95,7 @@ Fast-path development, experiments, and prototypes. **(Zone 2: Fluid)**
 ## 🛰️ 05 - Fleet Operations
 Fleet-wide action plans, deployment logs, and migration states. **(Zone 3: Fleet)**
 - [Fleet Operations (Zone 3)](https://github.com/Bastien-Antigravity/05-Fleet-Operation)
-- **Command Center**: [[05-Fleet-Operation/00-Repo-Control/inventory.json|Global Repo Registry]]
+- **Command Center**: [Global Repo Registry](05-Fleet-Operation/00-Repo-Control/inventory.json)
 - **Automation**: `fleet-manager.py` (Mass Sync & Audit)
 - **Logs**: [[05-Fleet-Operation/Deployment-Logs-MOC|🛰️ Deployment Logs Index]]
 - **Strategy**: [[05-Fleet-Operation/05-Fleet-Strategy/04-CICD-Standards|CI/CD Standards]]
@@ -155,10 +155,10 @@ Live sprint tracking and standardized templates.
 
 ## 🛠️ 20 - Scripts
 Ecosystem automation scripts.
-- [[03-Tech-Stack/05-Project-Scripts/Multi-Repo-Validator.py|Multi-repo Validator]]
-- [[07-Core-KMS/Scripts/Joint-Audit-Purger.py|🧹 Purger: Dark Matter Audit]]
-- [[20-Scripts/start_squad.py|Squad Launcher]]
-- [[20-Scripts/verify_links_script.py|Link Integrity Validator]]
+- [Multi-repo Validator](03-Tech-Stack/05-Project-Scripts/Multi-Repo-Validator.py)
+- [🧹 Purger: Dark Matter Audit](07-Core-KMS/Scripts/Joint-Audit-Purger.py)
+- [Squad Launcher](20-Scripts/start_squad.py)
+- [Link Integrity Validator](20-Scripts/verify_links_script.py)
 
 ---
 ## 🧪 Quality & Testing

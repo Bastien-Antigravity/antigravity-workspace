@@ -3,10 +3,10 @@ microservice: obsidian-brain
 type: documentation
 status: active
 tags:
-- \'#service/obsidian-brain\'
-- null
+- '#service/obsidian-brain'
 - '#type/documentation'
 - '#state/active'
+- '#zone/3-fleet'
 ---
 # 🌌 Bastien-Antigravity: Obsidian Brain User Manual
 
