@@ -198,6 +198,7 @@ class Sovereignty:
             self.validate_utc_mandate(content, file_name)
             self.validate_session_state(content, file_name)
             self.validate_placeholders(content, file_name)
+            self.validate_hardcoded_paths(content, file_name)
             
         except Exception as e:
             self.log_error(f"Failed to read {path.name}: {str(e)}")
@@ -209,8 +210,15 @@ class Sovereignty:
             for p in placeholders:
                 self.log_error(f"[{file_name}] Unresolved placeholder detected: {p}")
 
+    def validate_hardcoded_paths(self, content: str, file_name: str):
+        """Ensures that no hardcoded absolute local paths are used in links."""
+        matches = re.findall(r'(\bfile:///Users/[^\s)\]\n\r]+|\b/Users/[^\s)\]\n\r]+|\bfile:///home/[^\s)\]\n\r]+|\b/home/[^\s)\]\n\r]+)', content)
+        if matches:
+            for m in matches:
+                self.log_error(f"[{file_name}] Hardcoded absolute path detected: {m}")
+
     def auto_fix_file(self, path: Path):
-        """Fixes taxonomy issues like missing # on domain tags and injecting #service tags."""
+        """Fixes taxonomy issues and automatically converts absolute links to relative ones."""
         if not path.suffix == ".md":
             return
             
@@ -240,6 +248,19 @@ class Sovereignty:
                                 
                     if yaml_block != parts[1]:
                         content = f"---{yaml_block}---{parts[2]}"
+            
+            # Auto-fix absolute links to dynamic relative links
+            import os
+            absolute_links = re.findall(r'\[([^\]]*)\]\((file:///Users/[^\s)\]]+|/Users/[^\s)\]]+|file:///home/[^\s)\]]+|/home/[^\s)\]]+)\)', content)
+            for text, target_url in absolute_links:
+                clean_path_str = target_url.replace("file://", "")
+                target_path = Path(clean_path_str).resolve()
+                if target_path.exists():
+                    rel_path = os.path.relpath(target_path, path.parent)
+                    rel_path_str = Path(rel_path).as_posix()
+                    old_link = f"[{text}]({target_url})"
+                    new_link = f"[{text}]({rel_path_str})"
+                    content = content.replace(old_link, new_link)
             
             if content != original_content:
                 with open(path, 'w', encoding='utf-8') as f:

@@ -70,6 +70,9 @@ class VaultSentinel:
         warnings = []
         filename = filepath.name
 
+        if fix:
+            self.engine.auto_fix_file(filepath)
+
         try:
             with open(filepath, "r", encoding="utf-8") as f:
                 content = f.read()
