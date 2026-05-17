@@ -186,6 +186,7 @@
   },
   "active": "0d3909c2451173a3",
   "lastOpenFiles": [
+    "update_kms.py",
     "20-Scripts/vault-sentinel.py",
     "scratch_search_malformed_tags_body.py",
     "scratch_search_malformed_tags.py",
@@ -206,7 +207,6 @@
     "03-Tech-Stack/03-Project-Coding/09-CPP-Performance-and-FFI.md",
     "02-Business-BDD/sanitize_bdd.py",
     "02-Business-BDD/02-Behavior-Specs/ontime-scheduler/FEAT-008-Scheduler-Migration.md",
-    "02-Business-BDD/03-Acceptance-Criteria",
     "01-Strategic-Nexus/PHIL-001-Beyond-The-Reductive-View.md",
     "01-Strategic-Nexus/STRAT-006-The-Context-Window-Debt.md",
     "01-Strategic-Nexus/STRAT-005-The-Sovereignty-Ritual.md",
