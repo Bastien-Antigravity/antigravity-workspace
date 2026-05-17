@@ -182,6 +182,8 @@
   },
   "active": "2ce27bfb6c5037cc",
   "lastOpenFiles": [
+    "tests/test_placeholder.py",
+    "tests",
     "inject_venv.py",
     "requirements.txt",
     "TODO.md",
@@ -216,8 +218,6 @@
     "07-Core-KMS/Agent-Roles-MOC.md",
     "07-Core-KMS/User-Manual.md",
     "07-Core-KMS/Role-Prompts/00-Oracle/Prompt-Chronos-Nexus.md",
-    "20-Scripts/__pycache__/mission_help.cpython-312.pyc",
-    "update_kms.py",
     "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas",
     "02-Business-BDD/Behavior-Specs-MOC.md"
   ]
