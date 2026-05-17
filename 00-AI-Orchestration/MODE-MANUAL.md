@@ -1,6 +1,4 @@
 ---
-
- 
 microservice: obsidian-brain
 title: 'AI Operating Manual: Multi-Mode Protocols'
 version: 2.0

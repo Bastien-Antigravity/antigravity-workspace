@@ -1,5 +1,4 @@
 ---
-
 microservice: obsidian-brain
 type: session-state
 status: active

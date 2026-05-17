@@ -1,13 +1,12 @@
 ---
-
 microservice: obsidian-brain
 type: documentation
 status: active
 tags:
 - '#zone/3-fleet'
 - '#service/obsidian-brain'
-- "#type/documentation"
-- "#state/active"
+- '#type/documentation'
+- '#state/active'
 ---
 # 🧠 Obsidian Brain: Features & Behavior
 

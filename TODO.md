@@ -1,4 +1,4 @@
---- 
+---
 microservice: obsidian-brain
 type: task
 status: active

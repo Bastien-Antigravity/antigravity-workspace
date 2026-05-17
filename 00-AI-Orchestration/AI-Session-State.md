@@ -1,4 +1,4 @@
---- 
+---
 microservice: obsidian-brain
 type: governance
 status: active
@@ -9,14 +9,18 @@ lifecycle:
   current_version: 1.0.0
   version_source: VERSION.txt
 done_when:
-- links_verified: true
-- strategy_updated: true
+- 'links_verified: true'
+- 'strategy_updated: true'
 directives:
-- autonomous-doc-sync: mandatory
-- obsidian-brain-sync: mandatory
-- conventional-commits: mandatory
-- active-protocol: "[[MODE-MANUAL#Mode-3]]"
-tags: ['#type/governance', '#state/active', '#zone/3-fleet']
+- 'autonomous-doc-sync: mandatory'
+- 'obsidian-brain-sync: mandatory'
+- 'conventional-commits: mandatory'
+- 'active-protocol: [[MODE-MANUAL#Mode-3]]'
+tags:
+- '#type/governance'
+- '#state/active'
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
 Mission-ID: Fleet-Documentation-Taxonomy-Normalization
 ---
 

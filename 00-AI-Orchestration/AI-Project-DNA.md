@@ -1,8 +1,12 @@
---- 
+---
 microservice: obsidian-brain
 type: governance
 status: active
-tags: ['#type/governance', '#state/active', '#zone/3-fleet']
+tags:
+- '#type/governance'
+- '#state/active'
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
 ---
 # 🧬 Project DNA: obsidian-brain
 

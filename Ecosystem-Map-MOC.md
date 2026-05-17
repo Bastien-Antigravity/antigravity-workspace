@@ -1,4 +1,4 @@
---- 
+---
 microservice: ecosystem-core
 type: moc
 status: active

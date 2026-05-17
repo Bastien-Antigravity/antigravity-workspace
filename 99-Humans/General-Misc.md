@@ -1,5 +1,4 @@
 ---
-
 microservice: obsidian-brain
 type: documentation
 status: active

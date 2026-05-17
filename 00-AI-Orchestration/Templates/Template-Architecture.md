@@ -2,12 +2,12 @@
 microservice: ecosystem-wide
 status: active
 tags:
-- "#tech/TO-DO"
-- "#tier/TO-DO"
-- "#zone/TO-DO"
-- \'#service/ecosystem-wide\'
-- '#type/task'
-- '#state/draft'
+  - '#tech/TO-DO'
+  - '#tier/TO-DO'
+  - '#zone/TO-DO'
+  - '#service/ecosystem-wide'
+  - '#type/task'
+  - '#state/draft'
 title: '{{title}}'
 type: architecture
 ---

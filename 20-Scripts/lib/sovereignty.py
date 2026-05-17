@@ -278,9 +278,24 @@ class Sovereignty:
                 parts = content.split("---", 2)
                 if len(parts) >= 3:
                     yaml_block = parts[1]
+                    
+                    # Sanitize escaped quotes and align list indentations before parsing
+                    sanitized_lines = []
+                    for line in yaml_block.splitlines():
+                        stripped = line.strip()
+                        if stripped.startswith("-"):
+                            tag_part = stripped.split("-", 1)[1].strip().replace("\\", "").replace("'", "").replace('"', "")
+                            # Standardize all list items to start with two spaces, hyphen, and single-quoted values
+                            line = f"  - '{tag_part}'"
+                        sanitized_lines.append(line)
+                    yaml_block = "\n".join(sanitized_lines)
+
+
+                    
                     try:
                         data = yaml.safe_load(yaml_block) or {}
-                        modified = False
+                        modified = True
+
                         
                         if not isinstance(data, dict):
                             data = {}
