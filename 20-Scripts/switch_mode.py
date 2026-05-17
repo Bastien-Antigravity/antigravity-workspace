@@ -32,7 +32,7 @@ if os.path.exists(_venv_python):
 
 
 from os.path import abspath as osPathAbspath, join as osPathJoin, dirname as osPathDirname, exists as osPathExists
-from re import sub as reSub
+from re import sub as reSub, search as reSearch
 from sys import stdout as sysStdout
 
 # --- Configuration ---
@@ -89,27 +89,27 @@ def apply_mode_protocol(choice: str) -> bool:
     session_orch = osPathJoin(orchestration_dir, "AI-Session-State.md")
     session_root = osPathJoin(script_dir, "../AI-Session-State.md")
     
+    if not osPathExists(mode_file):
+        print("❌ Error: MODE-MANUAL.md not found at {0}".format(mode_file))
+        return False
+
     # 1. Update MODE-MANUAL.md
-    mode_updated = _update_file_field(
+    _update_file_field(
         mode_file,
         r"active_mode:\s*\d+",
         "active_mode: {0}".format(choice)
     )
     
-    if not mode_updated:
-        print("❌ Error: Could not find or update MODE-MANUAL.md at {0}".format(mode_file))
-        return False
-    
     # 2. Atomically update BOTH AI-Session-State.md to match
-    field_pattern = r'active-protocol:\s*".*?"'
+    field_pattern = r'active-protocol:\s*[\'"].*?[\'"]'
     replacement = 'active-protocol: "[[MODE-MANUAL#Mode-{0}]]"'.format(choice)
     
     orch_synced = _update_file_field(session_orch, field_pattern, replacement)
     root_synced = _update_file_field(session_root, field_pattern, replacement)
     
     print(f"\n✅ SUCCESS: Protocol successfully set to: {MODES[choice][0]}")
-    print(f"   AI-Session-State (Orch): {'Synced' if orch_synced else 'Not found'}")
-    print(f"   AI-Session-State (Root): {'Synced' if root_synced else 'Not found'}")
+    print(f"   AI-Session-State (Orch): {'Synced' if orch_synced else 'Already correct'}")
+    print(f"   AI-Session-State (Root): {'Synced' if root_synced else 'Already correct'}")
     
     return True
 

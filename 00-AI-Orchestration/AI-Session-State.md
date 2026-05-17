@@ -15,7 +15,7 @@ directives:
 - autonomous-doc-sync: mandatory
 - obsidian-brain-sync: mandatory
 - conventional-commits: mandatory
-- active-protocol: '[[00-AI-Orchestration/MODE-MANUAL]] Mode 1'
+- active-protocol: "[[MODE-MANUAL#Mode-1]]"
 tags: ['#type/governance', '#state/active', '#zone/3-fleet']
 Mission-ID: Fleet-Documentation-Taxonomy-Normalization
 ---
