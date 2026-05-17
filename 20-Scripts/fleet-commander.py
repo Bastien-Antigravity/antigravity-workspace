@@ -37,7 +37,7 @@ if sys.stdout.encoding != 'utf-8':
 class FleetCommander:
     Name: str = "FleetCommander"
 
-    def __init__(self, base_path: str, config: Optional[object] = None, logger: Optional[object] = None, dry_run: bool = False, target_repo: Optional[str] = None, is_fleet: bool = False, commit_msg: Optional[str] = None) -> None:
+    def __init__(self, base_path: str, config: Optional[object] = None, logger: Optional[object] = None, dry_run: bool = False, target_repo: Optional[str] = None, is_fleet: bool = False, commit_msg: Optional[str] = None, tag: Optional[str] = None) -> None:
         self.config = config
         self.logger = logger
         self.base_path: str = base_path
@@ -62,6 +62,7 @@ class FleetCommander:
             sys.exit(1)
             
         self.commit_msg: str = commit_msg or "chore(fleet): standardized fleet operation"
+        self.tag: Optional[str] = tag
 
     def _load_inventory(self) -> List[str]:
         """Loads repository paths from inventory.json and populates compliance exclusions."""
@@ -252,29 +253,52 @@ class FleetCommander:
             # 4. Check for changes
             self._step(repo, "Checking status")
             status, _ = self._run_command("git status --porcelain", repo_path_str)
-            if not status:
-                self._step(repo, "No changes detected")
-                results.append(f"{repo}: [OK] No changes")
-                continue
-
-            # 5. Commit
-            self._step(repo, f"Committing changes: {self.commit_msg[:30]}...")
-            out, err = self._run_command(f'git commit -m "{self.commit_msg}"', repo_path_str)
-            if err:
-                self._log(f"{repo} commit failed: {err}", "error")
-                results.append(f"{repo}: [ERROR] Commit failed")
-                continue
-
-            # 6. Push
-            self._step(repo, f"Pushing to origin {branch}")
-            out, err = self._run_command(f"git push origin {branch}", repo_path_str)
-            if err:
-                self._log(f"{repo} push failed: {err}", "error")
-                results.append(f"{repo}: [ERROR] Push failed")
+            has_changes = bool(status)
+            
+            commit_ok = True
+            if has_changes:
+                # 5. Commit
+                self._step(repo, f"Committing changes: {self.commit_msg[:30]}...")
+                out, err = self._run_command(f'git commit -m "{self.commit_msg}"', repo_path_str)
+                if err:
+                    self._log(f"{repo} commit failed: {err}", "error")
+                    results.append(f"{repo}: [ERROR] Commit failed")
+                    commit_ok = False
+                
+                if commit_ok:
+                    # 6. Push
+                    self._step(repo, f"Pushing to origin {branch}")
+                    out, err = self._run_command(f"git push origin {branch}", repo_path_str)
+                    if err:
+                        self._log(f"{repo} push failed: {err}", "error")
+                        results.append(f"{repo}: [ERROR] Push failed")
+                        commit_ok = False
             else:
-                success_msg = "[DRY-RUN] Simulated push" if self.dry_run else f"[SUCCESS] Pushed to {branch}"
-                self._log(f"{repo} {success_msg.lower()}", "success")
-                results.append(f"{repo}: {success_msg}")
+                self._step(repo, "No changes detected")
+
+            if commit_ok:
+                # 7. Tagging
+                if self.tag:
+                    self._step(repo, f"Tagging commit with {self.tag}")
+                    self._run_command(f"git tag -d {self.tag}", repo_path_str)
+                    self._run_command(f"git push origin :refs/tags/{self.tag}", repo_path_str)
+                    tag_out, tag_err = self._run_command(f'git tag -a {self.tag} -m "Release version {self.tag}"', repo_path_str)
+                    if tag_err:
+                        self._log(f"{repo} tagging failed: {tag_err}", "error")
+                        results.append(f"{repo}: [ERROR] Tagging failed")
+                    else:
+                        push_tag_out, push_tag_err = self._run_command(f"git push origin {self.tag}", repo_path_str)
+                        if push_tag_err:
+                            self._log(f"{repo} tag push failed: {push_tag_err}", "error")
+                            results.append(f"{repo}: [ERROR] Tag push failed")
+                        else:
+                            self._log(f"{repo} successfully tagged with {self.tag} and pushed", "success")
+                            results.append(f"{repo}: [SUCCESS] Pushed changes & tag {self.tag}")
+                else:
+                    if has_changes:
+                        results.append(f"{repo}: [SUCCESS] Pushed to {branch}")
+                    else:
+                        results.append(f"{repo}: [OK] No changes")
 
         print("\n" + "="*80)
         self._log("FINAL FLEET SUMMARY", "info")
@@ -290,11 +314,12 @@ if __name__ == "__main__":
     parser.add_argument("--repo", "-r", type=str, help="Target a specific repository")
     parser.add_argument("--fleet", action="store_true", help="Explicitly target the entire fleet")
     parser.add_argument("--message", "-m", type=str, help="Commit message")
+    parser.add_argument("--tag", "-t", type=str, help="Attach a Git tag to the commit and push it")
     args = parser.parse_args()
 
     # Base path is parent of obsidian-brain
     script_dir: str = osPathDirname(osPathAbspath(__file__))
     base_dir: str = osPathAbspath(osPathJoin(script_dir, "..", ".."))
     
-    commander = FleetCommander(base_dir, dry_run=args.dry_run, target_repo=args.repo, is_fleet=args.fleet, commit_msg=args.message)
+    commander = FleetCommander(base_dir, dry_run=args.dry_run, target_repo=args.repo, is_fleet=args.fleet, commit_msg=args.message, tag=args.tag)
     commander.execute_fleet_push()
