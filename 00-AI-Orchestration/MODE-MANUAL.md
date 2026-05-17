@@ -1,4 +1,5 @@
 ---
+
  
 microservice: obsidian-brain
 title: 'AI Operating Manual: Multi-Mode Protocols'
@@ -7,8 +8,8 @@ type: architecture
 status: active
 active_mode: 3
 tags:
-- \'#zone/3-fleet\'
-- \'#service/obsidian-brain\'
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
 - '#state/active'
 - '#type/architecture'
 ---

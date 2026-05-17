@@ -1,11 +1,12 @@
 ---
+
  
 microservice: obsidian-brain
 type: governance
 status: active
 tags:
-- \'#zone/3-fleet\'
-- \'#service/obsidian-brain\'
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
 - '#type/governance'
 - '#state/active'
 ---

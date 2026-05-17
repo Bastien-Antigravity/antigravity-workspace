@@ -1,14 +1,13 @@
 ---
+
 microservice: obsidian-brain
 type: session-state
 status: active
 Mission-ID: KMS-FIX-AUTOGEN
 tags:
-- \'#service/obsidian-brain\'
+- '#service/obsidian-brain'
 - '#zone/3-fleet'
 ---
-
-
 ## 📡 FleetCommander Session (2026-05-16)
 - **Modernized** entire AI squad with explicit hiring protocols and Sentinel auditing mandates.
 - **Implemented** transversal Tag Taxonomy (#tech, #tier, #zone) across the Obsidian brain.

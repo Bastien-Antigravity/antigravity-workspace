@@ -1,15 +1,15 @@
 ---
+
 microservice: obsidian-brain
 type: documentation
 status: active
 tags:
-- \'#zone/3-fleet\'
-- \'#service/obsidian-brain\'
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
 - '#type/documentation'
 - '#state/active'
 - role/human-onboarding
 ---
-
 # 🧪 Testing Playbook: The Quality Engine
 
 This document explains the multi-layered testing strategy of the Bastien-Antigravity ecosystem. We don't just test code; we test **Knowledge, Behavior, and Fleet Integrity.**

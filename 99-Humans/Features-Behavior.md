@@ -1,14 +1,14 @@
 ---
+
 microservice: obsidian-brain
 type: documentation
 status: active
 tags:
-- \'#zone/3-fleet\'
-- \'#service/obsidian-brain\'
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
 - "#type/documentation"
 - "#state/active"
 ---
-
 # 🧠 Obsidian Brain: Features & Behavior
 
 The `obsidian-brain` repository serves as the **Global Memory** and **Strategic Command Center** for the entire Bastien-Antigravity ecosystem. It orchestrates AI agents, manages behavioral specifications, and dictates architectural standards.

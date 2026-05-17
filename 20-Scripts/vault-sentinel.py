@@ -103,7 +103,17 @@ class VaultSentinel:
                             has_fixes = True
                             continue # Prune the null tag row
                     
-                    # B. Check for tags starting with /
+                    # B. Check for escaped quotes or backslashes
+                    if "\\" in tag_val:
+                        errors.append(f"[{filename}] Malformed tag with escaped quotes: '{tag_val}'")
+                        if fix:
+                            clean_tag = tag_val.replace("\\", "").replace("'", "").replace('"', "").strip()
+                            corrected_line = line.replace(tag_val, f"'{clean_tag}'")
+                            modified_lines.append(corrected_line)
+                            has_fixes = True
+                            continue
+
+                    # C. Check for tags starting with /
                     clean_tag = tag_val.replace("'", "").replace('"', "").strip()
                     if clean_tag.startswith("/"):
                         errors.append(f"[{filename}] Malformed tag starting with '/': '{clean_tag}'")

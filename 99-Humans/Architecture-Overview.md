@@ -1,15 +1,15 @@
 ---
+
 microservice: obsidian-brain
 type: documentation
 status: active
 tags:
-- \'#zone/3-fleet\'
-- \'#service/obsidian-brain\'
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
 - '#type/architecture'
 - '#state/active'
 - role/human-onboarding
 ---
-
 # 🌌 Bastien-Antigravity: Architecture Overview
 
 Welcome, Human. This document provides a high-level visual and structural map of the **Bastien-Antigravity Ecosystem**. It explains how the Knowledge Management System (KMS), the AI Squad, and the Microservice Fleet work together.
