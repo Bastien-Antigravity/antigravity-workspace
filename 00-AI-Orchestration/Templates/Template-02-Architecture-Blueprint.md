@@ -1,7 +1,15 @@
----
+--- 
+microservice: {{microservice}}
 type: architecture-blueprint
 status: draft
 role: architect
+tags:
+- "#tech/TO-DO"
+- "#tier/TO-DO"
+- "#zone/TO-DO"
+- #service/{{microservice}}
+- '#state/draft'
+- '#type/architecture-blueprint'
 ---
 # Architecture Blueprint: [Feature/Bug Name]
 

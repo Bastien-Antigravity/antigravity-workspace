@@ -1,7 +1,15 @@
----
+--- 
+microservice: {{microservice}}
 type: idea-pitch
 status: pending
 role: orchestrator
+tags:
+- "#tech/TO-DO"
+- "#tier/TO-DO"
+- "#zone/TO-DO"
+- #service/{{microservice}}
+- '#type/idea-pitch'
+- '#state/pending'
 ---
 # Idea Pitch: [Feature/Bug Name]
 

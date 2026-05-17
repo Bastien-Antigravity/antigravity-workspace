@@ -1,3 +1,13 @@
+---
+microservice: obsidian-brain
+type: governance
+status: active
+tags:
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
+- '#type/governance'
+- '#state/active'
+---
 # Knowledge Organization Strategy for Bastien-Antigravity
 
 When dealing with a complex microservice ecosystem, a simple folder hierarchy is insufficient. We need a fluid architecture that supports multiple dimensions: strict categorization, dynamic states, contextual relationships, and algorithmic querying (both for you and me, the AI).
@@ -16,9 +26,10 @@ Depending on the task, we apply different conceptual layers.
 ### B. Tags: Dimensions & States (The "What" and "Status")
 **Use for:** Cross-cutting concerns that apply regardless of the folder. Tags allow us to filter files globally.
 **Our Paradigm:** Use nested tags.
-* Examples of Type Tags: `#type/architecture`, `#type/test-scenario`, `#type/sprint-plan`
+* Examples of Type Tags: `#type/architecture`, `#type/test-scenario`, `#type/sprint-plan`, `#type/governance`
+* Examples of Transversal Tags: `#service/`, `#tech/`, `#tier/`, `#zone/`
 * Examples of State Tags: `#state/draft`, `#state/active`, `#state/deprecated`, `#ai/task` 
-*(If you want me to look at something, tag it `#ai/task` and I'll know it's for me!)*
+* Isolation Tags: `#ai/ignore` (Hides document from AI context)
 
 ### C. YAML Frontmatter: Programmable Metadata (The "Database")
 **Use for:** structured key-value pairs at the very top of your markdown files. Essential for using querying plugins like Dataview.
@@ -33,7 +44,7 @@ author: Ruzava
 
 ### D. Bidirectional Links: Conceptual Fabric (The "Why")
 **Use for:** connecting ideas contextually. 
-**Our Paradigm:** If `log-server` relies on `microservice-toolbox`, the log-server architecture file should include the link `[[05-Microservice-Map]]` or `[[microservice-toolbox]]`. This naturally builds an interactive dependency graph we can visualize in Obsidian.
+**Our Paradigm:** If `log-server` relies on `microservice-toolbox`, the log-server architecture file should include the link `[[05-Microservice-Map]]` or `[[06-Microservices/Microservice-Toolbox-Hub]]`. This naturally builds an interactive dependency graph we can visualize in Obsidian.
 
 ---
 
@@ -56,11 +67,11 @@ How do we view the data depending on the level of complexity we are trying to un
 ```markdown
 # 🗺 AI Microservice Ecosystem MOC
 ## Core Rules
-- [[Coding-Style-Guide]]
-- [[bastien_architecture]]
+- [[03-Tech-Stack/03-Project-Coding/00-Coding-Style-Guide]]
+- bastien_architecture
 
 ## Active Sprints
-- [[Sprint-1-Refactoring-Log-Server]]
+- Sprint-1-Refactoring-Log-Server
 ```
 
 ## 3. The 5-Dimensional Hybrid System
@@ -68,7 +79,7 @@ We employ a fusion of **PARA, Diátaxis, and Zettelkasten** to avoid chaos while
 
 * **WHERE (PARA Method):** Shallow folders (`04-Deployment`). No deep nesting!
 * **WHAT & HOW (Diátaxis):** Tags classify the type of knowledge (`#type/tutorial`, `#type/how-to`, `#type/reference`, `#type/architecture`).
-* **WHY (Zettelkasten):** Use `[[Bidirectional Links]]` to connect concepts to Architecture Decision Records (ADRs) or design philosophies.
+* **WHY (Zettelkasten):** Use `Bidirectional Links` to connect concepts to Architecture Decision Records (ADRs) or design philosophies.
 * **HOW MANY (Metadata):** YAML frontmatter (`dependencies: 4`, `version: 1.2`) to empower Dataview queries.
 
 ## 4. AI Interaction & Session States
@@ -80,8 +91,8 @@ As your AI assistant, this system allows us to work together fluidly.
 
 ### B. Session State Management
 We don't need to lose our train of thought between days.
-* **Save State:** At the end of a session, ask me to *"Save session state"*. I will summarize our progress, known bugs, and the next steps into `01-AI-Assistant/AI-Session-State.md`.
-* **Restore State:** Next time you engage with me, just say *"Restore session state"* and I will pick up right where we left off based on that file!
+* **Save State:** At the end of a session, ask me to *"Save session state"*. I will summarize our progress, known bugs, and the next steps into `00-AI-Orchestration/AI-Session-State.md`.
+* **Restore State:** Next time you engage with me, just say *"Restore session state"*. I will pick up right where we left off based on that file!
 
 ---
 > [!TIP] Progressive Disclosure (Level-based Organization)
@@ -117,3 +128,13 @@ When the user requests a feature, the AI MUST first act as a "Spec Specialist" t
 2. Draft a detailed Gherkin spec (`Given/When/Then`) based on the user's intent.
 3. Account for edge cases and technical constraints.
 4. Obtain user approval (`status: approved`) before transitioning to the "Developer" role.
+
+### D. The Documentation Isolation Protocol
+**Decision Date:** 2026-05-16
+**Context:** AI agents were becoming overwhelmed by human-centric notes, causing context window bloat and task drift.
+**Decision:** Implementation of `#ai/ignore` tags and mandatory isolation folders.
+1. **Rule:** AI agents MUST ignore any file tagged with `#ai/ignore`.
+2. **Standard:** Every repository must have an isolation folder for human-centric documentation.
+   - **Fleet Standard**: `quick-overview/`
+   - **Brain Specific**: `99-Humans/` (For the `obsidian-brain` repository only).
+**Impact:** 100% isolation of technical "Human-only" data; cleaner AI context windows.

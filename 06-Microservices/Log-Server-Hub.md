@@ -2,18 +2,23 @@
 microservice: log-server
 type: service-hub
 status: active
+tags:
+- '#service/log-server'
+- '#type/service-hub'
+- '#state/active'
+- '#zone/3-fleet'
 ---
 # 🌐 Service Hub: Log-Server
 
 *High-Performance ordered logging and rotation engine.*
 
 ## 🔗 Knowledge Map
-- **Code Repository**: [[log-server/README.md|📂 log-server/]]
-- **Behavior Specs**: [[02-Business-BDD/02-Behavior-Specs/log-server/|📜 BDD Specifications]]
-- **Protocols**: [[log-server/capnp/logger.capnp|📄 Cap'n Proto Schema]]
+- **Code Repository**: [📂 log-server](https://github.com/Bastien-Antigravity/log-server)
+- **Behavior Specs**: [📜 BDD Specifications](02-Business-BDD/02-Behavior-Specs/log-server/)
+- **Protocols**: log-server/capnp/logger.capnp
 
 ## 🛠️ Squad Assignment
-- **Lead Developer**: [[Prompt-Lead-Developer|Lead-Dev]]
+- **Lead Developer**: [[07-Core-KMS/Role-Prompts/03-Developer/Prompt-Lead-Developer|Lead-Dev]]
 - **Primary Specialist**: [[Rust-Safety-Specialist|Rust-Safety]]
 - **Systems Specialist**: [[CPP-Low-Latency-Specialist|CPP-Low-Latency]]
 

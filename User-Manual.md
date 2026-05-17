@@ -1,3 +1,13 @@
+---
+microservice: obsidian-brain
+type: documentation
+status: active
+tags:
+- '#service/obsidian-brain'
+- '#type/documentation'
+- '#state/active'
+- '#zone/3-fleet'
+---
 # 🌌 Bastien-Antigravity: Obsidian Brain User Manual
 
 Welcome to the **Obsidian Brain**. This is the Strategic Command Center for the Bastien-Antigravity ecosystem. It bridges high-level strategy with autonomous AI execution through a specialized Multi-Agent Squad.
@@ -8,7 +18,12 @@ Welcome to the **Obsidian Brain**. This is the Strategic Command Center for the 
 
 Before you begin, ensure your environment is configured:
 
-1. **Python 3.10+**: Required for the automation scripts.
+1. **Python 3.10+**: Required for the automation scripts. To avoid polluting your system's global Python packages, you **must** use the provided virtual environment:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
 2. **Node.js**: Required to run the MCP Filesystem servers.
 3. **Gemini CLI**: Install via npm:
    ```bash
@@ -28,7 +43,9 @@ Follow these steps to activate the ecosystem:
 This script configures the MCP "Filesystem Bridge" and prepares the subagents.
 
 ```bash
-	python3 obsidian-brain/20-Scripts/start_squad.py
+    # Ensure your virtual environment is active first!
+    source .venv/bin/activate
+    python3 obsidian-brain/20-Scripts/start_squad.py
 ```
 
 ### Step 2: Connect the IDE (Optional but Recommended)
@@ -80,15 +97,14 @@ To keep navigation predictable for both humans and AI, the vault follows this nu
 
 | Folder                             | Purpose                  | Governance               |
 | ---------------------------------- | ------------------------ | ------------------------ |
-| **`00-AI-Orchestration`**  | Meta-Logic & Rules       | Mandatory Rules          |
-| **`01-Strategic-Nexus`**   | Strategic Oracle         | Analysis Only            |
+| **`00-AI-Orchestration`**  | Meta-Logic & Templates   | Global Rules & Foundry   |
+| **`01-Strategic-Nexus`**   | Strategic Oracle Brain   | Analysis Only            |
 | **`02-Business-BDD`**      | **Zone 1: Frozen** | Behavior Specs (Gherkin) |
 | **`03-Tech-Stack`**        | Architecture & Standards | ADRs & Wisdom            |
 | **`04-Rapid-Prototyping`** | **Zone 2: Fluid**  | Experimental Labs        |
 | **`05-Fleet-Operation`**   | **Zone 3: Fleet**  | Multi-Repo Inventory     |
 | **`06-Microservices`**     | Service Hubs             | Operational Docs         |
 | **`07-Core-KMS`**          | AI Agent Engine          | Agent Prompts (OS)       |
-| **`10-State-and-Tasks`**   | Task Tracking            | Inbox & Sprints          |
 | **`20-Scripts`**           | Automation               | CLI Scripts              |
 
 ---
@@ -116,7 +132,7 @@ The Brain has three distinct "Protocols" that change how the AI works. You can s
 
 ---
 
-## 🤖 7. The AI Squad Dossier
+## 🤖 6. The AI Squad Dossier
 
 Each agent has a specialized persona and access level. Use the `/agents list` command in the CLI to see who is available.
 
@@ -127,7 +143,7 @@ Each agent has a specialized persona and access level. Use the `/agents list` co
 | **Developer** | Writes polyglot code (Go, Rust, Python, C++). | `shell`, `read_file`, `write_file` |
 | **QA** | Audits code against BDD specs and sandbox standards. | `obsidian_vault`, `shell` |
 | **Sentinel** | Integrity auditor. Monitors persona drift and protocol adherence. | `obsidian_vault` |
-| **Oracle (Nexus)**| Strategic analysis. Identifies long-term patterns and blind spots. | `obsidian_vault` (Strategic Nexus) |
+| **Strategic Oracle**| Strategic analysis. Identifies long-term patterns and blind spots. | `obsidian_vault` (Strategic Oracle) |
 | **FleetArchitect**| Manages cross-repository dependencies and global CI/CD. | `obsidian_vault` (Fleet Operation) |
 | **FleetCommander**| Handles global Git sync, releases, and deployment logs. | `shell`, `obsidian_vault` |
 | **DocMaintainer** | Keeps the Obsidian vault clean, repairs links, and logs sessions. | `obsidian_vault` |
@@ -135,7 +151,7 @@ Each agent has a specialized persona and access level. Use the `/agents list` co
 
 ---
 
-## 🔄 8. Mode Behavior Matrix
+## 🔄 7. Mode Behavior Matrix
 
 The agents change their behavior based on the `active_mode` set in `MODE-MANUAL.md`.
 
@@ -148,7 +164,7 @@ The agents change their behavior based on the `active_mode` set in `MODE-MANUAL.
 
 ---
 
-## 🛡️ 9. The "Golden Rules" of Engagement
+## 🛡️ 8. The "Golden Rules" of Engagement
 
 1. **The SCAN Protocol**: Every agent response MUST start with `[SCAN]` to verify Role, Source, and State.
 2. **Hard-Stop Context**: Never end a session without asking the AI to: *"Update AI-Session-State.md with today's progress."*
@@ -156,7 +172,7 @@ The agents change their behavior based on the `active_mode` set in `MODE-MANUAL.
 
 ---
 
-## 🧪 10. The Validation Loop: Trust through Testing
+## 🧪 9. The Validation Loop: Trust through Testing
 
 The entire Bastien-Antigravity ecosystem relies on a **"Trust, but Verify"** model. We do not assume the AI's code is correct because it "looks" right; we assume it is correct only when it **passes the tests.**
 
@@ -175,7 +191,7 @@ The entire Bastien-Antigravity ecosystem relies on a **"Trust, but Verify"** mod
 
 ---
 
-## 🎨 11. Visualizing the Brain: The Obsidian App
+## 🎨 10. Visualizing the Brain: The Obsidian App
 
 While the AI Squad operates in the terminal, you can (and should) keep the **Obsidian App** open on your second monitor. This serves as your **Visual Control Panel**.
 
@@ -189,7 +205,7 @@ While the AI Squad operates in the terminal, you can (and should) keep the **Obs
 
 ---
 
-## 🏗️ 12. Scaling Up: Fabricating a New Brain
+## 🏗️ 11. Scaling Up: Fabricating a New Brain
 
 If you want to start a **completely new project** (e.g., a Marketing campaign, a new SaaS, or a Research paper) while keeping this exact AI architecture, you can "Fabricate" a new brain in seconds.
 

@@ -1,7 +1,15 @@
----
+--- 
+microservice: {{microservice}}
 type: qa-test-spec
 status: draft
 role: qa
+tags:
+- "#tech/TO-DO"
+- "#tier/TO-DO"
+- "#zone/TO-DO"
+- #service/{{microservice}}
+- '#state/draft'
+- '#type/qa-test-spec'
 ---
 # BDD Test Specification: [Feature/Bug Name]
 

@@ -10,6 +10,7 @@
 .Trashes
 Thumbs.db
 ehthumbs.db
+*.mdb
 
 # IDEs
 .vscode/
@@ -48,6 +49,7 @@ downloads/
 eggs/
 .eggs/
 lib/
+!20-Scripts/lib/
 lib64/
 parts/
 sdist/

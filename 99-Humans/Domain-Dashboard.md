@@ -1,3 +1,14 @@
+---
+microservice: obsidian-brain
+type: task
+status: active
+tags:
+- '#zone/3-fleet'
+- '#service/obsidian-brain'
+- '#type/dashboard'
+- '#state/active'
+- '#ai/ignore'
+---
 # 🌐 Domain Ontology Matrix
 
 This dashboard groups documentation and states based on **Transversal Themes** rather than what folder they physically live in. 

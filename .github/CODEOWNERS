@@ -1,0 +1,19 @@
+# 1. GLOBAL FALLBACK
+# Ensures all changes require a review from at least one architect
+* @Bastien-Antigravity/fleet-architects
+
+# 2. GITHUB INFRASTRUCTURE (CI/CD)
+/.github/workflows/ @Bastien-Antigravity/fleet-architects
+/.github/dependabot.yml @Bastien-Antigravity/fleet-architects
+
+# 3. FLEET ORCHESTRATION (The "Engine")
+# Protects the fleet-manager.py and inventory.json
+/05-Fleet-Operation/ @Bastien-Antigravity/fleet-architects
+
+# 4. GOVERNANCE & AI RULES (The "Laws")
+# Protects AI-Init.md, role prompts, and tag taxonomy
+/07-Core-KMS/ @Bastien-Antigravity/fleet-architects
+
+# 5. CORE SCRIPTS (Sovereignty Engine)
+# Protects the logic that audits and fixes the brain
+/20-Scripts/ @Bastien-Antigravity/fleet-architects

@@ -1,3 +1,13 @@
+---
+microservice: obsidian-brain
+type: documentation
+status: active
+tags:
+- '#service/obsidian-brain'
+- '#type/documentation'
+- '#state/active'
+- '#zone/3-fleet'
+---
 # Bastien-Antigravity: Obsidian Brain 🌌
 
 Welcome to the **Obsidian Brain**. This repository is the central Strategic Command Center and Knowledge Management System (KMS) for the Bastien-Antigravity ecosystem.
@@ -13,10 +23,14 @@ This Brain is an **Operational Engine**. Use the following scripts to govern the
 
 ---
 
-## 📖 Documentation
-- **[[User-Manual]]**: High-level onboarding and usage guide.
-- **[[00-AI-Orchestration/MODE-MANUAL]]**: Detailed protocol rules.
-- **[[Ecosystem-Map-MOC]]**: The central navigation hub.
+## 👤 Human Onboarding
+Before interacting with the AI Squad, human operators should read the structural guides:
+- **[[99-Humans/Architecture-Overview|🗺️ Global Architecture Overview]]** — Start here to understand the 4-Tier & 3-Zone system.
+- **[[99-Humans/General-Misc|🧠 Philosophy & Operator's Guide]]** — Purpose, concepts, mental models, and optimization tips.
+- **[[99-Humans/Testing-Playbook|🧪 Testing Playbook]]** — How we ensure quality across Knowledge, Behavior, and Code.
+- **[[User-Manual|📖 User Manual]]** — High-level onboarding and usage guide.
+- **[[Ecosystem-Map-MOC|🔗 Ecosystem Map (MOC)]]** — The central navigation hub for the vault.
+- **[[00-AI-Orchestration/MODE-MANUAL|🕹️ Mode Manual]]** — Detailed protocol rules.
 
 ---
 
@@ -41,9 +55,9 @@ The documentation here relies on a hybrid system:
 
 ## 🧑‍💻 Human Mode (Developer Guide)
 1. **Install Obsidian:** Download the app.
-2. **Configure:** Follow **[[03-Tech-Stack/Documentation-Requirements|Documentation Standards]]**.
+2. **Configure:** Follow **[[03-Tech-Stack/03-Project-Coding/Documentation-Requirements|Documentation Standards]]**.
 3. **Start at the MOC:** Open **[[Ecosystem-Map-MOC]]**. This is your entry point.
-4. **Authoring:** Keep files atomic. Use `[[Links]]` to connect concepts.
+4. **Authoring:** Keep files atomic. Use `Links` to connect concepts.
 
 ---
 

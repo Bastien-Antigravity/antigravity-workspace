@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "35e32e91a4933894",
+        "id": "2c37d95a8bdfa3cc",
         "type": "tabs",
         "children": [
           {
-            "id": "12ade5dff85c4b4c",
+            "id": "2ce27bfb6c5037cc",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "Nouvel onglet"
+              "icon": "lucide-git-fork",
+              "title": "Vue graphique"
             }
           }
         ]
@@ -49,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#state/draft",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,7 +70,8 @@
               "title": "Signets"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -179,44 +180,45 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "12ade5dff85c4b4c",
+  "active": "2ce27bfb6c5037cc",
   "lastOpenFiles": [
-    "tech-stack-brain",
-    "rapid-prototyping-brain",
-    "nexus-strategic-brain",
-    "fleet-operation-brain",
-    "ecosystem-microservices/Safe-Socket-Hub.md",
-    "ecosystem-microservices/Notif-Server-Hub.md",
-    "ecosystem-microservices/Market-Observer-Hub.md",
-    "ecosystem-microservices/Log-Server-Hub.md",
-    "ecosystem-microservices/Fundamental-Analysis-Hub.md",
-    "ecosystem-microservices/Distributed-Config-Hub.md",
-    "ecosystem-microservices/Data-Ingestor-Hub.md",
-    "ecosystem-microservices/Config-Server-Hub.md",
-    "ecosystem-microservices",
-    "core-kms-brain",
-    "business-bdd-brain",
-    "State-and-Tasks/Inbox/Templates/Template-Fast-Track.md",
-    "State-and-Tasks/Inbox/Templates/Template-03-QA-Test-Spec.md",
-    "State-and-Tasks/Inbox/Templates/Template-02-Architecture-Blueprint.md",
-    "State-and-Tasks/Inbox/Templates/Template-01-Master-Plan.md",
-    "State-and-Tasks/Inbox/Templates/Template-00-Idea-Pitch.md",
-    "State-and-Tasks/Inbox/Templates",
-    "State-and-Tasks/Sprint-Dashboard.md",
-    "State-and-Tasks/Inbox",
-    "State-and-Tasks/Domain-Dashboard.md",
-    "State-and-Tasks",
-    "Project-Variables.md",
-    "MODE-MANUAL.md",
-    "Knowledge-Strategy.md",
-    "AI-Session-State.md",
-    "AI-Project-DNA.md",
-    "AI-Init.md",
-    "05-Fleet-Operation/02-Deployment-Logs/LOG-2026-05-04-Fleet-Sync-Final.md",
-    "05-Fleet-Operation/02-Deployment-Logs/LOG-2026-05-04-Develop-Sync.md",
-    "02-Business-BDD/02-Behavior-Specs/market-observer/FEAT-003-Heartbeat-Monitoring.md",
-    "02-Business-BDD/02-Behavior-Specs/market-observer/FEAT-002-Orderbook-Normalization.md",
-    "02-Business-BDD/02-Behavior-Specs/market-observer",
+    "05-Fleet-Operation/04-Templates/PULL_REQUEST_TEMPLATE.md",
+    "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/feature_request.md",
+    "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/bug_report.md",
+    "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE",
+    "05-Fleet-Operation/04-Templates/Polyglot/jobs/rust.yml",
+    "05-Fleet-Operation/04-Templates/Polyglot/jobs/python.yml",
+    "05-Fleet-Operation/04-Templates/Polyglot/jobs/go.yml",
+    "05-Fleet-Operation/04-Templates/Polyglot/jobs/cpp.yml",
+    "05-Fleet-Operation/04-Templates/Microservice/dependabot.yml",
+    "05-Fleet-Operation/04-Templates/Microservice/ci.yml",
+    "05-Fleet-Operation/04-Templates/Microservice/cd.yml",
+    "05-Fleet-Operation/04-Templates/quick-overview/Testing-Playbook.md",
+    "05-Fleet-Operation/04-Templates/quick-overview/General-Misc.md",
+    "05-Fleet-Operation/04-Templates/quick-overview/Features-Behavior.md",
+    "05-Fleet-Operation/04-Templates/quick-overview/Architecture-Overview.md",
+    "05-Fleet-Operation/04-Templates/Polyglot/release.yml",
+    "05-Fleet-Operation/04-Templates/Polyglot/jobs",
+    "05-Fleet-Operation/04-Templates/Template-Fleet-Action-Plan.md",
+    "TODO.md",
+    "02-Business-BDD/02-Behavior-Specs/safe-socket/FEAT-001-Connection-Establishment.md",
+    "Sans titre.canvas",
+    "2026-05-17.md",
+    "Ecosystem-Map-MOC.md",
+    "02-Business-BDD/02-Behavior-Specs/ontime-scheduler/FEAT-001-Go-Migration.md",
+    "01-Strategic-Nexus/quick-overview/Testing-Playbook.md",
+    "01-Strategic-Nexus/quick-overview/General-Misc.md",
+    "01-Strategic-Nexus/quick-overview/Features-Behavior.md",
+    "01-Strategic-Nexus/quick-overview/Architecture-Overview.md",
+    "01-Strategic-Nexus/Strategy-Audit-MOC.md",
+    "01-Strategic-Nexus/STRAT-006-The-Context-Window-Debt.md",
+    "01-Strategic-Nexus/STRAT-005-The-Sovereignty-Ritual.md",
+    "01-Strategic-Nexus/User-Manual.md",
+    "07-Core-KMS/tag_taxonomy.md",
+    "07-Core-KMS/quick-overview/Testing-Playbook.md",
+    "07-Core-KMS/quick-overview/General-Misc.md",
+    "07-Core-KMS/quick-overview/Features-Behavior.md",
+    "07-Core-KMS/quick-overview/Architecture-Overview.md",
     "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas"
   ]
 }

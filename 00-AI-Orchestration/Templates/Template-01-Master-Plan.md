@@ -1,7 +1,15 @@
----
+--- 
+microservice: {{microservice}}
 type: task-plan
 status: pending
 role: orchestrator
+tags:
+- "#tech/TO-DO"
+- "#tier/TO-DO"
+- "#zone/TO-DO"
+- #service/{{microservice}}
+- '#type/task-plan'
+- '#state/pending'
 ---
 # Master Plan: [Feature/Bug Name]
 
