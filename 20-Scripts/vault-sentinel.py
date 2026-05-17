@@ -168,7 +168,7 @@ class VaultSentinel:
         total_warnings = 0
 
         for root, dirs, files in osWalk(target_dir):
-            if any(x in root for x in [".git", ".obsidian", "experiments", "deployments", "plans"]):
+            if any(x in root for x in [".git", ".obsidian", "experiments", "deployments", "plans", "Templates"]):
                 continue
             for file in files:
                 if file.endswith(".md"):
