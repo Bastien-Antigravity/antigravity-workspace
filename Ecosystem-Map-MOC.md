@@ -158,7 +158,7 @@ Ecosystem automation scripts.
 - [Multi-repo Validator](03-Tech-Stack/05-Project-Scripts/Multi-Repo-Validator.py)
 - [🧹 Purger: Dark Matter Audit](07-Core-KMS/Scripts/Joint-Audit-Purger.py)
 - [Squad Launcher](20-Scripts/start_squad.py)
-- [Link Integrity Validator](20-Scripts/verify_links_script.py)
+- [Vault Sentinel](20-Scripts/vault-sentinel.py)
 
 ---
 ## 🧪 Quality & Testing

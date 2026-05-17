@@ -7,6 +7,21 @@ KEY PARAMETERS:
     - repos: List of repositories to process (or single repo via --repo)
     - commit_msg: Standardized commit message
 """
+import os, sys
+# Ensure we are running inside the virtual environment
+_venv_dir = os.path.dirname(os.path.abspath(__file__))
+while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
+    _parent = os.path.dirname(_venv_dir)
+    if _parent == _venv_dir:
+        break
+    _venv_dir = _parent
+_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
+if os.path.exists(_venv_python):
+    try:
+        if not os.path.samefile(sys.executable, _venv_python):
+            os.execl(_venv_python, _venv_python, *sys.argv)
+    except OSError:
+        pass
 
 from os.path import join as osPathJoin, exists as osPathExists, abspath as osPathAbspath, dirname as osPathDirname
 import subprocess as subProcess
@@ -42,7 +57,7 @@ class FleetCommander:
         self.logger = logger
         self.base_path: str = base_path
         self.dry_run: bool = dry_run
-        self.engine = Sovereignty()
+        self.engine = Sovereignty(workspace_root=Path(self.base_path))
         self.excluded_repos = set()
         
         self.inventory_path = osPathJoin(self.base_path, "obsidian-brain/05-Fleet-Operation/00-Repo-Control/inventory.json")
@@ -141,7 +156,7 @@ class FleetCommander:
                 self._log(f"[{repo_name}] Missing mandatory file: {filename}", "error")
                 success = False
             else:
-                self.engine.audit_file(file_path, set(), set())
+                self.engine.audit_file(file_path)
         
         report = self.engine.get_report()
         if report["errors"]:
@@ -242,8 +257,13 @@ class FleetCommander:
                 iso_ok = self.audit_isolation_zone(repo_path, repo)
 
                 if not (docs_ok and arch_ok and iso_ok):
+                    print("\n\033[91m" + "🔥"*20)
+                    print(f"🔥 QUARANTINE ALERT: {repo}")
+                    print("🔥 This repository has failed strict compliance audits.")
+                    print("🔥 It will be SKIPPED from the fleet push.")
+                    print("🔥"*20 + "\033[0m\n")
                     self._log(f"{repo} failed compliance audits. Skipping.", "error")
-                    results.append(f"{repo}: [ERROR] Compliance check failed")
+                    results.append(f"{repo}: [ERROR] Compliance check failed (QUARANTINED)")
                     continue
 
             # 3. Stage changes

@@ -5,8 +5,22 @@
 Finalizes the AI session by verifying state updates and documentation health.
 Run this before concluding any major task.
 """
+import os, sys
+# Ensure we are running inside the virtual environment
+_venv_dir = os.path.dirname(os.path.abspath(__file__))
+while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
+    _parent = os.path.dirname(_venv_dir)
+    if _parent == _venv_dir:
+        break
+    _venv_dir = _parent
+_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
+if os.path.exists(_venv_python):
+    try:
+        if not os.path.samefile(sys.executable, _venv_python):
+            os.execl(_venv_python, _venv_python, *sys.argv)
+    except OSError:
+        pass
 
-import sys
 from pathlib import Path
 from datetime import datetime, timedelta
 
@@ -31,16 +45,7 @@ def main():
     # Exclude internal folders and templates from the mandatory audit
     EXCLUSIONS = [".git", ".obsidian", ".gemini", "Templates"]
     
-    engine = Sovereignty()
-    valid_stems = set()
-    valid_paths = set()
-    # 1. Quick Scan for valid links (Omniscient view)
-    for ext in ["*.md", "*.json"]:
-        for path in vault_root.rglob(ext):
-            if any(x in path.parts for x in EXCLUSIONS):
-                continue
-            valid_stems.add(path.stem)
-            valid_paths.add(path.relative_to(vault_root).as_posix())
+    engine = Sovereignty(workspace_root=workspace_root)
     
     # 2. Session Work Detection (Git-Aware)
     import subprocess
@@ -79,7 +84,7 @@ def main():
     # 3. Governance Audit
     state_updated = False
     for path in hot_files:
-        engine.audit_file(path, valid_stems, valid_paths)
+        engine.audit_file(path)
         if "AI-Session-State" in path.name:
             state_updated = True
             

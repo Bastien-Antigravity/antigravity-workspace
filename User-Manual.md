@@ -18,7 +18,12 @@ Welcome to the **Obsidian Brain**. This is the Strategic Command Center for the 
 
 Before you begin, ensure your environment is configured:
 
-1. **Python 3.10+**: Required for the automation scripts.
+1. **Python 3.10+**: Required for the automation scripts. To avoid polluting your system's global Python packages, you **must** use the provided virtual environment:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
 2. **Node.js**: Required to run the MCP Filesystem servers.
 3. **Gemini CLI**: Install via npm:
    ```bash
@@ -38,7 +43,9 @@ Follow these steps to activate the ecosystem:
 This script configures the MCP "Filesystem Bridge" and prepares the subagents.
 
 ```bash
-	python3 obsidian-brain/20-Scripts/start_squad.py
+    # Ensure your virtual environment is active first!
+    source .venv/bin/activate
+    python3 obsidian-brain/20-Scripts/start_squad.py
 ```
 
 ### Step 2: Connect the IDE (Optional but Recommended)

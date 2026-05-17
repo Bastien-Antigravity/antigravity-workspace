@@ -38,7 +38,7 @@ This is the primary "Sovereignty Audit" for the Obsidian Brain. It runs every ti
 
 ### 🔗 Link Verification
 For quick, targeted link audits across the vault:
-- **Execution**: `python3 verify_links_script.py`
+- **Execution**: `python3 vault-sentinel.py`
 
 ---
 

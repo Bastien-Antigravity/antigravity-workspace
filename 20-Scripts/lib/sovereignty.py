@@ -5,6 +5,22 @@
 Centralized validation logic for the Bastien-Antigravity Obsidian Brain.
 Enforces DocMaintainer and Sentinel rules with high reliability.
 """
+import os, sys
+# Ensure we are running inside the virtual environment
+_venv_dir = os.path.dirname(os.path.abspath(__file__))
+while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
+    _parent = os.path.dirname(_venv_dir)
+    if _parent == _venv_dir:
+        break
+    _venv_dir = _parent
+_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
+if os.path.exists(_venv_python):
+    try:
+        if not os.path.samefile(sys.executable, _venv_python):
+            os.execl(_venv_python, _venv_python, *sys.argv)
+    except OSError:
+        pass
+
 
 import re
 from pathlib import Path
@@ -17,12 +33,39 @@ class Sovereignty:
     TRANSVERSAL_TAG_ROOTS = ["#tech/", "#tier/", "#zone/"]
     
     # --- Result Structure ---
-    def __init__(self, taxonomy_path: Path = None):
+    def __init__(self, taxonomy_path: Path = None, workspace_root: Path = None):
         self.errors = []
         self.warnings = []
         self.valid_tags = set()
+        self.valid_stems = set()
+        self.valid_paths = set()
+        
+        # Determine workspace root (defaults to obsidian-brain)
+        if workspace_root is None:
+            self.workspace_root = Path(__file__).resolve().parents[2]
+        else:
+            self.workspace_root = workspace_root
+            
+        self._index_workspace()
+        
         if taxonomy_path and taxonomy_path.exists():
             self._load_taxonomy(taxonomy_path)
+
+    def _index_workspace(self):
+        import os
+        for root, dirs, files in os.walk(self.workspace_root):
+            if any(x in root for x in [".git", ".obsidian", "experiments", "node_modules", "Templates"]):
+                continue
+            for file in files:
+                if file.endswith(".md"):
+                    path = Path(root) / file
+                    self.valid_stems.add(path.stem)
+                    self.valid_paths.add(file)
+                    try:
+                        rel_path = path.relative_to(self.workspace_root).as_posix()
+                        self.valid_paths.add(rel_path)
+                    except ValueError:
+                        pass
 
     def _load_taxonomy(self, path: Path):
         try:
@@ -104,7 +147,7 @@ class Sovereignty:
         
         return success
 
-    def validate_links(self, content: str, file_name: str, valid_stems: Set[str], valid_paths: Set[str]):
+    def validate_links(self, content: str, file_name: str):
         """Identifies broken [[Links]]."""
         # Extract [[Link]] or [[Link|Alias]]
         links = re.findall(r'\[\[([^|\]]+)(?:\|[^\]]*)?\]\]', content)
@@ -114,18 +157,18 @@ class Sovereignty:
             link_stem = Path(clean_link).stem
             
             # Check against stems, full relative paths, or exact filenames
-            if clean_link in valid_stems or clean_link in valid_paths or link_stem in valid_stems:
+            if clean_link in self.valid_stems or clean_link in self.valid_paths or link_stem in self.valid_stems:
                 continue
                 
             # If it's a direct file reference with extension
             if any(clean_link.endswith(ext) for ext in [".md", ".json"]):
                 # This would need a full file list to be perfect, 
                 # for now we flag it if not in paths
-                if clean_link not in valid_paths:
+                if clean_link not in self.valid_paths:
                     self.log_error(f"[{file_name}] Broken link: [[{link}]]")
             else:
                 # Assume .md if no extension
-                if f"{clean_link}.md" not in valid_paths:
+                if f"{clean_link}.md" not in self.valid_paths:
                     self.log_error(f"[{file_name}] Broken link: [[{link}]]")
 
     def validate_telemetry(self, content: str, file_name: str):
@@ -179,7 +222,7 @@ class Sovereignty:
 
     # --- Orchestration ---
 
-    def audit_file(self, path: Path, valid_stems: Set[str], valid_paths: Set[str]):
+    def audit_file(self, path: Path):
         """Runs the full suite against a single file."""
         if not path.suffix == ".md":
             return
@@ -193,7 +236,7 @@ class Sovereignty:
             self.validate_frontmatter(content, file_name)
             self.validate_taxonomy(content, file_name)
             self.validate_orphan_tags(content, file_name)
-            self.validate_links(content, file_name, valid_stems, valid_paths)
+            self.validate_links(content, file_name)
             self.validate_telemetry(content, file_name)
             self.validate_utc_mandate(content, file_name)
             self.validate_session_state(content, file_name)
@@ -223,6 +266,9 @@ class Sovereignty:
             return
             
         try:
+            import yaml
+            import os
+            
             with open(path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
@@ -232,44 +278,59 @@ class Sovereignty:
                 parts = content.split("---", 2)
                 if len(parts) >= 3:
                     yaml_block = parts[1]
-                    
-                    # Fix domain/ missing #
-                    yaml_block = re.sub(r'-\s+domain/([^\s\'"\n]+)', r"- '#domain/\1'", yaml_block)
-                    yaml_block = re.sub(r'-\s+[\'"]domain/([^\'"]+)[\'"]', r"- '#domain/\1'", yaml_block)
-                    
-                    # Inject #service tag based on microservice key
-                    micro_match = re.search(r'^microservice:\s*([^\n\s]+)', yaml_block, re.MULTILINE)
-                    if micro_match:
-                        service_name = micro_match.group(1).strip("'\"")
-                        if service_name and service_name.lower() != "null":
-                            service_tag = f"#service/{service_name}"
-                            if "tags:" in yaml_block and service_tag not in yaml_block:
-                                yaml_block = re.sub(r'(tags:\s*\n)', "\\1- '" + service_tag + "'\n", yaml_block)
+                    try:
+                        data = yaml.safe_load(yaml_block) or {}
+                        modified = False
+                        
+                        if not isinstance(data, dict):
+                            data = {}
+                            
+                        # Handle tags
+                        tags = data.get('tags', [])
+                        if not isinstance(tags, list):
+                            tags = [tags] if tags else []
+                        
+                        new_tags = []
+                        for tag in tags:
+                            if not tag or str(tag).lower() == 'null':
+                                modified = True
+                                continue
+                            
+                            tag_str = str(tag).replace("\\", "").replace("'", "").replace('"', "").strip()
+                            if tag_str.startswith('domain/'):
+                                new_tags.append('#' + tag_str)
+                                modified = True
+                            elif tag_str.startswith('/'):
+                                new_tags.append('#' + tag_str[1:])
+                                modified = True
+                            else:
+                                new_tags.append(tag_str)
+                        
+                        # Inject #service tag based on microservice key
+                        microservice = data.get('microservice')
+                        if microservice and str(microservice).lower() != 'null':
+                            service_tag = f"#service/{str(microservice).strip('\"\'')}"
+                            if service_tag not in new_tags:
+                                new_tags.append(service_tag)
+                                modified = True
                                 
-                    # Inject default transversal tag (#zone/3-fleet) if none are present
-                    if not any(t in yaml_block for t in ["#tech/", "#tier/", "#zone/"]):
-                        default_transversal = "#zone/3-fleet"
-                        if "tags:" in yaml_block:
-                            if default_transversal not in yaml_block:
-                                inline_match = re.search(r'tags:\s*\[([^\]]*)\]', yaml_block)
-                                if inline_match:
-                                    tags_content = inline_match.group(1).strip()
-                                    if tags_content:
-                                        new_inline = f"tags: [{tags_content}, '{default_transversal}']"
-                                    else:
-                                        new_inline = f"tags: ['{default_transversal}']"
-                                    yaml_block = yaml_block.replace(inline_match.group(0), new_inline)
-                                else:
-                                    yaml_block = re.sub(r'(tags:\s*\n)', "\\1- '" + default_transversal + "'\n", yaml_block)
-                        else:
-                            # Append tags block to yaml_block
-                            yaml_block = yaml_block.rstrip() + f"\ntags:\n- '{default_transversal}'\n"
+                        # Inject default transversal tag (#zone/3-fleet) if none are present
+                        if not any(t in str(tag) for t in ["#tech/", "#tier/", "#zone/"] for tag in new_tags):
+                            new_tags.append("#zone/3-fleet")
+                            modified = True
+                            
+                        if modified or 'tags' not in data:
+                            if new_tags:
+                                data['tags'] = new_tags
+                            else:
+                                data['tags'] = []
                                 
-                    if yaml_block != parts[1]:
-                        content = f"---{yaml_block}---{parts[2]}"
+                            new_yaml_block = yaml.dump(data, default_flow_style=False, sort_keys=False)
+                            content = f"---\n{new_yaml_block}---{parts[2]}"
+                    except yaml.YAMLError as e:
+                        self.log_warning(f"YAML parsing failed for {path.name}: {e}. Falling back to old content.")
             
             # Auto-fix absolute links to dynamic relative links
-            import os
             absolute_links = re.findall(r'\[([^\]]*)\]\((file:///Users/[^\s)\]]+|/Users/[^\s)\]]+|file:///home/[^\s)\]]+|/home/[^\s)\]]+)\)', content)
             for text, target_url in absolute_links:
                 clean_path_str = target_url.replace("file://", "")

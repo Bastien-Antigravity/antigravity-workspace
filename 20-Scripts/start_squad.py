@@ -16,6 +16,21 @@ KEY PARAMETERS:
 - vault_root: Resolved path to the Obsidian Brain vault.
 - mcp_args: Dynamic arguments for the filesystem MCP server.
 """
+import os, sys
+# Ensure we are running inside the virtual environment
+_venv_dir = os.path.dirname(os.path.abspath(__file__))
+while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
+    _parent = os.path.dirname(_venv_dir)
+    if _parent == _venv_dir:
+        break
+    _venv_dir = _parent
+_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
+if os.path.exists(_venv_python):
+    try:
+        if not os.path.samefile(sys.executable, _venv_python):
+            os.execl(_venv_python, _venv_python, *sys.argv)
+    except OSError:
+        pass
 
 from sys import executable as sysExecutable, path as sysPath, stdout as sysStdout, exit as sysExit
 from os import makedirs as osMakedirs, listdir as osListdir, name as osName

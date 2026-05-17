@@ -200,7 +200,7 @@ These are for rare cases when you need to run something outside an AI session (e
 | :--- | :--- |
 | `python3 20-Scripts/start_squad.py` | **First thing** — launches the AI session with mode selection. |
 | `python3 20-Scripts/scaffold_new_brain.py` | Cloning the architecture for a brand new project. |
-| `python3 verify_links_script.py` | Quick manual link check (the Sentinel does this automatically). |
+| `python3 vault-sentinel.py` | Quick manual link check (the Sentinel does this automatically). |
 
 ---
 

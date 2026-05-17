@@ -8,6 +8,21 @@ KEY PARAMETERS:
     - --fix: Automatically correct malformed tags in frontmatter
     - --verbose: Detailed output for warnings and successful files
 """
+import os, sys
+# Ensure we are running inside the virtual environment
+_venv_dir = os.path.dirname(os.path.abspath(__file__))
+while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
+    _parent = os.path.dirname(_venv_dir)
+    if _parent == _venv_dir:
+        break
+    _venv_dir = _parent
+_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
+if os.path.exists(_venv_python):
+    try:
+        if not os.path.samefile(sys.executable, _venv_python):
+            os.execl(_venv_python, _venv_python, *sys.argv)
+    except OSError:
+        pass
 
 from sys import exit as sysExit, stdout as sysStdout, path as sysPath
 from os import walk as osWalk
@@ -38,139 +53,26 @@ class VaultSentinel:
     def __init__(self, workspace_root: Path, taxonomy_path: Path, verbose: bool = False):
         self.workspace_root = workspace_root
         self.verbose = verbose
-        self.engine = Sovereignty(taxonomy_path)
-        self.valid_stems: Set[str] = set()
-        self.valid_paths: Set[str] = set()
-        self._index_entire_workspace()
-
-    def _index_entire_workspace(self) -> None:
-        """Indexes all markdown file stems in the workspace to prevent false positive broken links."""
-        for root, dirs, files in osWalk(self.workspace_root):
-            # Skip common ignores
-            if any(x in root for x in [".git", ".obsidian", "experiments", "node_modules"]):
-                continue
-            for file in files:
-                if file.endswith(".md"):
-                    path = Path(root) / file
-                    self.valid_stems.add(path.stem)
-                    # Support links with relative/absolute folder paths
-                    self.valid_paths.add(file)
-                    try:
-                        rel_path = path.relative_to(self.workspace_root).as_posix()
-                        self.valid_paths.add(rel_path)
-                    except ValueError:
-                        pass
+        self.engine = Sovereignty(taxonomy_path, workspace_root)
 
     def check_file_tags_and_links(self, filepath: Path, fix: bool = False) -> Tuple[List[str], List[str]]:
         """
-        Audits tags and Obsidian wikilinks inside a single markdown file.
+        Audits tags and Obsidian wikilinks inside a single markdown file using Sovereignty.
         Optionally repairs malformed tags if fix=True.
         """
-        errors = []
-        warnings = []
-        filename = filepath.name
-
         if fix:
             self.engine.auto_fix_file(filepath)
 
-        try:
-            with open(filepath, "r", encoding="utf-8") as f:
-                content = f.read()
-        except Exception as e:
-            return [f"Could not read file: {e}"], []
-
-        # 1. YAML frontmatter validation & repair
-        frontmatter_match = reMatch(r"^---([\s\S]*?)---\n*", content)
-        if frontmatter_match:
-            frontmatter_text = frontmatter_match.group(1)
-            lines = frontmatter_text.splitlines()
-            modified_lines = []
-            has_fixes = False
-            in_tags = False
-
-            for line in lines:
-                stripped = line.strip()
-                if stripped.startswith("tags:"):
-                    in_tags = True
-                    modified_lines.append(line)
-                    continue
-                elif in_tags and stripped.startswith("-"):
-                    tag_val = stripped[1:].strip()
-                    # A. Check for null values
-                    if tag_val.lower() == "null" or not tag_val:
-                        errors.append(f"[{filename}] Found invalid null tag in frontmatter.")
-                        if fix:
-                            has_fixes = True
-                            continue # Prune the null tag row
-                    
-                    # B. Check for escaped quotes or backslashes
-                    if "\\" in tag_val:
-                        errors.append(f"[{filename}] Malformed tag with escaped quotes: '{tag_val}'")
-                        if fix:
-                            clean_tag = tag_val.replace("\\", "").replace("'", "").replace('"', "").strip()
-                            corrected_line = line.replace(tag_val, f"'{clean_tag}'")
-                            modified_lines.append(corrected_line)
-                            has_fixes = True
-                            continue
-
-                    # C. Check for tags starting with /
-                    clean_tag = tag_val.replace("'", "").replace('"', "").strip()
-                    if clean_tag.startswith("/"):
-                        errors.append(f"[{filename}] Malformed tag starting with '/': '{clean_tag}'")
-                        if fix:
-                            corrected_tag = "#" + clean_tag[1:]
-                            # Keep quotes format if present
-                            if "'" in tag_val:
-                                corrected_line = line.replace(tag_val, f"'{corrected_tag}'")
-                            elif '"' in tag_val:
-                                corrected_line = line.replace(tag_val, f'"{corrected_tag}"')
-                            else:
-                                corrected_line = line.replace(tag_val, corrected_tag)
-                            modified_lines.append(corrected_line)
-                            has_fixes = True
-                            continue
-                    
-                    modified_lines.append(line)
-                else:
-                    if in_tags and not stripped.startswith("-") and ":" in stripped:
-                        in_tags = False
-                    modified_lines.append(line)
-
-            if has_fixes and fix:
-                new_frontmatter = "---\n" + "\n".join(modified_lines) + "\n---\n"
-                new_content = new_frontmatter + content[frontmatter_match.end():]
-                try:
-                    with open(filepath, "w", encoding="utf-8") as f:
-                        f.write(new_content)
-                    print(f"  🔧 Repaired malformed frontmatter tags in {filename}")
-                    content = new_content
-                except Exception as e:
-                    errors.append(f"Failed to write repairs to file: {e}")
-
-        # 2. Run standard sovereignty audits (Mandatory Frontmatter & Transversal trinity)
         self.engine.errors = []
         self.engine.warnings = []
-        self.engine.audit_file(filepath, self.valid_stems, self.valid_paths)
-        errors.extend(self.engine.errors)
-        warnings.extend(self.engine.warnings)
-
-        # 3. Deep Obsidian Wikilinks Audit
-        # Match [[TargetName]] or [[TargetName|alias]]
-        wikilinks = reFindall(r'\[\[([^\]|]+)(?:\|[^\]]+)?\]\]', content)
-        for link in wikilinks:
-            clean_link = link.strip()
-            # If the link specifies a path, resolve its stem or check path directly
-            link_stem = Path(clean_link).stem
-            
-            if link_stem not in self.valid_stems and clean_link not in self.valid_paths and f"{clean_link}.md" not in self.valid_paths:
-                errors.append(f"[{filename}] BROKEN LINK: Wikilink [[{clean_link}]] does not resolve to any active file stem in workspace.")
-
-        return errors, warnings
+        
+        self.engine.audit_file(filepath)
+        
+        return self.engine.errors.copy(), self.engine.warnings.copy()
 
     def audit_directory(self, target_dir: Path, fix: bool = False) -> Tuple[int, int]:
         """Audits a single markdown file or all markdown files under a target directory."""
         print(f"\n📡 Starting Vault Sentinel audit on: {target_dir.resolve()}")
-        print(f"   Indexed workspace files: {len(self.valid_stems)} stems")
         
         if not target_dir.exists():
             print(f"❌ Error: Target path does not exist: {target_dir}")
