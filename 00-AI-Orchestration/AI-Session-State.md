@@ -2,6 +2,7 @@
 microservice: obsidian-brain
 type: governance
 status: active
+active-protocol: "[[MODE-MANUAL#Mode-1]]"
 lifecycle:
   active_branch: develop
   protected_branches:
@@ -15,7 +16,6 @@ directives:
 - 'autonomous-doc-sync: mandatory'
 - 'obsidian-brain-sync: mandatory'
 - 'conventional-commits: mandatory'
-- 'active-protocol: [[MODE-MANUAL#Mode-3]]'
 tags:
 - '#type/governance'
 - '#state/active'

@@ -154,6 +154,10 @@ class Sovereignty:
         
         for link in links:
             clean_link = link.strip().replace("\\", "/")
+            # Strip anchor if present (e.g., filename#anchor -> filename)
+            if "#" in clean_link:
+                clean_link = clean_link.split("#", 1)[0]
+                
             link_stem = Path(clean_link).stem
             
             # Check against stems, full relative paths, or exact filenames
