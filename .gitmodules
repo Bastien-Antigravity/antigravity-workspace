@@ -25,3 +25,4 @@
 [submodule "08-RAG-Engine"]
 	path = 08-RAG-Engine
 	url = https://github.com/Bastien-Antigravity/obsidian-rag-mcp.git
+	branch = develop
