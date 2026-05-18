@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "2c37d95a8bdfa3cc",
+        "id": "5b55456a813ad115",
         "type": "tabs",
         "children": [
           {
-            "id": "2ce27bfb6c5037cc",
+            "id": "e4f4b56f6773fadb",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -180,8 +180,10 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "2ce27bfb6c5037cc",
+  "active": "e4f4b56f6773fadb",
   "lastOpenFiles": [
+    "05-Fleet-Operation/04-Templates/CODEOWNERS.md",
+    "02-Business-BDD/02-Behavior-Specs/microservice-toolbox.md",
     "05-Fleet-Operation/04-Templates/PULL_REQUEST_TEMPLATE.md",
     "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/feature_request.md",
     "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/bug_report.md",
@@ -217,8 +219,6 @@
     "07-Core-KMS/tag_taxonomy.md",
     "07-Core-KMS/quick-overview/Testing-Playbook.md",
     "07-Core-KMS/quick-overview/General-Misc.md",
-    "07-Core-KMS/quick-overview/Features-Behavior.md",
-    "07-Core-KMS/quick-overview/Architecture-Overview.md",
     "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas"
   ]
 }
