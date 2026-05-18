@@ -45,7 +45,12 @@ This script configures the MCP "Filesystem Bridge" and prepares the subagents.
 ```bash
     # Ensure your virtual environment is active first!
     source .venv/bin/activate
+    
+    # Run using the default Gemini CLI:
     python3 obsidian-brain/20-Scripts/start_squad.py
+    
+    # Or override and start directly using another engine (claude/codex/hermes):
+    ACTIVE_CLI=hermes python3 obsidian-brain/20-Scripts/start_squad.py
 ```
 
 ### Step 2: Connect the IDE (Optional but Recommended)
@@ -54,10 +59,10 @@ If the CLI asks "Do you want to connect Antigravity?", select **1. Yes**. This a
 
 ### Step 3: Verify the Tools
 
-Inside the Gemini CLI, verify the vault is bound:
+Inside the Gemini CLI (or any configured AI engine), verify the vault and RAG bridges are successfully bound:
 
 > `/mcp list`
-> *(You should see `obsidian_vault` with tools like `read_file` and `list_directory`)*
+> *(You should see `obsidian_vault` with tools like `read_file`, and `obsidian_rag` with tools like `query_brain`, `get_brain_stats`, and `find_similar_files`)*
 
 ### Step 4: Warm Up the Session
 
@@ -223,5 +228,21 @@ python3 20-Scripts/scaffold_new_brain.py
 
 ### Why use this?
 This allows you to treat your **AI Infrastructure** as a reusable asset. You build the "Squad" once, and then you deploy it to any new "World" (project) you want to build.
+
+---
+
+## 🧠 12. The Semantic Search Engine (RAG-mcp)
+
+The **08-RAG-Engine** is a localized, offline vector database indexer that integrates into your AI Squad CLI via the Model Context Protocol (MCP). Instead of loading entire, large documentation files which consume massive amounts of context tokens, the RAG engine chunks files dynamically to provide high-density paragraph-level knowledge context.
+
+### Dynamic Architecture
+- **Dynamic Virtual Environment**: The system automatically utilizes the central vault `.venv` if configured; otherwise, it falls back to the RAG subfolder virtual environment.
+- **Sovereign Embeddings**: Runs 100% offline using `SentenceTransformer` (`all-MiniLM-L6-v2`) inside a local `ChromaDB` instance, keeping all intellectual property strictly offline and local.
+- **Automatic Event Watcher**: Spawns a background file watcher daemon (`watcher.py`) with a thread-safe `0.5s` debounced quiet-window when starting the squad session. When you edit, rename, or delete any note in Obsidian, the index updates instantly in the background.
+
+### Core RAG Tools
+* **`query_brain(query: str, zone_filter: str = None, limit: int = 3)`**: Searches the entire vault. Results can be strictly filtered to a specific zone (e.g. `1-frozen`).
+* **`get_brain_stats()`**: Returns full stats detailing indexed notes and chunk counts grouped by knowledge zones.
+* **`find_similar_files(filepath: str, limit: int = 3)`**: Semantic linker. Finds and lists other notes in your knowledge graph sharing proximal semantic concepts with the queried file path.
 
 ---

@@ -147,11 +147,20 @@ Knowledge Management System, Agent Role Prompts, and Workflows.
   - [[07-Core-KMS/Role-Prompts/08-Purger/Mister-Straight-to-Goal|🧹 Role 08: Purger]]
   - [[07-Core-KMS/Role-Prompts/09-Sentinel/Prompt-Sentinel|🛡️ Role 09: Sentinel]]
 
+## 🧠 08 - RAG Engine
+Local sovereign semantic search and real-time knowledge watcher.
+- [RAG Engine Overview](https://github.com/Bastien-Antigravity/obsidian-rag-mcp)
+- [[08-RAG-Engine/README|🔌 Setup & Usage Guide]]
+- **Available Agent Tools**:
+  - `query_brain(query: str, zone_filter: str = None, limit: int = 3)` — Sub-paragraph level semantic vector query.
+  - `get_brain_stats()` — Fetch active database volume and indexing status.
+  - `find_similar_files(filepath: str)` — Semantic similarity relationship lookup.
+
 ## ⚡ Dashboards & Foundry
 Live sprint tracking and standardized templates.
 - [[99-Humans/Sprint-Dashboard|⚡ Live Sprint Dashboard]]
 - [[99-Humans/Domain-Dashboard|🌐 Domain Ontology Matrix]]
-- [[00-AI-Orchestration/Templates/Template-00-Idea-Pitch|📥 Task Inbox (Foundry)]]
+- [📥 Task Inbox (Foundry)](00-AI-Orchestration/Templates/Template-00-Idea-Pitch.md)
 
 ## 🛠️ 20 - Scripts
 Ecosystem automation scripts.

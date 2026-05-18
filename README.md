@@ -18,8 +18,15 @@ It is designed as a **Multi-Mode Engine** to balance between rigorous infrastruc
 
 ## 🕹️ Command & Control
 This Brain is an **Operational Engine**. Use the following scripts to govern the AI Squad:
-- **`python3 20-Scripts/start_squad.py`**: Launches the CLI with an interactive **Mode Selector**.
+- **`python3 20-Scripts/start_squad.py`**: Launches the CLI with an interactive **Mode Selector** (defaults to the `gemini` CLI).
 - **`python3 20-Scripts/switch_mode.py`**: Quick-switch between **Spec-First**, **Labs**, and **Fleet** protocols.
+- **Configuring the Active CLI**:
+  * **Via Frontmatter**: Define `active_cli: claude` (or `gemini`/`codex`/`hermes`) inside **[[00-AI-Orchestration/MODE-MANUAL]]**'s YAML header.
+  * **Via Environment Variable**: Override or boot directly using:
+    ```bash
+    ACTIVE_CLI=hermes python3 20-Scripts/start_squad.py
+    ```
+  * **Fallback System**: If your chosen CLI is not installed in the environment path, the squad launcher automatically sweeps through fallbacks (`gemini`, `claude`, `codex`, `hermes`) to launch the first available engine.
 
 ---
 
@@ -89,6 +96,16 @@ Regardless of how you interact with the AI, every session MUST be initialized co
 1. **Start the Engine**: Run `./20-Scripts/start_squad.py` from the vault root.
 2. **Restore State**: At the start of every session, you MUST instruct the AI to read the **[[00-AI-Orchestration/AI-Init]]** file and restore the **[[00-AI-Orchestration/AI-Session-State]]**. 
 3. **Save State**: Before closing a session, ensure the AI has updated the **[[00-AI-Orchestration/AI-Session-State]]** with a summary of progress. This acts as our "Hard State" context block.
+
+---
+
+## 🧠 The Semantic Search Engine (RAG-mcp)
+To guarantee optimal token efficiency during AI squad sessions, the repository features an integrated Model Context Protocol (MCP) server: **[[08-RAG-Engine/README|🔌 08 - RAG Engine]]**.
+* **Offline Embeddings**: Uses a local vector database index via ChromaDB and `all-MiniLM-L6-v2` SentenceTransformers to perform sub-paragraph level queries.
+* **Auto-Watcher**: Silently spawns a background thread-safe file watcher (`watcher.py`) with a `0.5s` quiet-window debounce to capture note updates instantly.
+* **Custom Tools**: Exposes `query_brain`, `get_brain_stats`, and semantic graph lookups via `find_similar_files`.
+
+---
 
 > [!CAUTION]
 > Never implement code without verifying the current **Active Protocol** in the [[00-AI-Orchestration/MODE-MANUAL]].
