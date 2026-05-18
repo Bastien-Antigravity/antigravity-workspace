@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "5b55456a813ad115",
+        "id": "d580b1544e8d6dda",
         "type": "tabs",
         "children": [
           {
-            "id": "e4f4b56f6773fadb",
+            "id": "366bf5d80a4e7119",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "empty",
               "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vue graphique"
+              "icon": "lucide-file",
+              "title": "Nouvel onglet"
             }
           }
         ]
@@ -180,13 +180,14 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "e4f4b56f6773fadb",
+  "active": "366bf5d80a4e7119",
   "lastOpenFiles": [
+    "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/bug_report.md",
+    "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas",
     "05-Fleet-Operation/04-Templates/CODEOWNERS.md",
     "02-Business-BDD/02-Behavior-Specs/microservice-toolbox.md",
     "05-Fleet-Operation/04-Templates/PULL_REQUEST_TEMPLATE.md",
     "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/feature_request.md",
-    "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/bug_report.md",
     "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE",
     "05-Fleet-Operation/04-Templates/Polyglot/jobs/rust.yml",
     "05-Fleet-Operation/04-Templates/Polyglot/jobs/python.yml",
@@ -217,8 +218,6 @@
     "01-Strategic-Nexus/STRAT-005-The-Sovereignty-Ritual.md",
     "01-Strategic-Nexus/User-Manual.md",
     "07-Core-KMS/tag_taxonomy.md",
-    "07-Core-KMS/quick-overview/Testing-Playbook.md",
-    "07-Core-KMS/quick-overview/General-Misc.md",
-    "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas"
+    "07-Core-KMS/quick-overview/Testing-Playbook.md"
   ]
 }
