@@ -72,7 +72,7 @@ def setup_mcp(mode_choice: str) -> None:
     
     # 1. Check if RAG Engine option is available
     rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
-    rag_server_script = osPathJoin(rag_dir, "src", "server.py")
+    rag_server_script = osPathJoin(rag_dir, "src", "core", "server.py")
     has_rag = osPathExists(rag_dir) and osPathExists(rag_server_script)
     
     obsidian_rag_config = None
@@ -98,7 +98,8 @@ def setup_mcp(mode_choice: str) -> None:
             "command": resolved_python,
             "args": [rag_server_script],
             "env": {
-                "SQUAD_ACTIVE_MODE": str(mode_choice)
+                "SQUAD_ACTIVE_MODE": str(mode_choice),
+                "PYTHONPATH": rag_dir
             }
         }
     else:
@@ -277,7 +278,7 @@ def check_rag_attached() -> bool:
     """Returns True if the 08-RAG-Engine and its server.py exist."""
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
     rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
-    rag_server_script = osPathJoin(rag_dir, "src", "server.py")
+    rag_server_script = osPathJoin(rag_dir, "src", "core", "server.py")
     return osPathExists(rag_dir) and osPathExists(rag_server_script)
 
 def reset_rag_index() -> None:
@@ -287,7 +288,7 @@ def reset_rag_index() -> None:
     """
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
     rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
-    indexer_script = osPathJoin(rag_dir, "src", "indexer.py")
+    indexer_script = osPathJoin(rag_dir, "src", "core", "indexer.py")
     
     if not osPathExists(indexer_script):
         print("❌ Error: indexer.py not found. Cannot reset RAG index.")
@@ -305,7 +306,9 @@ def reset_rag_index() -> None:
         
     if resolved_python and osPathExists(resolved_python):
         print(f"🗑️  Resetting RAG database via {resolved_python} {indexer_script} --reset...")
-        subprocessRun([resolved_python, indexer_script, "--reset"])
+        indexer_env = os.environ.copy()
+        indexer_env["PYTHONPATH"] = rag_dir
+        subprocessRun([resolved_python, indexer_script, "--reset"], env=indexer_env)
     else:
         print("❌ Error: Python executable not found for RAG Engine.")
 
@@ -336,10 +339,28 @@ def start_engine() -> None:
                 print(f"[{key}] {name.ljust(18)} : {desc}")
             if has_rag:
                 print(f"[r] {'🗑️  Reset RAG'.ljust(18)} : Reset and rebuild ChromaDB RAG index.")
+            print(f"[p] {'🎭 Extract Personas'.ljust(18)} : Extract polyglot codebase context in background.")
             
             choice = input("\nSelect new active mode [1-4] or action (Enter to skip): ").strip().lower()
             if choice == 'r' and has_rag:
                 reset_rag_index()
+                continue
+            elif choice == 'p':
+                persona_extractor_script = osPathJoin(script_dir, "persona_extractor.py")
+                lock_path = osPathJoin(script_dir, "../07-Core-KMS/quick-overview/ast-patterns/.persona_running")
+                if osPathExists(lock_path):
+                    print("⚠️ Persona Extractor is already running. Please wait.")
+                elif osPathExists(persona_extractor_script):
+                    try:
+                        import subprocess
+                        subprocess.Popen(
+                            [sysExecutable, persona_extractor_script, "--daemon"],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL
+                        )
+                        print("✅ Persona Extractor started in background. It will notify when ready.")
+                    except Exception as e:
+                        print(f"⚠️ Warning: Could not spawn Persona Extractor: {e}")
                 continue
             break
 
@@ -387,7 +408,7 @@ def start_engine() -> None:
             active_cli = env_override
         
         # Spawn RAG Watcher in the background (Optional: only if 08-RAG-Engine and script exist)
-        watcher_script = osPathJoin(script_dir, "../08-RAG-Engine/src/watcher.py")
+        watcher_script = osPathJoin(script_dir, "../08-RAG-Engine/src/core/watcher.py")
         watcher_process = None
         
         if osPathExists(watcher_script):
@@ -407,16 +428,20 @@ def start_engine() -> None:
                 print(f"📡 Spawning RAG Index Watcher Daemon (Python: {watcher_venv_python}) in the background...")
                 try:
                     import subprocess
+                    watcher_env = os.environ.copy()
+                    watcher_env["PYTHONPATH"] = osPathAbspath(osPathJoin(script_dir, "../08-RAG-Engine"))
                     watcher_process = subprocess.Popen(
                         [watcher_venv_python, watcher_script],
                         cwd=osPathDirname(watcher_script),
                         stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL
+                        stderr=subprocess.DEVNULL,
+                        env=watcher_env
                     )
                     print("✅ RAG Index Watcher spawned successfully!")
                 except Exception as e:
                     print(f"⚠️ Warning: Could not spawn RAG Index Watcher: {e}")
         
+
         # Simple detection (in a real scenario, we could check which is in PATH)
         print(f"\n🚀 Firing up the AI Squad Command [Protocol: {choice}]...")
         
@@ -440,6 +465,18 @@ def start_engine() -> None:
                 watcher_process.terminate()
             break
             
+        # Check if Persona Extraction is ready
+        persona_flag_path = osPathJoin(script_dir, "../07-Core-KMS/quick-overview/ast-patterns/.persona_ready")
+        if osPathExists(persona_flag_path):
+            print("\n" + "✨" * 30)
+            print("🚀 NEW PERSONA CONTEXT EXTRACTED AND READY FOR RAG !!")
+            print("✨" * 30 + "\a")
+            try:
+                import os
+                os.remove(persona_flag_path)
+            except Exception:
+                pass
+
         # 6. Lifecycle Decision
         print("\n--- 🏁 Session Paused ---")
         

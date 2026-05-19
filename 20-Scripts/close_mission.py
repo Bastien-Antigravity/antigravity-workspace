@@ -63,13 +63,15 @@ def main():
                 if any(x in status_path for x in EXCLUSIONS):
                     continue
                 full_path = vault_root / status_path
-                if full_path.exists():
+                if full_path.exists() and not engine.is_ignored_by_firewall(full_path):
                     hot_files.append(full_path)
     except Exception as e:
         print(f"⚠️  Git Detection Failed: {e}. Falling back to 2-hour window...")
         hot_threshold = datetime.now() - timedelta(hours=2)
         for path in vault_root.rglob("*.md"):
             if any(x in path.parts for x in EXCLUSIONS):
+                continue
+            if engine.is_ignored_by_firewall(path):
                 continue
             mtime = datetime.fromtimestamp(path.stat().st_mtime)
             if mtime > hot_threshold:
@@ -84,6 +86,8 @@ def main():
     # 3. Governance Audit
     state_updated = False
     for path in hot_files:
+        # Enforce rigid frontmatter formatting and correct links automatically
+        engine.auto_fix_file(path)
         engine.audit_file(path)
         if "AI-Session-State" in path.name:
             state_updated = True

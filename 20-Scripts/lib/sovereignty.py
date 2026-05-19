@@ -224,11 +224,40 @@ class Sovereignty:
             if not is_valid:
                 self.log_warning(f"[{file_name}] Orphan tag detected: {full_tag}")
 
+    def is_ignored_by_firewall(self, path: Path) -> bool:
+        """Checks if a path is ignored by context firewalls (.aiignore etc) or carries the #ai/ignore tag."""
+        try:
+            current = path.resolve()
+            root = self.workspace_root.resolve()
+            check_dir = current if current.is_dir() else current.parent
+            while True:
+                for ignore_name in [".aiignore", ".geminiignore", ".mcpignore"]:
+                    if (check_dir / ignore_name).exists():
+                        return True
+                if check_dir == root or check_dir.parent == check_dir:
+                    break
+                check_dir = check_dir.parent
+        except Exception:
+            pass
+
+        try:
+            if path.is_file() and path.suffix == ".md":
+                with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                    head = f.read(1000)
+                    if '#ai/ignore' in head:
+                        return True
+        except Exception:
+            pass
+        return False
+
     # --- Orchestration ---
 
     def audit_file(self, path: Path):
         """Runs the full suite against a single file."""
         if not path.suffix == ".md":
+            return
+
+        if self.is_ignored_by_firewall(path):
             return
 
         try:
@@ -265,96 +294,156 @@ class Sovereignty:
                 self.log_error(f"[{file_name}] Hardcoded absolute path detected: {m}")
 
     def auto_fix_file(self, path: Path):
-        """Fixes taxonomy issues and automatically converts absolute links to relative ones."""
+        """Fixes taxonomy issues, enforces YAML frontmatter schema, and automatically converts absolute links to relative ones."""
         if not path.suffix == ".md":
+            return
+            
+        if self.is_ignored_by_firewall(path):
             return
             
         try:
             import yaml
-            import os
+            import re
             
             with open(path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
             original_content = content
             
-            if content.startswith("---"):
-                parts = content.split("---", 2)
-                if len(parts) >= 3:
-                    yaml_block = parts[1]
+            # 1. Enforce YAML Frontmatter Schema
+            # Zone metadata defaults mapping (from Hardening-YAML)
+            zone_map = {
+                "00-AI-Orchestration": {"type": "governance", "status": "active"},
+                "01-Strategic-Nexus": {"type": "strategy", "status": "active"},
+                "02-Business-BDD": {"type": "spec", "status": "frozen"},
+                "03-Tech-Stack": {"type": "architecture", "status": "active"},
+                "04-Rapid-Prototyping": {"type": "experiment", "status": "fluid"},
+                "05-Fleet-Operation": {"type": "fleet-op", "status": "active"},
+                "06-Microservices": {"type": "hub", "status": "active"},
+                "07-Core-KMS": {"type": "kms", "status": "active"},
+                "10-State-and-Tasks": {"type": "task", "status": "active"},
+                "20-Scripts": {"type": "automation", "status": "active"},
+            }
+            
+            vault_root = self.workspace_root / "obsidian-brain"
+            try:
+                rel_path = path.relative_to(vault_root)
+            except ValueError:
+                try:
+                    rel_path = path.relative_to(self.workspace_root)
+                    if rel_path.parts and rel_path.parts[0] == "obsidian-brain":
+                        rel_path = Path(*rel_path.parts[1:])
+                except ValueError:
+                    rel_path = path
                     
-                    # Sanitize escaped quotes and align list indentations before parsing
+            parts = rel_path.parts
+            zone = parts[0] if parts else ""
+            defaults = zone_map.get(zone, {"type": "note", "status": "active"})
+            
+            # Determine microservice
+            microservice = "obsidian-brain"
+            if zone == "06-Microservices" and len(parts) > 1:
+                hub_match = re.search(r"([\w-]+)-Hub", parts[-1])
+                if hub_match:
+                    microservice = hub_match.group(1).lower()
+            elif zone == "02-Business-BDD" and len(parts) > 2 and parts[1] == "02-Behavior-Specs":
+                microservice = parts[2]
+                
+            data = {}
+            body = content
+            
+            has_fm = content.startswith("---")
+            if has_fm:
+                fm_parts = content.split("---", 2)
+                if len(fm_parts) >= 3:
+                    yaml_block = fm_parts[1]
+                    body = fm_parts[2]
+                    
+                    # Sanitize list bullet format before loading to be robust
                     sanitized_lines = []
                     for line in yaml_block.splitlines():
                         stripped = line.strip()
                         if stripped.startswith("-"):
-                            tag_part = stripped.split("-", 1)[1].strip().replace("\\", "").replace("'", "").replace('"', "")
-                            # Standardize all list items to start with two spaces, hyphen, and single-quoted values
-                            line = f"  - '{tag_part}'"
+                            val = stripped.split("-", 1)[1].strip().strip("'\"")
+                            line = f"  - '{val}'"
                         sanitized_lines.append(line)
                     yaml_block = "\n".join(sanitized_lines)
-
-
                     
                     try:
                         data = yaml.safe_load(yaml_block) or {}
-                        modified = True
-
-                        
-                        if not isinstance(data, dict):
-                            data = {}
-                            
-                        # Handle tags
-                        tags = data.get('tags', [])
-                        if not isinstance(tags, list):
-                            tags = [tags] if tags else []
-                        
-                        new_tags = []
-                        for tag in tags:
-                            if not tag or str(tag).lower() == 'null':
-                                modified = True
-                                continue
-                            
-                            tag_str = str(tag).replace("\\", "").replace("'", "").replace('"', "").strip()
-                            if tag_str.startswith('domain/'):
-                                new_tags.append('#' + tag_str)
-                                modified = True
-                            elif tag_str.startswith('/'):
-                                new_tags.append('#' + tag_str[1:])
-                                modified = True
-                            else:
-                                new_tags.append(tag_str)
-                        
-                        # Inject #service tag based on microservice key
-                        microservice = data.get('microservice')
-                        if microservice and str(microservice).lower() != 'null':
-                            service_tag = f"#service/{str(microservice).strip('\"\'')}"
-                            if service_tag not in new_tags:
-                                new_tags.append(service_tag)
-                                modified = True
-                                
-                        # Inject default transversal tag (#zone/3-fleet) if none are present
-                        if not any(t in str(tag) for t in ["#tech/", "#tier/", "#zone/"] for tag in new_tags):
-                            new_tags.append("#zone/3-fleet")
-                            modified = True
-                            
-                        if modified or 'tags' not in data:
-                            if new_tags:
-                                data['tags'] = new_tags
-                            else:
-                                data['tags'] = []
-                                
-                            new_yaml_block = yaml.dump(data, default_flow_style=False, sort_keys=False)
-                            content = f"---\n{new_yaml_block}---{parts[2]}"
-                    except yaml.YAMLError as e:
-                        self.log_warning(f"YAML parsing failed for {path.name}: {e}. Falling back to old content.")
+                    except Exception:
+                        data = {}
             
-            # Auto-fix absolute links to dynamic relative links
+            # Ensure mandatory fields
+            if not isinstance(data, dict):
+                data = {}
+                
+            # Inject defaults if missing or empty
+            if not data.get("microservice"):
+                data["microservice"] = microservice
+            if not data.get("type"):
+                data["type"] = defaults["type"]
+            if not data.get("status"):
+                data["status"] = defaults["status"]
+                
+            # Clean and normalize tags
+            tags = data.get("tags", [])
+            if not isinstance(tags, list):
+                tags = [tags] if tags else []
+                
+            new_tags = []
+            for tag in tags:
+                if not tag or str(tag).lower() == 'null':
+                    continue
+                tag_str = str(tag).strip().replace("\\", "").strip("'\"")
+                if not tag_str.startswith("#"):
+                    if tag_str.startswith("domain/"):
+                        tag_str = "#" + tag_str
+                    elif tag_str.startswith("/"):
+                        tag_str = "#" + tag_str[1:]
+                    else:
+                        tag_str = "#" + tag_str
+                new_tags.append(tag_str)
+                
+            # Ensure #service tag is present if microservice is set
+            service_tag = f"#service/{data['microservice']}"
+            if service_tag not in new_tags:
+                new_tags.append(service_tag)
+                
+            # Ensure type tag is present if type is set
+            type_tag = f"#type/{data['type']}"
+            if type_tag not in new_tags:
+                new_tags.append(type_tag)
+                
+            # Ensure status tag is present if status is set
+            status_tag = f"#state/{data['status']}"
+            if status_tag not in new_tags:
+                new_tags.append(status_tag)
+                
+            # Ensure at least one transversal tag (#tech/, #tier/, #zone/) is present
+            if not any(t in str(tag) for t in ["#tech/", "#tier/", "#zone/"] for tag in new_tags):
+                new_tags.append("#zone/3-fleet")
+                
+            # Remove duplicate tags while preserving order
+            seen = set()
+            dedup_tags = []
+            for t in new_tags:
+                if t not in seen:
+                    seen.add(t)
+                    dedup_tags.append(t)
+            data["tags"] = dedup_tags
+            
+            # Serialize yaml with a clean structured style
+            new_yaml = yaml.dump(data, default_flow_style=False, sort_keys=False, allow_unicode=True)
+            content = f"---\n{new_yaml}---{body}"
+            
+            # 2. Auto-fix absolute links to dynamic relative links
             absolute_links = re.findall(r'\[([^\]]*)\]\((file:///Users/[^\s)\]]+|/Users/[^\s)\]]+|file:///home/[^\s)\]]+|/home/[^\s)\]]+)\)', content)
             for text, target_url in absolute_links:
                 clean_path_str = target_url.replace("file://", "")
                 target_path = Path(clean_path_str).resolve()
                 if target_path.exists():
+                    import os
                     rel_path = os.path.relpath(target_path, path.parent)
                     rel_path_str = Path(rel_path).as_posix()
                     old_link = f"[{text}]({target_url})"

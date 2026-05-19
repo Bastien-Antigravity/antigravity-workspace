@@ -21,7 +21,7 @@ tags:
 - '#state/active'
 - '#zone/3-fleet'
 - '#service/obsidian-brain'
-Mission-ID: Fleet-Documentation-Taxonomy-Normalization
+Mission-ID: Vault-Architecture-Enhancements
 ---
 
 # 🧠 AI Session State: obsidian-brain
@@ -30,7 +30,15 @@ Mission-ID: Fleet-Documentation-Taxonomy-Normalization
 > Update associated documentation (**README.md**, **ARCHITECTURE.md**) and relevant **Obsidian Brain** nodes ONLY upon feature completion or sprint closure to preserve compute and prevent task drift. Do NOT update documentation after every minor code modification.
 
 ## 🚀 Progress Tracking
+- [x] **Vault Architecture Enhancements**: Hardened obsidian-brain with strict YAML frontmatter auto-formatting, log context pruning, strict write boundaries, semantic task routing, and a hybrid purging workflow with review checklists. (COMPLETED 2026-05-19)
 - [x] **Fleet Sovereignty Hardening**: Re-engineered `start_squad.py` and `close_mission.py` into a Git-aware, stateless ritual system. Hardened `sovereignty.py` with Trinity tagging and isolation zone audits. Standardized all 12 templates and synchronized 10 AI agents for multi-AI compatibility. Reset versioning to `v0.0.1`. (COMPLETED 2026-05-16)
+
+## 🛰️ Mission-ID: Vault-Architecture-Enhancements | Trace-ID: 2026-05-19
+- [x] **Strict YAML Frontmatter Auto-Formatting**: Hardened sovereignty rules in `sovereignty.py` to auto-fix and format metadata on file close.
+- [x] **Log Context Pruning**: Implemented log truncation logic in `server.py` to keep RAG engine query windows clean.
+- [x] **Strict Write Boundaries**: Enforced repository inventory whitelist in RAG write permissions.
+- [x] **Semantic AI Task Router**: Replaced rigid agent routing with keyword-based semantic scorer in `Agent-Dispatcher.py`.
+- [x] **Hybrid Dark Matter Purge**: Re-architected `Joint-Audit-Purger.py` to support JSON catalog output and generate human review checklists (`PURGE-APPROVAL-REQUEST.md`). (COMPLETED 2026-05-19)
 
 ## 🛰️ Mission-ID: Fleet-Sovereignty-Hardening | Trace-ID: 2026-05-16
 - [x] **Stateless Orchestration**: Transitioned lifecycle scripts to Git-aware logic, eliminating time-based "Hot File" fragility.

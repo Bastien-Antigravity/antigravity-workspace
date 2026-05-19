@@ -1,0 +1,20 @@
+[
+  "05-Fleet-Operation/04-Templates/CODEOWNERS.md",
+  "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/bug_report.md",
+  "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/feature_request.md",
+  "05-Fleet-Operation/04-Templates/PULL_REQUEST_TEMPLATE.md",
+  "05-Fleet-Operation/04-Templates/Template-Fleet-Action-Plan.md",
+  "100-coding-rules-analysis-new/00-Meta-Philosophy.md",
+  "100-coding-rules-analysis-new/01-Python-Standards.md",
+  "100-coding-rules-analysis-new/02-Go-Standards.md",
+  "100-coding-rules-analysis-new/03-Rust-Standards.md",
+  "100-coding-rules-analysis-new/04-Cpp-Standards.md",
+  "100-coding-rules-analysis-new/05-Web-Interface-Standards.md",
+  "100-coding-rules-analysis-old/00-Meta-Philosophy.md",
+  "100-coding-rules-analysis-old/01-Python-Standards.md",
+  "100-coding-rules-analysis-old/02-Go-Standards.md",
+  "100-coding-rules-analysis-old/03-Rust-Standards.md",
+  "100-coding-rules-analysis-old/04-Cpp-Standards.md",
+  "100-coding-rules-analysis-old/05-Web-Interface-Standards.md",
+  "TODO.md"
+]
