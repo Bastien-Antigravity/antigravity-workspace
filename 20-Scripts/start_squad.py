@@ -70,59 +70,64 @@ def setup_mcp(mode_choice: str) -> None:
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
     workspace_root = osPathAbspath(osPathJoin(vault_root, ".."))
     
-    # 1. Resolve allowed directories for filesystem MCP
-    # --- Dynamic Context Exclusion Logic (The Firewall) ---
-    global_excludes = {".obsidian", ".git", ".gemini", "node_modules", "99-Humans", "quick-overview"}
-    mode_excludes_map = {
-        "1": {"01-Strategic-Nexus", "04-Rapid-Prototyping", "05-Fleet-Operation"},
-        "2": {"01-Strategic-Nexus", "02-Business-BDD", "05-Fleet-Operation", "06-Microservices"},
-        "3": {"01-Strategic-Nexus", "02-Business-BDD", "04-Rapid-Prototyping"},
-        "4": set()
-    }
-    
-    current_excludes = mode_excludes_map.get(mode_choice, set())
-    
-    # CRITICAL: Always include workspace_root first to allow access to sibling repositories in the complete workspace
-    # This prevents the 'path not allowed' or 'outside allowed directories' filesystem MCP crashes when querying across sibling workspaces.
-    allowed_dirs = [workspace_root, vault_root]
-    
-    for item in osListdir(vault_root):
-        if item in global_excludes or item in current_excludes:
-            continue
-        item_path = osPathJoin(vault_root, item)
-        if osPathIsdir(item_path):
-            allowed_dirs.append(item_path)
-            
-    mcp_args = ["-y", "@modelcontextprotocol/server-filesystem"] + allowed_dirs
-    
-    # 2. Check if RAG Engine option is available
+    # 1. Check if RAG Engine option is available
     rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
     rag_server_script = osPathJoin(rag_dir, "src", "server.py")
     has_rag = osPathExists(rag_dir) and osPathExists(rag_server_script)
     
     obsidian_rag_config = None
+    mcp_args = None
+    
     if has_rag:
         # Determine the Python virtual environment path dynamically:
-        # 1. If central obsidian-brain/.venv exists, use it.
-        # 2. Otherwise, fallback to the 08-RAG-Engine/.venv.
-        parent_venv = osPathJoin(vault_root, ".venv")
-        parent_python = osPathJoin(parent_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(parent_venv, "bin", "python3")
+        # 1. If local 08-RAG-Engine/.venv exists, use it (contains specific RAG packages).
+        # 2. Otherwise, fallback to the central obsidian-brain/.venv.
+        local_venv = osPathJoin(rag_dir, ".venv")
+        local_python = osPathJoin(local_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(local_venv, "bin", "python3")
         
-        if osPathExists(parent_python):
-            resolved_python = parent_python
-            print(f"📡 RAG using central obsidian-brain virtual environment: {resolved_python}")
-        else:
-            local_venv = osPathJoin(rag_dir, ".venv")
-            local_python = osPathJoin(local_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(local_venv, "bin", "python3")
+        if osPathExists(local_python):
             resolved_python = local_python
             print(f"📡 RAG using local 08-RAG-Engine virtual environment: {resolved_python}")
+        else:
+            parent_venv = osPathJoin(vault_root, ".venv")
+            parent_python = osPathJoin(parent_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(parent_venv, "bin", "python3")
+            resolved_python = parent_python
+            print(f"📡 RAG using central obsidian-brain virtual environment: {resolved_python}")
             
         obsidian_rag_config = {
             "command": resolved_python,
-            "args": [rag_server_script]
+            "args": [rag_server_script],
+            "env": {
+                "SQUAD_ACTIVE_MODE": str(mode_choice)
+            }
         }
+    else:
+        # Fallback to standard basic filesystem MCP server
+        # --- Dynamic Context Exclusion Logic (The Firewall) ---
+        global_excludes = {".obsidian", ".git", ".gemini", "node_modules", "99-Humans", "quick-overview"}
+        mode_excludes_map = {
+            "1": {"01-Strategic-Nexus", "04-Rapid-Prototyping", "05-Fleet-Operation"},
+            "2": {"01-Strategic-Nexus", "02-Business-BDD", "05-Fleet-Operation", "06-Microservices"},
+            "3": {"01-Strategic-Nexus", "02-Business-BDD", "04-Rapid-Prototyping"},
+            "4": set()
+        }
+        
+        current_excludes = mode_excludes_map.get(mode_choice, set())
+        allowed_dirs = [workspace_root, vault_root]
+        
+        try:
+            for item in osListdir(vault_root):
+                if item in global_excludes or item in current_excludes:
+                    continue
+                item_path = osPathJoin(vault_root, item)
+                if osPathIsdir(item_path):
+                    allowed_dirs.append(item_path)
+        except Exception as e:
+            print(f"⚠️ Warning: Could not scan vault_root for exclusions: {e}")
+                
+        mcp_args = ["-y", "@modelcontextprotocol/server-filesystem"] + allowed_dirs
     
-    # 3. Update MCP configs (AI-Agnostic: Gemini and Claude)
+    # 2. Update MCP configs (AI-Agnostic: Gemini and Claude)
     configs_to_update = [
         # (filepath, label)
         (osPathJoin(osPathExpanduser("~/.gemini"), "settings.json"), "Gemini Settings"),
@@ -155,22 +160,25 @@ def setup_mcp(mode_choice: str) -> None:
         if "mcpServers" not in settings:
             settings["mcpServers"] = {}
             
-        # Update obsidian_vault
-        settings["mcpServers"]["obsidian_vault"] = {
-            "command": "npx",
-            "args": mcp_args
-        }
+        # Clean up old workspace_code_editor name
+        settings["mcpServers"].pop("workspace_code_editor", None)
         
-        # Update obsidian_rag based on presence
-        if obsidian_rag_config:
+        if has_rag:
+            # Unified RAG Server: register it, clean up standard filesystem MCP
             settings["mcpServers"]["obsidian_rag"] = obsidian_rag_config
+            settings["mcpServers"].pop("obsidian_vault", None)
         else:
+            # Fallback standard filesystem server: register it, clean up RAG
+            settings["mcpServers"]["obsidian_vault"] = {
+                "command": "npx",
+                "args": mcp_args
+            }
             settings["mcpServers"].pop("obsidian_rag", None)
             
         try:
             with open(config_file, 'w', encoding='utf-8') as f:
                 jsonDump(settings, f, indent=2)
-            print(f"✅ {label} MCP boundary and RAG configured.")
+            print(f"✅ {label} configured successfully.")
         except Exception as e:
             print(f"⚠️ Warning: Could not write {label}: {e}")
 
@@ -241,6 +249,42 @@ def regenerate_agents() -> None:
         print("🔄 Synchronizing AI Squad Roles across adapters...")
         subprocessRun([sysExecutable, convert_script])
 
+def check_rag_attached() -> bool:
+    """Returns True if the 08-RAG-Engine and its server.py exist."""
+    vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
+    rag_server_script = osPathJoin(rag_dir, "src", "server.py")
+    return osPathExists(rag_dir) and osPathExists(rag_server_script)
+
+def reset_rag_index() -> None:
+    """
+    DATA FLOW:
+    Resolves the RAG virtual environment python executable and runs indexer.py --reset.
+    """
+    vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
+    indexer_script = osPathJoin(rag_dir, "src", "indexer.py")
+    
+    if not osPathExists(indexer_script):
+        print("❌ Error: indexer.py not found. Cannot reset RAG index.")
+        return
+        
+    local_venv = osPathJoin(rag_dir, ".venv")
+    local_python = osPathJoin(local_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(local_venv, "bin", "python3")
+    
+    if osPathExists(local_python):
+        resolved_python = local_python
+    else:
+        parent_venv = osPathJoin(vault_root, ".venv")
+        parent_python = osPathJoin(parent_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(parent_venv, "bin", "python3")
+        resolved_python = parent_python
+        
+    if resolved_python and osPathExists(resolved_python):
+        print(f"🗑️  Resetting RAG database via {resolved_python} {indexer_script} --reset...")
+        subprocessRun([resolved_python, indexer_script, "--reset"])
+    else:
+        print("❌ Error: Python executable not found for RAG Engine.")
+
 # -----------------------------------------------------------------------------------------------
 
 def start_engine() -> None:
@@ -260,8 +304,21 @@ def start_engine() -> None:
         regenerate_agents()
 
         # 2. Mode Management
-        choice = get_mode_choice_interactive()
-        if choice:
+        has_rag = check_rag_attached()
+        while True:
+            print("\n--- 🕹️ Bastien-Antigravity: Mode Selector ---")
+            for key, (name, desc) in MODES.items():
+                print(f"[{key}] {name.ljust(18)} : {desc}")
+            if has_rag:
+                print(f"[r] {'🗑️  Reset RAG'.ljust(18)} : Reset and rebuild ChromaDB RAG index.")
+            
+            choice = input("\nSelect new active mode [1-4] or action (Enter to skip): ").strip().lower()
+            if choice == 'r' and has_rag:
+                reset_rag_index()
+                continue
+            break
+
+        if choice in MODES:
             apply_mode_protocol(choice)
         else:
             # Re-read current mode if skip
@@ -309,16 +366,19 @@ def start_engine() -> None:
         watcher_process = None
         
         if osPathExists(watcher_script):
-            # Dynamic virtual environment selection: Use parent .venv if exist, otherwise fallback to local RAG .venv
+            # Dynamic virtual environment selection: Use local RAG .venv if exist, otherwise fallback to parent .venv
+            local_rag_venv = osPathJoin(script_dir, "../08-RAG-Engine", ".venv", "Scripts", "python.exe") if osName == "nt" else osPathJoin(script_dir, "../08-RAG-Engine", ".venv", "bin", "python3")
             parent_venv = osPathJoin(script_dir, "..", ".venv")
             parent_python = osPathJoin(parent_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(parent_venv, "bin", "python3")
             
-            if osPathExists(parent_python):
+            if osPathExists(local_rag_venv):
+                watcher_venv_python = local_rag_venv
+            elif osPathExists(parent_python):
                 watcher_venv_python = parent_python
             else:
-                watcher_venv_python = osPathJoin(script_dir, "../08-RAG-Engine", ".venv", "Scripts", "python.exe") if osName == "nt" else osPathJoin(script_dir, "../08-RAG-Engine", ".venv", "bin", "python3")
+                watcher_venv_python = None
                 
-            if osPathExists(watcher_venv_python):
+            if watcher_venv_python and osPathExists(watcher_venv_python):
                 print(f"📡 Spawning RAG Index Watcher Daemon (Python: {watcher_venv_python}) in the background...")
                 try:
                     import subprocess
@@ -371,9 +431,14 @@ def start_engine() -> None:
                     pass
             print("✅ RAG Index Watcher terminated.")
             
-        decision = input("Re-launch Squad? [y: Yes / n: Exit & Sign-off / s: Switch Mode]: ").lower().strip()
+        has_rag = check_rag_attached()
+        prompt_suffix = " / r: Reset RAG" if has_rag else ""
+        decision = input(f"Re-launch Squad? [y: Yes / n: Exit & Sign-off / s: Switch Mode{prompt_suffix}]: ").lower().strip()
         
-        if decision == 's' or decision == 'y':
+        if decision == 'r' and has_rag:
+            reset_rag_index()
+            continue
+        elif decision == 's' or decision == 'y':
             continue
         else:
             print("\n📡 Initiating Mission Sign-off Ritual...")
@@ -386,6 +451,17 @@ def start_engine() -> None:
 # -----------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Bastien-Antigravity AI Squad Command Center")
+    parser.add_argument("--reset-rag", action="store_true", help="Reset and rebuild the ChromaDB RAG index before starting.")
+    args, unknown = parser.parse_known_args()
+
+    if args.reset_rag:
+        if check_rag_attached():
+            reset_rag_index()
+        else:
+            print("⚠️ Warning: --reset-rag was ignored because 08-RAG-Engine is not attached.")
+
     try:
         start_engine()
     except KeyboardInterrupt:
