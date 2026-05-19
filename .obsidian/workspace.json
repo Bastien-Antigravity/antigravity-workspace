@@ -182,6 +182,13 @@
   },
   "active": "366bf5d80a4e7119",
   "lastOpenFiles": [
+    "08-RAG-Engine/src/core/watcher.py",
+    "08-RAG-Engine/src/core/indexer.py",
+    "08-RAG-Engine/src/core/server.py",
+    "08-RAG-Engine/src/core/constants.py",
+    "08-RAG-Engine/AI-Project-DNA.md",
+    "08-RAG-Engine/AI-Init.md",
+    "08-RAG-Engine/VERSION.txt",
     "08-RAG-Engine/quick-overview/General-Misc.md",
     "08-RAG-Engine/quick-overview/Testing-Playbook.md",
     "08-RAG-Engine/quick-overview/Features-Behavior.md",
@@ -193,10 +200,6 @@
     "08-RAG-Engine/__pycache__",
     "08-RAG-Engine/src/facade/__pycache__/__init__.cpython-312.pyc",
     "08-RAG-Engine/src/facade/__pycache__/rag_facade.cpython-312.pyc",
-    "08-RAG-Engine/src/facade/__pycache__",
-    "08-RAG-Engine/src/core/__pycache__/file_watcher.cpython-312.pyc",
-    "08-RAG-Engine/src/core/__pycache__/file_indexer.cpython-312.pyc",
-    "08-RAG-Engine/src/core/__pycache__/chroma_store.cpython-312.pyc",
     "08-RAG-Engine/Architecture-Blueprint.md",
     "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/bug_report.md",
     "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas",
@@ -216,9 +219,6 @@
     "Ecosystem-Map-MOC.md",
     "02-Business-BDD/02-Behavior-Specs/ontime-scheduler/FEAT-001-Go-Migration.md",
     "01-Strategic-Nexus/quick-overview/Testing-Playbook.md",
-    "01-Strategic-Nexus/quick-overview/General-Misc.md",
-    "01-Strategic-Nexus/quick-overview/Features-Behavior.md",
-    "01-Strategic-Nexus/quick-overview/Architecture-Overview.md",
-    "01-Strategic-Nexus/Strategy-Audit-MOC.md"
+    "01-Strategic-Nexus/quick-overview/General-Misc.md"
   ]
 }

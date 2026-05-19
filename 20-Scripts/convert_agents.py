@@ -96,7 +96,9 @@ def main() -> None:
         if osPathIsdir(folder_path):
             md_files = globGlob(osPathJoin(folder_path, "*.md"))
             if md_files:
-                md_file = md_files[0]
+                # Prioritize files starting with "Prompt-"
+                prompt_files = [f for f in md_files if os.path.basename(f).startswith("Prompt-")]
+                md_file = prompt_files[0] if prompt_files else md_files[0]
                 # e.g. "04-QA" -> "qa"
                 agent_name = folder.split("-", 1)[1].lower() if "-" in folder else folder.lower()
                 
