@@ -249,6 +249,30 @@ def regenerate_agents() -> None:
         print("🔄 Synchronizing AI Squad Roles across adapters...")
         subprocessRun([sysExecutable, convert_script])
 
+def protect_role_prompts() -> None:
+    """
+    Sets the 07-Core-KMS/Role-Prompts directory and files to read-only
+    at the OS level to protect them against modifications.
+    """
+    vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    prompts_dir = osPathJoin(vault_root, "07-Core-KMS")
+    if not osPathExists(prompts_dir):
+        return
+    print("🔒 Enforcing read-only permissions on Role-Prompts directory...")
+    for root, dirs, files in os.walk(prompts_dir):
+        for d in dirs:
+            dir_path = osPathJoin(root, d)
+            try:
+                os.chmod(dir_path, 0o555)
+            except Exception:
+                pass
+        for f in files:
+            file_path = osPathJoin(root, f)
+            try:
+                os.chmod(file_path, 0o444)
+            except Exception:
+                pass
+
 def check_rag_attached() -> bool:
     """Returns True if the 08-RAG-Engine and its server.py exist."""
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
@@ -302,6 +326,7 @@ def start_engine() -> None:
         check_session_health()
         run_preflight()
         regenerate_agents()
+        protect_role_prompts()
 
         # 2. Mode Management
         has_rag = check_rag_attached()

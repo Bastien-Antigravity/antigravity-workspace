@@ -182,6 +182,8 @@
   },
   "active": "366bf5d80a4e7119",
   "lastOpenFiles": [
+    "08-RAG-Engine/src/core/__pycache__/constants.cpython-312.pyc",
+    "08-RAG-Engine/src/core/__pycache__/server.cpython-312.pyc",
     "08-RAG-Engine/src/core/watcher.py",
     "08-RAG-Engine/src/core/indexer.py",
     "08-RAG-Engine/src/core/server.py",
@@ -198,8 +200,6 @@
     "08-RAG-Engine/src/interfaces/__pycache__/__init__.cpython-312.pyc",
     "08-RAG-Engine/__pycache__/main.cpython-312.pyc",
     "08-RAG-Engine/__pycache__",
-    "08-RAG-Engine/src/facade/__pycache__/__init__.cpython-312.pyc",
-    "08-RAG-Engine/src/facade/__pycache__/rag_facade.cpython-312.pyc",
     "08-RAG-Engine/Architecture-Blueprint.md",
     "05-Fleet-Operation/04-Templates/ISSUE_TEMPLATE/bug_report.md",
     "03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas",
