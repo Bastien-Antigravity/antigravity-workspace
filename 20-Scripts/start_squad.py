@@ -69,6 +69,60 @@ if sysStdout.encoding != 'utf-8':
 
 # -----------------------------------------------------------------------------------------------
 
+def get_vault_python() -> str:
+    """Return the vault virtualenv Python when available, otherwise current Python."""
+    return _venv_python if osPathExists(_venv_python) else sysExecutable
+
+def _missing_python_packages(python_executable: str) -> list:
+    """Check required import modules using the target Python interpreter."""
+    module_to_package = {
+        "yaml": "PyYAML",
+        "mcp": "mcp",
+        "openai": "openai",
+        "dotenv": "python-dotenv",
+    }
+    check_code = (
+        "import importlib.util\n"
+        f"mods = {list(module_to_package.keys())!r}\n"
+        "print('\\n'.join(m for m in mods if importlib.util.find_spec(m) is None))\n"
+    )
+    result = subprocessRun(
+        [python_executable, "-B", "-c", check_code],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return list(module_to_package.values())
+    missing_modules = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    return [module_to_package[module] for module in missing_modules]
+
+def ensure_python_requirements() -> None:
+    """
+    Ensures the vault-level Python dependencies are installed in the active venv.
+    This covers launcher/runtime dependencies such as PyYAML, OpenAI SDK, MCP client,
+    and python-dotenv. RAG-specific dependencies remain managed by 08-RAG-Engine.
+    """
+    requirements_path = osPathAbspath(osPathJoin(script_dir, "..", "requirements.txt"))
+    if not osPathExists(requirements_path):
+        return
+
+    pip_python = get_vault_python()
+    missing_packages = _missing_python_packages(pip_python)
+    if not missing_packages:
+        return
+
+    print("\n📦 Missing Python dependencies detected:")
+    for package in missing_packages:
+        print(f"   - {package}")
+    print("   Installing vault requirements...")
+
+    result = subprocessRun([pip_python, "-m", "pip", "install", "-r", requirements_path])
+    if result.returncode != 0:
+        print("⚠️ Warning: dependency installation failed. Install manually with:")
+        print(f"   {pip_python} -m pip install -r {requirements_path}")
+
+# -----------------------------------------------------------------------------------------------
+
 def setup_mcp(mode_choice: str) -> None:
     """
     DATA FLOW:
@@ -384,7 +438,7 @@ def run_client_with_fallback(active_client: str, agent_choice: str, mode_choice:
                 selected_agent,
                 squad_mode=mode_choice,
                 vault_root=vault_root,
-                python_executable=sysExecutable,
+                python_executable=get_vault_python(),
             )
         except ValueError as e:
             print(f"⚠️ Warning: {e}")
@@ -412,6 +466,7 @@ def start_engine() -> None:
         print("="*60)
 
         # 1. Verification & Sync
+        ensure_python_requirements()
         check_session_health()
         run_preflight()
         regenerate_agents()

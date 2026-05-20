@@ -2,7 +2,7 @@
 microservice: obsidian-brain
 type: governance
 status: active
-active-protocol: "[[MODE-MANUAL#Mode-4]]"
+active-protocol: '[[MODE-MANUAL#Mode-1]]'
 lifecycle:
   active_branch: develop
   protected_branches:
@@ -30,8 +30,15 @@ Mission-ID: Vault-Architecture-Enhancements
 > Update associated documentation (**README.md**, **ARCHITECTURE.md**) and relevant **Obsidian Brain** nodes ONLY upon feature completion or sprint closure to preserve compute and prevent task drift. Do NOT update documentation after every minor code modification.
 
 ## 🚀 Progress Tracking
+- [x] **Multi-Client Startup Guide**: Renamed the client adapter notes into `99-Humans/AI-Client-Startup-Guide.md`, documented Gemini/Claude/Codex/DeepSeek startup commands, clarified DeepSeek API environment variables, and explained the `STATE LOG : MISSING` sign-off gate. (COMPLETED 2026-05-20)
+- [x] **DeepSeek Dependency Bootstrap**: Added `openai`, `mcp`, and `python-dotenv` to root requirements and taught `start_squad.py` to install missing vault-level Python dependencies at startup. (COMPLETED 2026-05-20)
 - [x] **Vault Architecture Enhancements**: Hardened obsidian-brain with strict YAML frontmatter auto-formatting, log context pruning, strict write boundaries, semantic task routing, and a hybrid purging workflow with review checklists. (COMPLETED 2026-05-19)
 - [x] **Fleet Sovereignty Hardening**: Re-engineered `start_squad.py` and `close_mission.py` into a Git-aware, stateless ritual system. Hardened `sovereignty.py` with Trinity tagging and isolation zone audits. Standardized all 12 templates and synchronized 10 AI agents for multi-AI compatibility. Reset versioning to `v0.0.1`. (COMPLETED 2026-05-16)
+
+## 🛰️ Mission-ID: Multi-Client-Startup-Guide | Trace-ID: 2026-05-20
+- [x] **Human Startup Documentation**: Added the human-facing guide for selecting AI clients with `ACTIVE_CLIENT`, including Gemini default startup, Claude/Codex CLI startup, and DeepSeek API startup.
+- [x] **Governance Gate Clarification**: Documented that `STATE LOG : MISSING` is emitted by `close_mission.py` during sign-off when Markdown changed without a session-state update; it is not a DeepSeek startup failure.
+- [x] **Dependency Bootstrap**: Updated `requirements.txt` and startup dependency checks so DeepSeek's OpenAI-compatible API adapter has the required Python packages.
 
 ## 🛰️ Mission-ID: Vault-Architecture-Enhancements | Trace-ID: 2026-05-19
 - [x] **Strict YAML Frontmatter Auto-Formatting**: Hardened sovereignty rules in `sovereignty.py` to auto-fix and format metadata on file close.

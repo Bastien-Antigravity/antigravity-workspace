@@ -4,7 +4,7 @@
 ESSENTIAL PROCESS:
 DeepSeek API client adapter for the Bastien-Antigravity ecosystem.
 Provides two operating modes:
-  Mode 1 (Passthrough): Launches the standard CLI binary (gemini/claude/codex).
+  Mode 1 (Passthrough): Launches the standard CLI binary.
   Mode 2 (DeepSeek SDK): Interactive chat powered by DeepSeek API via OpenAI SDK,
                          with MCP tool calling against the 08-RAG-Engine.
 
@@ -15,8 +15,9 @@ DATA FLOW:
 3. Output: Interactive terminal chat session.
 
 KEY PARAMETERS:
-- DEEPSEEK_API_KEY: Required for Mode 2. Set via env or .env file.
+- DEEPSEEK_API_KEY: Required for Mode 2. Prefer setting it in the shell environment.
 - DEEPSEEK_MODEL: Optional override (default: deepseek-chat).
+- DEEPSEEK_BASE_URL or DEEPSEEK_API_BASE_URL: Optional API endpoint override.
 - agent: Optional agent persona name loaded from .deepseek/agents/.
 """
 import os, sys
@@ -65,7 +66,7 @@ RAG_DIR = osPathJoin(VAULT_ROOT, "08-RAG-Engine")
 RAG_SERVER_SCRIPT = osPathJoin(RAG_DIR, "src", "core", "server.py")
 
 DEFAULT_MODEL = "deepseek-chat"
-API_BASE_URL = "https://api.deepseek.com"
+DEFAULT_API_BASE_URL = "https://api.deepseek.com"
 
 # Terminal colors
 C_RESET = "\033[0m"
@@ -105,12 +106,21 @@ def run_passthrough(agent: str = "") -> None:
 # ———————————————————————————————————————————————————————————————————————————————
 
 def _load_env() -> None:
-    """Load .env from vault root or RAG dir if python-dotenv is available."""
+    """
+    Load optional .env files without overriding shell variables.
+
+    Preferred configuration is through the user's shell environment:
+      export DEEPSEEK_API_KEY="..."
+      export DEEPSEEK_BASE_URL="https://api.deepseek.com"
+      export DEEPSEEK_MODEL="deepseek-chat"
+
+    .env files are only a local fallback for development machines.
+    """
     try:
         from dotenv import load_dotenv
         for env_path in [osPathJoin(VAULT_ROOT, ".env"), osPathJoin(RAG_DIR, ".env")]:
             if osPathExists(env_path):
-                load_dotenv(env_path)
+                load_dotenv(env_path, override=False)
                 break
     except ImportError:
         pass
@@ -122,8 +132,8 @@ def _load_agent_prompt(agent_name: str) -> str:
     if not agent_name:
         return "You are a helpful AI assistant for the Bastien-Antigravity ecosystem."
 
-    # Try .deepseek/agents/ first, then .gemini/agents/ as fallback
-    for adapter_dir in [".deepseek", ".gemini", ".claude"]:
+    # Try the native DeepSeek persona first, then compatible generated adapters.
+    for adapter_dir in [".deepseek", ".gemini", ".claude", ".codex"]:
         agent_file = osPathJoin(VAULT_ROOT, adapter_dir, "agents", f"{agent_name}.md")
         if osPathExists(agent_file):
             try:
@@ -141,6 +151,40 @@ def _load_agent_prompt(agent_name: str) -> str:
 
     print(f"⚠️ Agent '{agent_name}' not found. Using generic persona.")
     return "You are a helpful AI assistant for the Bastien-Antigravity ecosystem."
+
+# ———————————————————————————————————————————————————————————————————————————————
+
+def _build_system_prompt(agent_prompt: str, agent_name: str, mode_choice: str) -> str:
+    """Wrap the selected squad persona with DeepSeek/RAG operating context."""
+    agent_label = agent_name or "generic"
+    return f"""You are running as the DeepSeek API client adapter for the Bastien-Antigravity AI Squad.
+
+Active squad mode: {mode_choice}
+Selected persona: {agent_label}
+Workspace root: {WORKSPACE_ROOT}
+Vault root: {VAULT_ROOT}
+
+Operational rules:
+- Use the available MCP/RAG tools for vault and workspace context instead of guessing.
+- Prefer `query_brain` for architectural, governance, BDD, and project-memory questions.
+- Use `read_workspace_file`, `list_workspace_directory`, `write_workspace_file`, or `append_workspace_file` only when needed and respect tool errors from the access matrix.
+- Preserve the selected persona's SCAN and session-state instructions.
+- Never expose API keys, environment secrets, or local credential contents.
+
+Selected squad persona follows:
+
+{agent_prompt}
+"""
+
+# ———————————————————————————————————————————————————————————————————————————————
+
+def _get_api_base_url() -> str:
+    """Resolve the DeepSeek OpenAI-compatible endpoint from shell env or default."""
+    return (
+        os.getenv("DEEPSEEK_BASE_URL")
+        or os.getenv("DEEPSEEK_API_BASE_URL")
+        or DEFAULT_API_BASE_URL
+    ).rstrip("/")
 
 # ———————————————————————————————————————————————————————————————————————————————
 
@@ -201,14 +245,20 @@ async def run_deepseek_session(agent: str = "", mode_choice: str = "4") -> None:
     _load_env()
     api_key = os.getenv("DEEPSEEK_API_KEY", "")
     if not api_key:
-        print("❌ DEEPSEEK_API_KEY not set. Export it or add to .env file.")
+        print("❌ DEEPSEEK_API_KEY not set.")
+        print("Preferred setup:")
+        print("  export DEEPSEEK_API_KEY=\"sk-...\"")
+        print("Optional overrides:")
+        print("  export DEEPSEEK_BASE_URL=\"https://api.deepseek.com\"")
+        print("  export DEEPSEEK_MODEL=\"deepseek-chat\"")
         return
 
     model = os.getenv("DEEPSEEK_MODEL", DEFAULT_MODEL)
-    system_prompt = _load_agent_prompt(agent)
+    api_base_url = _get_api_base_url()
+    system_prompt = _build_system_prompt(_load_agent_prompt(agent), agent, mode_choice)
 
     # Initialize DeepSeek client (OpenAI-compatible)
-    client = OpenAI(api_key=api_key, base_url=API_BASE_URL)
+    client = OpenAI(api_key=api_key, base_url=api_base_url)
 
     # Check if RAG server is available
     has_rag = osPathExists(RAG_DIR) and osPathExists(RAG_SERVER_SCRIPT)
@@ -226,8 +276,16 @@ async def run_deepseek_session(agent: str = "", mode_choice: str = "4") -> None:
         args=[RAG_SERVER_SCRIPT],
         env={
             **os.environ,
+            "BRAIN_DIR": WORKSPACE_ROOT,
             "SQUAD_ACTIVE_MODE": str(mode_choice),
-            "PYTHONPATH": RAG_DIR,
+            "SQUAD_ACTIVE_CLIENT": "deepseek",
+            "PYTHONPATH": (
+                RAG_DIR
+                if not os.environ.get("PYTHONPATH")
+                else RAG_DIR + os.pathsep + os.environ["PYTHONPATH"]
+            ),
+            "ANONYMIZED_TELEMETRY": "False",
+            "CHROMA_TELEMETRY": "False",
             "HF_HUB_OFFLINE": "1",
             "TRANSFORMERS_OFFLINE": "1",
         }
@@ -266,6 +324,7 @@ async def _chat_loop(client, model: str, system_prompt: str, tools: list, mcp_se
     print(f"\n{'='*60}")
     print(f"🧠 {C_BOLD}DEEPSEEK AGENT SESSION{C_RESET}")
     print(f"   Model: {C_CYAN}{model}{C_RESET}")
+    print(f"   API: {C_CYAN}{_get_api_base_url()}{C_RESET}")
     print(f"   Tools: {C_CYAN}{len(tools)}{C_RESET} MCP tools loaded")
     print(f"   Type {C_YELLOW}/quit{C_RESET} to exit, {C_YELLOW}/clear{C_RESET} to reset context")
     print(f"{'='*60}\n")
@@ -313,7 +372,11 @@ async def _chat_loop(client, model: str, system_prompt: str, tools: list, mcp_se
 
                     for tool_call in assistant_msg.tool_calls:
                         fn_name = tool_call.function.name
-                        fn_args = json.loads(tool_call.function.arguments) if tool_call.function.arguments else {}
+                        try:
+                            fn_args = json.loads(tool_call.function.arguments) if tool_call.function.arguments else {}
+                        except json.JSONDecodeError as e:
+                            fn_args = {}
+                            print(f"  {C_RED}❌ Invalid tool arguments for {fn_name}: {e}{C_RESET}")
 
                         print(f"  {C_YELLOW}🧰 Calling: {fn_name}({json.dumps(fn_args, ensure_ascii=False)[:120]}){C_RESET}")
 
@@ -375,6 +438,10 @@ Modes:
   2  DeepSeek SDK — Interactive chat via DeepSeek API + MCP tools
 
 Examples:
+  export DEEPSEEK_API_KEY="sk-..."
+  export DEEPSEEK_BASE_URL="https://api.deepseek.com"   # optional
+  export DEEPSEEK_MODEL="deepseek-chat"                 # optional
+
   python3 20-Scripts/clients/API/deepseek_client.py
   python3 20-Scripts/clients/API/deepseek_client.py --mode 2
   python3 20-Scripts/clients/API/deepseek_client.py --mode 2 developer
@@ -390,7 +457,7 @@ Examples:
     if mode is None:
         # Interactive mode selector
         print(f"\n{'='*50}")
-        print(f"🧠 {C_BOLD}BASTIEN-ANTIGRAVITY: DeepSeek CLI{C_RESET}")
+        print(f"🧠 {C_BOLD}BASTIEN-ANTIGRAVITY: DeepSeek API Client{C_RESET}")
         print(f"{'='*50}")
         print(f"  [{C_CYAN}1{C_RESET}] Passthrough  — Launch standard CLI (gemini/claude)")
         print(f"  [{C_CYAN}2{C_RESET}] DeepSeek SDK — Chat via DeepSeek API + MCP tools")

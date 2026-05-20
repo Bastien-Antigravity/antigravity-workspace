@@ -24,6 +24,7 @@ Before you begin, ensure your environment is configured:
    source .venv/bin/activate
    pip install -r requirements.txt
    ```
+   `start_squad.py` also checks these vault-level requirements at startup and installs missing packages into the active virtual environment.
 2. **Node.js**: Required to run the MCP Filesystem servers.
 3. **Gemini CLI**: Install via npm:
    ```bash
@@ -55,6 +56,19 @@ This script configures the MCP "Filesystem Bridge" and prepares the subagents.
 
 The supported client adapters are centralized in `20-Scripts/clients/registry.py`.
 Gemini, Claude, and Codex are native CLI clients. DeepSeek is an API-backed client implemented in `20-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
+See [[99-Humans/AI-Client-Startup-Guide]] for per-client startup commands.
+
+Preferred DeepSeek setup uses shell environment variables:
+
+```bash
+export DEEPSEEK_API_KEY="sk-..."
+export DEEPSEEK_BASE_URL="https://api.deepseek.com"
+export DEEPSEEK_MODEL="deepseek-chat"
+```
+
+`DEEPSEEK_BASE_URL` and `DEEPSEEK_MODEL` are optional. The adapter also supports local `.env` files as a development fallback, but shell variables are the preferred method.
+
+If you see `STATE LOG : MISSING`, the client did not necessarily fail. That message comes from the mission sign-off gate and means there are uncommitted Markdown changes without a matching `AI-Session-State.md` update.
 
 ### Step 2: Connect the IDE (Optional but Recommended)
 

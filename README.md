@@ -19,6 +19,7 @@ It is designed as a **Multi-Mode Engine** to balance between rigorous infrastruc
 ## 🕹️ Command & Control
 This Brain is an **Operational Engine**. Use the following scripts to govern the AI Squad:
 - **`python3 20-Scripts/start_squad.py`**: Launches the AI client with an interactive **Mode Selector** (defaults to the `gemini` CLI).
+- **`pip install -r requirements.txt`**: Installs vault-level launcher/client dependencies. `start_squad.py` checks and installs missing packages automatically.
 - **`python3 20-Scripts/switch_mode.py`**: Quick-switch between **Spec-First**, **Labs**, and **Fleet** protocols.
 - **Configuring the Active Client**:
   * **Via Frontmatter**: Define `active_client: claude` (or `gemini`/`codex`/`deepseek`) inside **[[00-AI-Orchestration/MODE-MANUAL]]**'s YAML header.
@@ -28,12 +29,20 @@ This Brain is an **Operational Engine**. Use the following scripts to govern the
     ```
   * **Compatibility**: `ACTIVE_CLI` still works as an alias for older commands.
   * **Fallback System**: If your chosen CLI is not available, the squad launcher automatically sweeps through fallbacks (`gemini`, `claude`, `codex`, `deepseek`) to launch the first available engine. DeepSeek is API-backed through `20-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
+  * **DeepSeek API Setup**: Prefer shell environment variables:
+    ```bash
+    export DEEPSEEK_API_KEY="sk-..."
+    export DEEPSEEK_BASE_URL="https://api.deepseek.com"
+    export DEEPSEEK_MODEL="deepseek-chat"
+    ```
+    `DEEPSEEK_BASE_URL` and `DEEPSEEK_MODEL` are optional. See [[99-Humans/AI-Client-Startup-Guide]].
 
 ---
 
 ## 👤 Human Onboarding
 Before interacting with the AI Squad, human operators should read the structural guides:
 - **[[99-Humans/Architecture-Overview|🗺️ Global Architecture Overview]]** — Start here to understand the 4-Tier & 3-Zone system.
+- **[[99-Humans/AI-Client-Startup-Guide|🤖 AI Client Startup Guide]]** — How to start Gemini, Claude, Codex, or DeepSeek.
 - **[[99-Humans/General-Misc|🧠 Philosophy & Operator's Guide]]** — Purpose, concepts, mental models, and optimization tips.
 - **[[99-Humans/Testing-Playbook|🧪 Testing Playbook]]** — How we ensure quality across Knowledge, Behavior, and Code.
 - **[[User-Manual|📖 User Manual]]** — High-level onboarding and usage guide.
