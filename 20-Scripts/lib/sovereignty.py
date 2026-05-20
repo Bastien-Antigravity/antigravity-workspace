@@ -54,18 +54,17 @@ class Sovereignty:
     def _index_workspace(self):
         import os
         for root, dirs, files in os.walk(self.workspace_root):
-            if any(x in root for x in [".git", ".obsidian", "experiments", "node_modules", "Templates"]):
+            if any(x in root for x in [".git", ".obsidian", "experiments", "node_modules", ".venv", "venv"]):
                 continue
             for file in files:
-                if file.endswith(".md"):
-                    path = Path(root) / file
-                    self.valid_stems.add(path.stem)
-                    self.valid_paths.add(file)
-                    try:
-                        rel_path = path.relative_to(self.workspace_root).as_posix()
-                        self.valid_paths.add(rel_path)
-                    except ValueError:
-                        pass
+                path = Path(root) / file
+                self.valid_stems.add(path.stem)
+                self.valid_paths.add(file)
+                try:
+                    rel_path = path.relative_to(self.workspace_root).as_posix()
+                    self.valid_paths.add(rel_path)
+                except ValueError:
+                    pass
 
     def _load_taxonomy(self, path: Path):
         try:

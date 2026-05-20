@@ -99,9 +99,15 @@ class VaultSentinel:
             else:
                 print(f" [SKIP] File is not a markdown (.md) file: {target_dir.name}")
         else:
+            ignore_dirs = {
+                ".git", ".obsidian", ".gemini", ".venv", "venv", "node_modules",
+                "experiments", "deployments", "plans", "Templates", "04-Templates", "99-Humans", "quick-overview",
+                "08-RAG-Engine"
+            }
             for root, dirs, files in osWalk(target_dir):
-                if any(x in root for x in [".git", ".obsidian", ".gemini", "experiments", "deployments", "plans", "Templates"]):
-                    continue
+                # Prune ignored directories in-place
+                dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ignore_dirs]
+                
                 for file in files:
                     if file.endswith(".md"):
                         filepath = Path(root) / file

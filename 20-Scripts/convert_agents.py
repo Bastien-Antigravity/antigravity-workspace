@@ -46,7 +46,7 @@ def _find_workspace_root() -> str:
     """
     current = osPathDirname(osPathAbspath(__file__))
     while current != osPathDirname(current):
-        if osPathExists(osPathJoin(current, "Bastien-Antigravity.code-workspace")):
+        if globGlob(osPathJoin(current, "*.code-workspace")):
             return current
         if osPathIsdir(osPathJoin(current, "obsidian-brain")) and osPathIsdir(osPathJoin(current, "fleet-operation-brain")):
             return current
@@ -88,7 +88,10 @@ def main() -> None:
         print(f"🧹 Purging old {name} agents in {target}...")
         for f in osListdir(target):
             if f.endswith(".md"):
-                os.remove(osPathJoin(target, f))
+                try:
+                    os.remove(osPathJoin(target, f))
+                except OSError as e:
+                    print(f"   ⚠️ Could not purge {f}: {e}")
 
     # Map folder names to clean agent names
     for folder in osListdir(source_dir):
@@ -128,9 +131,12 @@ To prevent context degradation, you MUST begin EVERY single response with the fo
                 # Sync to all active targets
                 for name, target in active_targets:
                     target_file = osPathJoin(target, f"{agent_name}.md")
-                    with open(target_file, 'w', encoding='utf-8') as f:
-                        f.write(yaml_frontmatter + content + "\n" + scan_block)
-                    print(f"   [{name}] Created agent: {agent_name}")
+                    try:
+                        with open(target_file, 'w', encoding='utf-8') as f:
+                            f.write(yaml_frontmatter + content + "\n" + scan_block)
+                        print(f"   [{name}] Created agent: {agent_name}")
+                    except OSError as e:
+                        print(f"   ⚠️ Could not write agent {agent_name} to {name}: {e}")
 
 # -----------------------------------------------------------------------------------------------
 
