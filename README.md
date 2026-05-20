@@ -18,15 +18,16 @@ It is designed as a **Multi-Mode Engine** to balance between rigorous infrastruc
 
 ## 🕹️ Command & Control
 This Brain is an **Operational Engine**. Use the following scripts to govern the AI Squad:
-- **`python3 20-Scripts/start_squad.py`**: Launches the CLI with an interactive **Mode Selector** (defaults to the `gemini` CLI).
+- **`python3 20-Scripts/start_squad.py`**: Launches the AI client with an interactive **Mode Selector** (defaults to the `gemini` CLI).
 - **`python3 20-Scripts/switch_mode.py`**: Quick-switch between **Spec-First**, **Labs**, and **Fleet** protocols.
-- **Configuring the Active CLI**:
-  * **Via Frontmatter**: Define `active_cli: claude` (or `gemini`/`codex`/`hermes`) inside **[[00-AI-Orchestration/MODE-MANUAL]]**'s YAML header.
+- **Configuring the Active Client**:
+  * **Via Frontmatter**: Define `active_client: claude` (or `gemini`/`codex`/`deepseek`) inside **[[00-AI-Orchestration/MODE-MANUAL]]**'s YAML header.
   * **Via Environment Variable**: Override or boot directly using:
     ```bash
-    ACTIVE_CLI=hermes python3 20-Scripts/start_squad.py
+    ACTIVE_CLIENT=deepseek python3 20-Scripts/start_squad.py
     ```
-  * **Fallback System**: If your chosen CLI is not installed in the environment path, the squad launcher automatically sweeps through fallbacks (`gemini`, `claude`, `codex`, `hermes`) to launch the first available engine.
+  * **Compatibility**: `ACTIVE_CLI` still works as an alias for older commands.
+  * **Fallback System**: If your chosen CLI is not available, the squad launcher automatically sweeps through fallbacks (`gemini`, `claude`, `codex`, `deepseek`) to launch the first available engine. DeepSeek is API-backed through `20-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
 
 ---
 
@@ -79,9 +80,9 @@ Best for enforcing repo-wide "Rules of Engagement."
 
 ### 2. 🧠 The AI Squad (Custom Subagent Prompts)
 Best for delegating isolated, specialized tasks to an expert persona.
-- **Usage**: Use the Gemini CLI delegation system (via `20-Scripts/start_squad.py`).
+- **Usage**: Use the configured AI client delegation system (via `20-Scripts/start_squad.py`).
 - **Examples**: *"Ask QA to review the tests"* or *"Ask the Architect to check the blueprint."*
-- **Impact**: Uses a dedicated subagent definition in `.gemini/agents/` with built-in drift mitigation (SCAN).
+- **Impact**: Uses dedicated subagent definitions in `.gemini/agents/`, `.claude/agents/`, `.codex/agents/`, or `.deepseek/agents/` with built-in drift mitigation (SCAN).
 
 ### 3. 💬 Direct AI Interaction (Raw Orchestrator)
 Best for general brainstorming, repo exploration, or "Free-Form" work.

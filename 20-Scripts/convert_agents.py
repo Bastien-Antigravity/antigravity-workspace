@@ -26,7 +26,11 @@ DATA FLOW:
 1. Scans core-kms-brain/Role-Prompts for markdown files.
 2. Extracts agent names from folder prefixes.
 3. Injects mandatory YAML frontmatter and the [SCAN] restoration block.
-4. Writes the final agent markdown to obsidian-brain/.gemini/agents/.
+4. Writes the final agent markdown to obsidian-brain/ :
+    gemini      : .gemini/agents/ 
+    claude      : .claude/agents 
+    deepseek    : .deepseek/agents
+    openai      : .codex/agents 
 
 KEY PARAMETERS:
 - source_dir: Path to the raw role prompts.
@@ -37,6 +41,15 @@ import os
 from os import listdir as osListdir, makedirs as osMakedirs
 from os.path import dirname as osPathDirname, abspath as osPathAbspath, join as osPathJoin, isdir as osPathIsdir, exists as osPathExists
 from glob import glob as globGlob
+
+SCRIPT_DIR = osPathDirname(osPathAbspath(__file__))
+if SCRIPT_DIR not in sys.path:
+    sys.path.append(SCRIPT_DIR)
+
+try:
+    from clients.registry import iter_clients
+except ImportError:
+    iter_clients = None
 
 # -----------------------------------------------------------------------------------------------
 
@@ -61,23 +74,32 @@ def main() -> None:
     if not osPathIsdir(source_dir):
         source_dir = osPathJoin(workspace_root, "obsidian-brain", "07-Core-KMS", "Role-Prompts")
     
-    # Define supported AI CLI adapters and their relative agent paths
-    ADAPTERS = {
-        "Gemini": ".gemini/agents",
-        "Claude": ".claude/agents",
-        "OpenAI": ".codex/agents",
-        "Mistral": ".mistral/agents",
-        "DeepSeek": ".deepseek/agents"
-    }
+    vault_root = osPathJoin(workspace_root, "obsidian-brain")
 
-    # Identify active adapters (only sync if the parent tool directory exists)
-    active_targets = []
-    for name, rel_path in ADAPTERS.items():
-        parent_dir = osPathJoin(workspace_root, "obsidian-brain", rel_path.split("/")[0])
-        if osPathIsdir(parent_dir):
-            target = osPathJoin(workspace_root, "obsidian-brain", rel_path)
-            osMakedirs(target, exist_ok=True)
-            active_targets.append((name, target))
+    # Sync every supported adapter directory from the central client registry.
+    if iter_clients:
+        active_targets = []
+        for client_name, config in iter_clients():
+            target = osPathJoin(vault_root, config["agents_dir"])
+            try:
+                osMakedirs(target, exist_ok=True)
+                active_targets.append((config["label"], target))
+            except OSError as e:
+                print(f"   ⚠️ Could not prepare {config['label']} agents at {target}: {e}")
+    else:
+        active_targets = []
+        for name, rel_path in {
+            "Gemini": ".gemini/agents",
+            "Claude": ".claude/agents",
+            "DeepSeek": ".deepseek/agents",
+            "OpenAI Codex": ".codex/agents",
+        }.items():
+            target = osPathJoin(vault_root, rel_path)
+            try:
+                osMakedirs(target, exist_ok=True)
+                active_targets.append((name, target))
+            except OSError as e:
+                print(f"   ⚠️ Could not prepare {name} agents at {target}: {e}")
 
     if not active_targets:
         print("⚠️ No active AI adapters found (.gemini, .claude, etc.).")

@@ -49,9 +49,12 @@ This script configures the MCP "Filesystem Bridge" and prepares the subagents.
     # Run using the default Gemini CLI:
     python3 obsidian-brain/20-Scripts/start_squad.py
     
-    # Or override and start directly using another engine (claude/codex/hermes):
-    ACTIVE_CLI=hermes python3 obsidian-brain/20-Scripts/start_squad.py
+    # Or override and start directly using another client (gemini/claude/codex/deepseek):
+    ACTIVE_CLIENT=deepseek python3 obsidian-brain/20-Scripts/start_squad.py
 ```
+
+The supported client adapters are centralized in `20-Scripts/clients/registry.py`.
+Gemini, Claude, and Codex are native CLI clients. DeepSeek is an API-backed client implemented in `20-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
 
 ### Step 2: Connect the IDE (Optional but Recommended)
 

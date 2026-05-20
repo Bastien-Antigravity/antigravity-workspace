@@ -5,6 +5,7 @@ version: 2.0
 type: architecture
 status: active
 active_mode: 4
+active_client: gemini
 tags:
 - '#zone/3-fleet'
 - '#service/obsidian-brain'

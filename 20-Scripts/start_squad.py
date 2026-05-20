@@ -3,14 +3,14 @@
 """
 ESSENTIAL PROCESS:
 Initializes the Bastien-Antigravity AI Squad Command Center. Handles MCP binding,
-pre-session audits, role synchronization, and launches the Gemini CLI.
+pre-session audits, role synchronization, and launches the selected AI client.
 
 DATA FLOW:
 1. Performs Preflight and Sovereignty audits to detect architecture drift.
 2. Synchronizes Role-Prompts to agent definitions (convert_agents.py).
 3. Invokes the Mode Selector and applies the protocol (switch_mode.py).
 4. Configures the MCP server-filesystem based on mode isolation rules.
-5. Launches the Gemini CLI in a re-launchable lifecycle loop.
+5. Launches the selected AI client in a re-launchable lifecycle loop.
 
 KEY PARAMETERS:
 - vault_root: Resolved path to the Obsidian Brain vault.
@@ -47,8 +47,17 @@ if script_dir not in sysPath:
 try:
     from switch_mode import get_mode_choice_interactive, apply_mode_protocol, MODES
     from mission_help import MissionHelper
+    from clients.registry import (
+        DEFAULT_CLIENT,
+        build_launch_command,
+        client_names,
+        get_client_config,
+        is_client_available,
+        list_agents,
+        normalize_client,
+    )
 except ImportError:
-    print("❌ Error: Could not find switch_mode.py or mission_help.py in 20-Scripts/")
+    print("❌ Error: Could not find required launcher modules in 20-Scripts/")
     sysExit(1)
 
 # Standardize terminal output encoding for Windows
@@ -105,7 +114,10 @@ def setup_mcp(mode_choice: str) -> None:
     else:
         # Fallback to standard basic filesystem MCP server
         # --- Dynamic Context Exclusion Logic (The Firewall) ---
-        global_excludes = {".obsidian", ".git", ".gemini", "node_modules", "99-Humans", "quick-overview"}
+        global_excludes = {
+            ".obsidian", ".git", ".gemini", ".claude", ".codex", ".deepseek",
+            "node_modules", "99-Humans", "quick-overview"
+        }
         mode_excludes_map = {
             "1": {"01-Strategic-Nexus", "04-Rapid-Prototyping", "05-Fleet-Operation"},
             "2": {"01-Strategic-Nexus", "02-Business-BDD", "05-Fleet-Operation", "06-Microservices"},
@@ -319,13 +331,72 @@ def reset_rag_index() -> None:
 def get_available_agents(active_cli: str) -> list:
     """Reads available agents from the respective agent directory."""
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
-    agents_dir = osPathJoin(vault_root, f".{active_cli}", "agents")
-    if osPathExists(agents_dir):
+    return list_agents(vault_root, active_cli)
+
+def get_active_client_name() -> str:
+    """Resolve the active AI client from MODE-MANUAL.md or environment overrides."""
+    clients = client_names()
+    active_client = DEFAULT_CLIENT
+
+    mode_file = osPathJoin(script_dir, "../00-AI-Orchestration/MODE-MANUAL.md")
+    if osPathExists(mode_file):
         try:
-            return [f[:-3] for f in osListdir(agents_dir) if f.endswith(".md")]
+            with open(mode_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.strip().startswith("active_cli:") or line.strip().startswith("active_client:"):
+                        candidate = normalize_client(
+                            line.split(":", 1)[1].strip().lower().replace("'", "").replace('"', '')
+                        )
+                        if candidate in clients:
+                            active_client = candidate
+                            break
         except Exception:
             pass
-    return []
+
+    for env_name in ("ACTIVE_CLIENT", "ACTIVE_CLI"):
+        env_override = normalize_client(osGetenv(env_name, ""))
+        if env_override in clients:
+            active_client = env_override
+            break
+
+    return active_client
+
+def run_client_with_fallback(active_client: str, agent_choice: str, mode_choice: str) -> None:
+    """Launch the selected AI client, then fall back to other available clients if needed."""
+    vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    launch_order = [active_client] + [name for name in client_names() if name != active_client]
+    cmd_prefix = [] if osName != 'nt' else ["cmd", "/c"]
+
+    for client_name in launch_order:
+        config = get_client_config(client_name)
+        if not config:
+            continue
+
+        if client_name != active_client and not is_client_available(client_name, vault_root):
+            continue
+
+        fallback_agents = get_available_agents(client_name)
+        selected_agent = agent_choice if agent_choice and agent_choice in fallback_agents else ""
+
+        try:
+            cli_cmd = build_launch_command(
+                client_name,
+                selected_agent,
+                squad_mode=mode_choice,
+                vault_root=vault_root,
+                python_executable=sysExecutable,
+            )
+        except ValueError as e:
+            print(f"⚠️ Warning: {e}")
+            continue
+
+        if client_name != active_client:
+            print(f"⚠️ Warning: {active_client} unavailable. Trying fallback client: {client_name}")
+
+        subprocessRun(cmd_prefix + cli_cmd)
+        return
+
+    raise FileNotFoundError(f"No available AI client found. Tried: {', '.join(launch_order)}")
 
 # -----------------------------------------------------------------------------------------------
 
@@ -399,28 +470,10 @@ def start_engine() -> None:
         helper = MissionHelper()
         helper.print_cheat_sheet()
         
-        # 5. CLI Execution
-        clis = ["gemini", "claude", "codex", "mistral", "deepseek"]
-        active_cli = "gemini" # Default
-        
-        # Parse active_cli dynamically from MODE-MANUAL.md
-        mode_file = osPathJoin(script_dir, "../00-AI-Orchestration/MODE-MANUAL.md")
-        if osPathExists(mode_file):
-            try:
-                with open(mode_file, 'r', encoding='utf-8') as f:
-                    for line in f:
-                        if line.strip().startswith("active_cli:"):
-                            candidate = line.split(":")[1].strip().lower().replace("'", "").replace('"', '')
-                            if candidate in clis:
-                                active_cli = candidate
-                                break
-            except Exception:
-                pass
-                
-        # Support ACTIVE_CLI environment variable override
-        env_override = osGetenv("ACTIVE_CLI", "").lower().strip()
-        if env_override in clis:
-            active_cli = env_override
+        # 5. AI Client Execution
+        active_cli = get_active_client_name()
+        active_config = get_client_config(active_cli) or {}
+        active_label = active_config.get("label", active_cli)
         
         # Select Agent Persona dynamically
         available_agents = get_available_agents(active_cli)
@@ -440,35 +493,15 @@ def start_engine() -> None:
             except (KeyboardInterrupt, EOFError):
                 pass
         
-        # Build the command arguments to pass the selected agent prompt
         if agent_choice:
-            print(f"\n🚀 Firing up the AI Squad Command [Protocol: {choice} | Agent: {agent_choice}]...")
-            cli_cmd = [active_cli, agent_choice]
+            print(f"\n🚀 Firing up {active_label} [Protocol: {choice} | Agent: {agent_choice}]...")
         else:
-            print(f"\n🚀 Firing up the AI Squad Command [Protocol: {choice} | Agent: Generic]...")
-            cli_cmd = [active_cli]
+            print(f"\n🚀 Firing up {active_label} [Protocol: {choice} | Agent: Generic]...")
             
         try:
-            # Check for Windows or Unix
-            cmd_prefix = [] if osName != 'nt' else ["cmd", "/c"]
-            
-            # Execute the primary CLI
-            subprocessRun(cmd_prefix + cli_cmd)
+            run_client_with_fallback(active_cli, agent_choice, choice)
         except FileNotFoundError:
-            print(f"⚠️ Warning: {active_cli} CLI not found. Trying fallback CLIs...")
-            for fallback in clis:
-                if fallback == active_cli:
-                    continue
-                try:
-                    # Resolve fallback agent command
-                    fallback_agents = get_available_agents(fallback)
-                    fallback_cmd = [fallback]
-                    if agent_choice and agent_choice in fallback_agents:
-                        fallback_cmd.append(agent_choice)
-                    subprocessRun(cmd_prefix + fallback_cmd)
-                    break
-                except FileNotFoundError:
-                    continue
+            print("❌ No supported AI client is available. Install Gemini, Claude, Codex, or configure DeepSeek.")
         except Exception as e:
             print(f"❌ CLI Execution Error: {e}")
             break
