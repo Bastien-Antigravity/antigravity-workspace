@@ -124,28 +124,8 @@ def main():
             commit_msg = f"chore(governance): mission sign-off {mission_id}"
             subprocessRun(["git", "commit", "-m", commit_msg], cwd=vault_root, check=True)
             
-            # Check current branch
-            branch_result = subprocessRun(
-                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                cwd=vault_root, capture_output=True, text=True, check=True
-            )
-            branch_name = branch_result.stdout.strip()
-            
-            if branch_name == "HEAD":
-                print("⚠️  Warning: Detached HEAD state detected. Skipping auto-push.")
-            else:
-                # Check if there is an upstream configured
-                upstream_result = subprocessRun(
-                    ["git", "rev-parse", "--abbrev-ref", "@{u}"],
-                    cwd=vault_root, capture_output=True, text=True
-                )
-                if upstream_result.returncode != 0:
-                    # No upstream branch configured
-                    print(f"📡 No upstream branch configured for '{branch_name}'. Pushing to origin '{branch_name}'...")
-                    subprocessRun(["git", "push", "-u", "origin", branch_name], cwd=vault_root, check=True)
-                else:
-                    subprocessRun(["git", "push"], cwd=vault_root, check=True)
-                print("✅ Changes pushed to GitHub successfully.")
+            subprocessRun(["git", "push"], cwd=vault_root, check=True)
+            print("✅ Changes pushed to GitHub successfully.")
         except Exception as e:
             print(f"⚠️  Push Ritual Failed: {e}")
             print("   Please push manually to complete the sync.")

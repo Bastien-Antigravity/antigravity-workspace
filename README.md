@@ -68,7 +68,6 @@ The documentation here relies on a hybrid system:
 
 ---
 
----
 ## 🎮 The 3 Levels of AI Engagement
 
 This Brain is designed to be used in three distinct ways, depending on your needs for safety, speed, or specialization.
@@ -102,7 +101,7 @@ Regardless of how you interact with the AI, every session MUST be initialized co
 ## 🧠 The Semantic Search Engine (RAG-mcp)
 To guarantee optimal token efficiency during AI squad sessions, the repository features an integrated Model Context Protocol (MCP) server: **[[08-RAG-Engine/README|🔌 08 - RAG Engine]]**.
 * **Offline Embeddings**: Uses a local vector database index via ChromaDB and `all-MiniLM-L6-v2` SentenceTransformers to perform sub-paragraph level queries.
-* **Auto-Watcher**: Silently spawns a background thread-safe file watcher (`watcher.py`) with a `0.5s` quiet-window debounce to capture note updates instantly.
+* **Auto-Watcher**: Silently starts a background thread-safe file watcher directly inside the FastMCP server process with a `0.5s` quiet-window debounce to capture note updates instantly without SQLite lock contentions.
 * **Custom Tools**: Exposes `query_brain`, `get_brain_stats`, and semantic graph lookups via `find_similar_files`.
 
 ---
