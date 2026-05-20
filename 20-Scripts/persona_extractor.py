@@ -238,13 +238,27 @@ def extract_personas(repo_path, output_dir, is_daemon):
     if not is_daemon:
         print(f"✅ Persona Extraction complete. Saved to {output_dir}")
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Fleet Persona Extractor")
-    parser.add_argument("--daemon", action="store_true", help="Run silently in background")
-    args = parser.parse_args()
-    
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    workspace_root = os.path.abspath(os.path.join(script_dir, "..", ".."))
-    output_dir = os.path.join(script_dir, "..", "07-Core-KMS", "quick-overview", "ast-patterns")
-    
-    extract_personas(workspace_root, output_dir, args.daemon)
+# disable for now need improvement in the future, need implementation of somehting like this :
+# https://github.com/nousresearch/hermes-agent
+
+#if __name__ == '__main__':
+#    parser = argparse.ArgumentParser(description="Fleet Persona Extractor")
+#    parser.add_argument("--daemon", action="store_true", help="Run silently in background")
+#    args = parser.parse_args()
+#    
+#    script_dir = os.path.dirname(os.path.abspath(__file__))
+#    workspace_root = os.path.abspath(os.path.join(script_dir, "..", ".."))
+#    output_dir = os.path.join(script_dir, "..", "07-Core-KMS", "quick-overview", "ast-patterns")
+#    output_dir = os.path.abspath(output_dir)
+#    lock_path = os.path.join(output_dir, ".persona_running")
+#    
+#    try:
+#        extract_personas(workspace_root, output_dir, args.daemon)
+#    except Exception:
+#        # Ensure the lock file is always removed to prevent permanent blocking
+#        if os.path.exists(lock_path):
+#            try:
+#                os.remove(lock_path)
+#            except Exception:
+#                pass
+#        raise

@@ -109,8 +109,8 @@ def main() -> None:
                     content = f.read()
                 
                 # Strip existing frontmatter from source content if present
-                import re
-                content = re.sub(r'^---.*?---\s*', '', content, flags=re.DOTALL)
+                from re import sub as reSub, DOTALL as reDotAll
+                content = reSub(r'^---.*?---\s*', '', content, flags=reDotAll)
                 
                 yaml_frontmatter = f"""---
 name: {agent_name}

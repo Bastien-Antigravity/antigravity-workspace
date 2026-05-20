@@ -33,7 +33,7 @@ if os.path.exists(_venv_python):
         pass
 
 from sys import executable as sysExecutable, path as sysPath, stdout as sysStdout, exit as sysExit
-from os import makedirs as osMakedirs, listdir as osListdir, name as osName
+from os import makedirs as osMakedirs, listdir as osListdir, name as osName, getenv as osGetenv 
 from json import dump as jsonDump, load as jsonLoad
 from subprocess import run as subprocessRun
 from os.path import abspath as osPathAbspath, join as osPathJoin, dirname as osPathDirname, exists as osPathExists, \
@@ -200,10 +200,14 @@ def run_preflight() -> None:
         osPathJoin(script_dir, "../07-Core-KMS/Scripts/Brain-Health-Audit.py")
     ]
     
+    executed_names = set()
     for script in scripts:
         if osPathExists(script):
-            print(f"📡 Executing Governance Audit: {osPathBasename(script)}...")
-            subprocessRun([sysExecutable, script])
+            basename = osPathBasename(script)
+            if basename not in executed_names:
+                print(f"📡 Executing Governance Audit: {basename}...")
+                subprocessRun([sysExecutable, script])
+                executed_names.add(basename)
 
 def check_session_health() -> None:
     """
@@ -312,6 +316,17 @@ def reset_rag_index() -> None:
     else:
         print("❌ Error: Python executable not found for RAG Engine.")
 
+def get_available_agents(active_cli: str) -> list:
+    """Reads available agents from the respective agent directory."""
+    vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    agents_dir = osPathJoin(vault_root, f".{active_cli}", "agents")
+    if osPathExists(agents_dir):
+        try:
+            return [f[:-3] for f in osListdir(agents_dir) if f.endswith(".md")]
+        except Exception:
+            pass
+    return []
+
 # -----------------------------------------------------------------------------------------------
 
 def start_engine() -> None:
@@ -347,16 +362,16 @@ def start_engine() -> None:
                 continue
             elif choice == 'p':
                 persona_extractor_script = osPathJoin(script_dir, "persona_extractor.py")
-                lock_path = osPathJoin(script_dir, "../07-Core-KMS/quick-overview/ast-patterns/.persona_running")
+                lock_path = osPathAbspath(osPathJoin(script_dir, "..", "07-Core-KMS", "quick-overview", "ast-patterns", ".persona_running"))
                 if osPathExists(lock_path):
                     print("⚠️ Persona Extractor is already running. Please wait.")
                 elif osPathExists(persona_extractor_script):
                     try:
-                        import subprocess
-                        subprocess.Popen(
+                        from subprocess import Popen as subProcessPopen, DEVNULL as subProcessDEVNULL
+                        subProcessPopen(
                             [sysExecutable, persona_extractor_script, "--daemon"],
-                            stdout=subprocess.DEVNULL,
-                            stderr=subprocess.DEVNULL
+                            stdout=subProcessDEVNULL,
+                            stderr=subProcessDEVNULL
                         )
                         print("✅ Persona Extractor started in background. It will notify when ready.")
                     except Exception as e:
@@ -403,96 +418,76 @@ def start_engine() -> None:
                 pass
                 
         # Support ACTIVE_CLI environment variable override
-        env_override = os.getenv("ACTIVE_CLI", "").lower().strip()
+        env_override = osGetenv("ACTIVE_CLI", "").lower().strip()
         if env_override in clis:
             active_cli = env_override
         
-        # Spawn RAG Watcher in the background (Optional: only if 08-RAG-Engine and script exist)
-        watcher_script = osPathJoin(script_dir, "../08-RAG-Engine/src/core/watcher.py")
-        watcher_process = None
-        
-        if osPathExists(watcher_script):
-            # Dynamic virtual environment selection: Use local RAG .venv if exist, otherwise fallback to parent .venv
-            local_rag_venv = osPathJoin(script_dir, "../08-RAG-Engine", ".venv", "Scripts", "python.exe") if osName == "nt" else osPathJoin(script_dir, "../08-RAG-Engine", ".venv", "bin", "python3")
-            parent_venv = osPathJoin(script_dir, "..", ".venv")
-            parent_python = osPathJoin(parent_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(parent_venv, "bin", "python3")
+        # Select Agent Persona dynamically
+        available_agents = get_available_agents(active_cli)
+        agent_choice = ""
+        if available_agents:
+            print("\n🎭 Available Agent Personas:")
+            for idx, agent in enumerate(sorted(available_agents), 1):
+                print(f"[{idx}] {agent}")
+            print("[0] Generic (Default Session)")
             
-            if osPathExists(local_rag_venv):
-                watcher_venv_python = local_rag_venv
-            elif osPathExists(parent_python):
-                watcher_venv_python = parent_python
-            else:
-                watcher_venv_python = None
-                
-            if watcher_venv_python and osPathExists(watcher_venv_python):
-                print(f"📡 Spawning RAG Index Watcher Daemon (Python: {watcher_venv_python}) in the background...")
-                try:
-                    import subprocess
-                    watcher_env = os.environ.copy()
-                    watcher_env["PYTHONPATH"] = osPathAbspath(osPathJoin(script_dir, "../08-RAG-Engine"))
-                    watcher_process = subprocess.Popen(
-                        [watcher_venv_python, watcher_script],
-                        cwd=osPathDirname(watcher_script),
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL,
-                        env=watcher_env
-                    )
-                    print("✅ RAG Index Watcher spawned successfully!")
-                except Exception as e:
-                    print(f"⚠️ Warning: Could not spawn RAG Index Watcher: {e}")
+            try:
+                agent_input = input(f"\nSelect Agent Persona [0-{len(available_agents)}] (Enter for Default): ").strip()
+                if agent_input.isdigit():
+                    val = int(agent_input)
+                    if 1 <= val <= len(available_agents):
+                        agent_choice = sorted(available_agents)[val - 1]
+            except (KeyboardInterrupt, EOFError):
+                pass
         
-
-        # Simple detection (in a real scenario, we could check which is in PATH)
-        print(f"\n🚀 Firing up the AI Squad Command [Protocol: {choice}]...")
-        
+        # Build the command arguments to pass the selected agent prompt
+        if agent_choice:
+            print(f"\n🚀 Firing up the AI Squad Command [Protocol: {choice} | Agent: {agent_choice}]...")
+            cli_cmd = [active_cli, agent_choice]
+        else:
+            print(f"\n🚀 Firing up the AI Squad Command [Protocol: {choice} | Agent: Generic]...")
+            cli_cmd = [active_cli]
+            
         try:
             # Check for Windows or Unix
             cmd_prefix = [] if osName != 'nt' else ["cmd", "/c"]
             
             # Execute the primary CLI
-            subprocessRun(cmd_prefix + [active_cli])
+            subprocessRun(cmd_prefix + cli_cmd)
         except FileNotFoundError:
             print(f"⚠️ Warning: {active_cli} CLI not found. Trying fallback CLIs...")
-            for fallback in clis[1:]:
+            for fallback in clis:
+                if fallback == active_cli:
+                    continue
                 try:
-                    subprocessRun(cmd_prefix + [fallback])
+                    # Resolve fallback agent command
+                    fallback_agents = get_available_agents(fallback)
+                    fallback_cmd = [fallback]
+                    if agent_choice and agent_choice in fallback_agents:
+                        fallback_cmd.append(agent_choice)
+                    subprocessRun(cmd_prefix + fallback_cmd)
                     break
                 except FileNotFoundError:
                     continue
         except Exception as e:
             print(f"❌ CLI Execution Error: {e}")
-            if watcher_process:
-                watcher_process.terminate()
             break
             
         # Check if Persona Extraction is ready
-        persona_flag_path = osPathJoin(script_dir, "../07-Core-KMS/quick-overview/ast-patterns/.persona_ready")
+        persona_flag_path = osPathAbspath(osPathJoin(script_dir, "..", "07-Core-KMS", "quick-overview", "ast-patterns", ".persona_ready"))
         if osPathExists(persona_flag_path):
             print("\n" + "✨" * 30)
             print("🚀 NEW PERSONA CONTEXT EXTRACTED AND READY FOR RAG !!")
             print("✨" * 30 + "\a")
             try:
-                import os
-                os.remove(persona_flag_path)
+                from os import remove as osRemove
+                osRemove(persona_flag_path)
             except Exception:
                 pass
 
         # 6. Lifecycle Decision
         print("\n--- 🏁 Session Paused ---")
         
-        # Terminate background watcher before exiting or restarting
-        if watcher_process:
-            print("🛑 Terminating background RAG Index Watcher...")
-            try:
-                watcher_process.terminate()
-                watcher_process.wait(timeout=2)
-            except Exception:
-                try:
-                    watcher_process.kill()
-                except Exception:
-                    pass
-            print("✅ RAG Index Watcher terminated.")
-            
         has_rag = check_rag_attached()
         prompt_suffix = " / r: Reset RAG" if has_rag else ""
         decision = input(f"Re-launch Squad? [y: Yes / n: Exit & Sign-off / s: Switch Mode{prompt_suffix}]: ").lower().strip()

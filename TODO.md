@@ -17,6 +17,7 @@ tags:
 
 ## 🏗️ Architecture & Refactoring
 - [x] Consolidate common BDD templates into a centralized `00-AI-Orchestration/Templates/` folder.
+- [ ] **Persona Extractor — Disabled (needs rework)**: The current AST/regex-based `persona_extractor.py` is disabled (`__main__` commented out). Needs a proper implementation — consider something like [hermes-agent](https://github.com/nousresearch/hermes-agent) for richer polyglot codebase context extraction.
 
 ## ✅ Completed
 - [x] Initial structure for `02-Business-BDD`. (Now `business-bdd-brain`)

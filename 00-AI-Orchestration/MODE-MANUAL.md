@@ -4,7 +4,7 @@ title: 'AI Operating Manual: Multi-Mode Protocols'
 version: 2.0
 type: architecture
 status: active
-active_mode: 1
+active_mode: 4
 tags:
 - '#zone/3-fleet'
 - '#service/obsidian-brain'

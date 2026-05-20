@@ -22,7 +22,6 @@ if os.path.exists(_venv_python):
         pass
 
 
-import sys
 from typing import Optional
 
 # Standardize terminal output encoding for Windows

@@ -90,7 +90,7 @@ def apply_mode_protocol(choice: str) -> bool:
     session_root = osPathJoin(script_dir, "../AI-Session-State.md")
     
     if not osPathExists(mode_file):
-        print("❌ Error: MODE-MANUAL.md not found at {0}".format(mode_file))
+        print(f"❌ Error: MODE-MANUAL.md not found at {mode_file}")
         return False
 
     # 1. Update MODE-MANUAL.md

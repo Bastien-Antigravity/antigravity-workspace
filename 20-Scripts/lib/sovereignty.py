@@ -25,6 +25,12 @@ if os.path.exists(_venv_python):
 import re
 from pathlib import Path
 from typing import Dict, Set
+import json
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 class Sovereignty:
     # --- Configuration ---
@@ -36,6 +42,9 @@ class Sovereignty:
     def __init__(self, taxonomy_path: Path = None, workspace_root: Path = None):
         self.errors = []
         self.warnings = []
+        self.file_errors = {}
+        self.file_warnings = {}
+        self.current_file = None
         self.valid_tags = set()
         self.valid_stems = set()
         self.valid_paths = set()
@@ -52,10 +61,12 @@ class Sovereignty:
             self._load_taxonomy(taxonomy_path)
 
     def _index_workspace(self):
-        import os
-        for root, dirs, files in os.walk(self.workspace_root):
-            if any(x in root for x in [".git", ".obsidian", "experiments", "node_modules", ".venv", "venv"]):
-                continue
+        from os import walk as osWalk
+        exclude_dirs = {".git", ".obsidian", "experiments", "node_modules", ".venv", "venv", "08-RAG-Engine"}
+        for root, dirs, files in osWalk(self.workspace_root):
+            # Prune directories in-place to avoid traversing ignored folders
+            dirs[:] = [d for d in dirs if d not in exclude_dirs and not d.startswith(".")]
+            
             for file in files:
                 path = Path(root) / file
                 self.valid_stems.add(path.stem)
@@ -79,9 +90,13 @@ class Sovereignty:
 
     def log_error(self, message: str):
         self.errors.append(message)
+        if self.current_file:
+            self.file_errors.setdefault(str(self.current_file), []).append(message)
 
     def log_warning(self, message: str):
         self.warnings.append(message)
+        if self.current_file:
+            self.file_warnings.setdefault(str(self.current_file), []).append(message)
 
     # --- Validation Methods ---
 
@@ -259,6 +274,7 @@ class Sovereignty:
         if self.is_ignored_by_firewall(path):
             return
 
+        self.current_file = path
         try:
             with open(path, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -277,6 +293,8 @@ class Sovereignty:
             
         except Exception as e:
             self.log_error(f"Failed to read {path.name}: {str(e)}")
+        finally:
+            self.current_file = None
 
     def validate_placeholders(self, content: str, file_name: str):
         """Ensures that template placeholders like {{microservice}} are resolved."""
@@ -300,10 +318,12 @@ class Sovereignty:
         if self.is_ignored_by_firewall(path):
             return
             
-        try:
-            import yaml
-            import re
+        if yaml is None:
+            self.log_warning("PyYAML not installed — frontmatter auto-fix skipped. Run: pip install pyyaml")
+            return
             
+        self.current_file = path
+        try:
             with open(path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
@@ -442,24 +462,42 @@ class Sovereignty:
                 clean_path_str = target_url.replace("file://", "")
                 target_path = Path(clean_path_str).resolve()
                 if target_path.exists():
-                    import os
-                    rel_path = os.path.relpath(target_path, path.parent)
+                    from os.path import relpath as osPathRelPath
+                    rel_path = osPathRelPath(target_path, path.parent)
                     rel_path_str = Path(rel_path).as_posix()
                     old_link = f"[{text}]({target_url})"
                     new_link = f"[{text}]({rel_path_str})"
                     content = content.replace(old_link, new_link)
             
             if content != original_content:
+                # Handle potential read-only files by temporarily adding write permissions
+                is_readonly = not os.access(path, os.W_OK)
+                if is_readonly:
+                    try:
+                        os.chmod(path, 0o644)
+                    except Exception:
+                        pass
+                
                 with open(path, 'w', encoding='utf-8') as f:
                     f.write(content)
                     
+                if is_readonly:
+                    try:
+                        os.chmod(path, 0o444)
+                    except Exception:
+                        pass
+                    
         except Exception as e:
             self.log_warning(f"Auto-fix failed for {path.name}: {str(e)}")
+        finally:
+            self.current_file = None
 
     def get_report(self) -> Dict:
         return {
             "errors": self.errors,
             "warnings": self.warnings,
-            "success": len(self.errors) == 0
+            "success": len(self.errors) == 0,
+            "file_errors": self.file_errors,
+            "file_warnings": self.file_warnings
         }
 

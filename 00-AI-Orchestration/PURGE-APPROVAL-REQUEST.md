@@ -3,9 +3,10 @@ microservice: obsidian-brain
 type: orchestration
 status: active
 tags:
-  - '#service/obsidian-brain'
-  - '#type/orchestration'
-  - '#state/active'
+- '#service/obsidian-brain'
+- '#type/orchestration'
+- '#state/active'
+- '#zone/3-fleet'
 ---
 # 🧹 Dark Matter Purging Review Checklist
 

@@ -81,14 +81,14 @@ class FleetCommander:
 
     def _load_inventory(self) -> List[str]:
         """Loads repository paths from inventory.json and populates compliance exclusions."""
-        import json
+        from json import load as jsonLoad
         if not osPathExists(self.inventory_path):
             self._log(f"Inventory not found at {self.inventory_path}", "error")
             return []
             
         try:
             with open(self.inventory_path, "r", encoding='utf-8') as f:
-                data = json.load(f)
+                data = jsonLoad(f)
                 repos = []
                 for repo in data.get("repositories", []):
                     # inventory.json stores paths relative to workspace root (e.g., ./config-server)
