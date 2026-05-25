@@ -4,7 +4,7 @@ title: 'AI Operating Manual: Multi-Mode Protocols'
 version: 2.0
 type: architecture
 status: active
-active_mode: 4
+active_mode: 1
 active_client: gemini
 tags:
 - '#zone/3-fleet'
@@ -30,6 +30,9 @@ between these modes, the USER can balance between **Safety (Specs)**, **Speed (L
 - **Rule 1**: No code changes without an approved BDD Spec in `02-Business-BDD/02-Behavior-Specs/`.
 - **Rule 2**: Every fix must be audited against the spec before merging.
 - **Rule 3**: Code cannot be merged until it strictly passes all Spec tests.
+- **Rule 4**: At session end, the **FleetArchitect** must audit all configuration files of the modified repository, propose a commit message, and propose committing/pushing (with or without a Pull Request).
+- **Rule 5**: Pre-session health audit: If any fleet repository is dirty (uncommitted changes), a large warning is shown requiring explicit user confirmation to proceed.
+- **Rule 6**: **Pre-Task Checkpoint Mandate**: Before starting any new task, the agent MUST inspect the repository's git status. If uncommitted changes exist, the agent is strictly required to ask the user to commit or stash them first, preventing task inter-mixing and ensuring a safe rollback checkpoint.
 - **Primary Brains**: `02-Business-BDD`, `03-Tech-Stack`
 - **AI Persona**: **BrainSentinel** & **FleetArchitect** (Enforcing strict BDD compliance and architectural integrity).
 - **Best For**: Core libraries, financial logic, and stable infrastructure.
@@ -43,6 +46,9 @@ between these modes, the USER can balance between **Safety (Specs)**, **Speed (L
 - **Rule 2**: Work is isolated in `04-Rapid-Prototyping/`. Experiments are logged in
   `01-Experiment-Index/` using the experiment template.
 - **Rule 3**: After a "Labs" feature is validated, perform a "Graduation Ceremony" — creating the BDD spec in `02-Business-BDD`, populating the `quick-overview/` docs via the **DocMaintainer**, and transitioning the code to Mode 1 standards.
+- **Rule 4**: Special laboratory capabilities (cloning repository URLs, loading chat conversation URLs, URL exploration, and browser tool use with explicit user consent) are allowed, but STRICTLY RESTRICTED to Mode 2. They must never be executed in other modes.
+- **Rule 5**: Pre-session health audit: If any fleet repository is dirty, a simple advisory warning message is shown.
+- **Rule 6**: **Pre-Task Checkpoint Suggestion**: Before starting any new task, the agent should check git status and proactively suggest creating a lightweight checkpoint commit (e.g. `checkpoint: pre-[task]`) to enable easy rollback of experimental code.
 - **Primary Brain**: `04-Rapid-Prototyping`
 - **AI Persona**: **Developer** & **DocMaintainer** (Focused on fast iteration followed by documentation hardening).
 - **Best For**: UI/UX design, new trading strategies, and one-off 20-Scripts.
@@ -56,6 +62,8 @@ between these modes, the USER can balance between **Safety (Specs)**, **Speed (L
 - **Rule 2**: Focus on "Fleet-Wide Action Plans" in
   `05-Fleet-Operation/01-Fleet-Action-Plans/` rather than individual lines of code.
 - **Rule 3**: Automated testing is mandatory for every repo in the action plan.
+- **Rule 4**: Before any push, the **FleetArchitect** must verify all GitHub configuration integrity (workflows, triggers, permissions, CODEOWNERS, settings) and block the push on any drift.
+- **Rule 5**: Pre-session health audit: If any fleet repository is dirty, startup is strictly blocked, and the launcher will abort. The user must close/sign-off the active mission first.
 - **Primary Brain**: `05-Fleet-Operation`
 - **AI Persona**: **FleetCommander** (Focused on global architecture, synchronization, and ecosystem integrity).
 - **Best For**: Global refactors, dependency updates, and release cycles.
@@ -68,6 +76,7 @@ between these modes, the USER can balance between **Safety (Specs)**, **Speed (L
 - **Rule 1**: Stateless execution. The global `active_mode` remains unchanged.
 - **Rule 2**: No mandatory BDD or Sandbox tests (unless part of a specific sub-task).
 - **Rule 3**: Best used for "Question & Answer" sessions, small script repairs, or one-off audits.
+- **Rule 4**: **Discretionary Rollback Warning**: Before executing any code modifications, the agent must output a brief warning reminding the user to commit their current work locally, ensuring they can roll back easily since Mode 4 bypasses typical safety gates.
 - **AI Persona**: Unified **Systems Engineer** (Default constraints).
 - **Best For**: Quick README updates, link repairs in the vault, or "asking one agent a question."
 

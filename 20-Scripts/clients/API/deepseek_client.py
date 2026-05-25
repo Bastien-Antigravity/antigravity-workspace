@@ -154,15 +154,84 @@ def _load_agent_prompt(agent_name: str) -> str:
 
 # ———————————————————————————————————————————————————————————————————————————————
 
+def _resolve_active_repo_dir() -> str:
+    """Dynamically determine the active target project folder based on current working directory."""
+    cwd = osPathAbspath(os.getcwd())
+    inventory_path = osPathJoin(VAULT_ROOT, "05-Fleet-Operation", "00-Repo-Control", "inventory.json")
+    default_repo = osPathJoin(WORKSPACE_ROOT, "obsidian-brain")
+    if not osPathExists(inventory_path):
+        return default_repo
+    try:
+        with open(inventory_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        repos = data.get("repositories", [])
+        best_match = None
+        best_len = -1
+        for r in repos:
+            repo_path = osPathAbspath(osPathJoin(WORKSPACE_ROOT, r.get("path", "")))
+            if cwd == repo_path or cwd.startswith(repo_path + os.sep) or cwd.startswith(repo_path + "/"):
+                if len(repo_path) > best_len:
+                    best_match = repo_path
+                    best_len = len(repo_path)
+        if best_match:
+            return best_match
+    except Exception as e:
+        print(f"⚠️ Warning: Error resolving active repository directory: {e}")
+    return default_repo
+
+def _load_governance_context(active_repo_dir: str) -> str:
+    """Loads global and local project governance context files for pre-injection."""
+    lines = []
+    lines.append("=== GOVERNANCE & ACTIVE REPOSITORY CONTEXT ===")
+    lines.append(f"Active Target Repository: {active_repo_dir}")
+    
+    # 1. Global context
+    global_files = [
+        ("Global Ecosystem Map MOC", osPathJoin(WORKSPACE_ROOT, "obsidian-brain", "Ecosystem-Map-MOC.md")),
+        ("Global AI Session State", osPathJoin(WORKSPACE_ROOT, "obsidian-brain", "00-AI-Orchestration", "AI-Session-State.md"))
+    ]
+    for label, path in global_files:
+        if osPathExists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                lines.append(f"\n--- GLOBAL FILE: {label} ({osPathBasename(path)}) ---")
+                lines.append(content)
+            except Exception as e:
+                lines.append(f"⚠️ Warning: Error reading global context {path}: {e}")
+                
+    # 2. Local Project Specific
+    local_files = [
+        ("AI Project DNA", osPathJoin(active_repo_dir, "AI-Project-DNA.md")),
+        ("Local AI Session State", osPathJoin(active_repo_dir, "AI-Session-State.md")),
+        ("AI Init Instructions", osPathJoin(active_repo_dir, "AI-Init.md"))
+    ]
+    for label, path in local_files:
+        if osPathExists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                lines.append(f"\n--- LOCAL PROJECT FILE: {label} ({osPathBasename(path)}) ---")
+                lines.append(content)
+            except Exception as e:
+                lines.append(f"⚠️ Warning: Error reading local context {path}: {e}")
+                
+    lines.append("==============================================")
+    return "\n".join(lines)
+
 def _build_system_prompt(agent_prompt: str, agent_name: str, mode_choice: str) -> str:
     """Wrap the selected squad persona with DeepSeek/RAG operating context."""
     agent_label = agent_name or "generic"
+    active_repo = _resolve_active_repo_dir()
+    gov_context = _load_governance_context(active_repo)
+    
     return f"""You are running as the DeepSeek API client adapter for the Bastien-Antigravity AI Squad.
 
 Active squad mode: {mode_choice}
 Selected persona: {agent_label}
 Workspace root: {WORKSPACE_ROOT}
 Vault root: {VAULT_ROOT}
+Active repository: {active_repo}
 
 Operational rules:
 - Use the available MCP/RAG tools for vault and workspace context instead of guessing.
@@ -170,6 +239,8 @@ Operational rules:
 - Use `read_workspace_file`, `list_workspace_directory`, `write_workspace_file`, or `append_workspace_file` only when needed and respect tool errors from the access matrix.
 - Preserve the selected persona's SCAN and session-state instructions.
 - Never expose API keys, environment secrets, or local credential contents.
+
+{gov_context}
 
 Selected squad persona follows:
 

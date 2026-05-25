@@ -275,40 +275,116 @@ def run_preflight() -> None:
                 subprocessRun([sysExecutable, script])
                 executed_names.add(basename)
 
-def check_session_health() -> None:
+def check_session_health(mode_choice: str) -> None:
     """
-    Checks if there are uncommitted changes from a previous session.
-    Ensures the mission was properly closed.
+    Checks if there are uncommitted changes across the entire fleet from a previous session.
+    Enforces mode-specific rules for unclosed missions.
     """
+    workspace_root = osPathAbspath(osPathJoin(script_dir, "..", ".."))
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
-    # Exclude internal folders, templates, and programmatic manuals from the mandatory audit
-    EXCLUSIONS = [".git", ".obsidian", ".gemini", "Templates", "MODE-MANUAL.md"]
-    try:
-        result = subprocessRun(
-            ["git", "status", "--porcelain"], 
-            cwd=vault_root, capture_output=True, text=True, check=True
-        )
-        uncommitted = []
-        for line in result.stdout.splitlines():
-            status_path = line[3:].strip()
-            if status_path.endswith(".md"):
-                if any(x in status_path for x in EXCLUSIONS):
-                    continue
-                uncommitted.append(status_path)
-        
-        if uncommitted:
-            print("\n" + "!"*60)
-            print("⚠️  UNCLOSED MISSION DETECTED")
-            print(f"There are {len(uncommitted)} uncommitted markdown files in the vault.")
-            print("Please run 'python3 ./obsidian-brain/20-Scripts/close_mission.py' to verify and sign-off.")
-            print("!"*60 + "\n")
+    inventory_path = osPathJoin(vault_root, "05-Fleet-Operation", "00-Repo-Control", "inventory.json")
+    
+    repos_to_check = []
+    
+    # 1. Load fleet repositories from inventory
+    if osPathExists(inventory_path):
+        try:
+            with open(inventory_path, 'r', encoding='utf-8') as f:
+                data = jsonLoad(f)
+                repositories = data.get("repositories", [])
+                for repo in repositories:
+                    repo_path_rel = repo.get("path")
+                    repo_abs_path = osPathAbspath(osPathJoin(workspace_root, repo_path_rel))
+                    if osPathExists(repo_abs_path) and osPathExists(osPathJoin(repo_abs_path, ".git")):
+                        repos_to_check.append({
+                            "name": repo.get("name"),
+                            "path": repo_abs_path,
+                            "is_vault": (repo.get("name") == "obsidian-brain" or repo_abs_path == vault_root)
+                        })
+        except Exception as e:
+            print(f"⚠️ Warning: Failed to load inventory.json: {e}")
             
-            confirm = input("Ignore and start new session anyway? [y/N]: ").lower().strip()
+    # Fallback to checking vault if inventory is missing or empty
+    if not repos_to_check:
+        repos_to_check.append({
+            "name": "obsidian-brain",
+            "path": vault_root,
+            "is_vault": True
+        })
+        
+    dirty_repos_info = []
+    EXCLUSIONS = [".git", ".obsidian", ".gemini", ".claude", ".codex", ".deepseek", "Templates", "MODE-MANUAL.md"]
+    
+    for repo in repos_to_check:
+        repo_name = repo["name"]
+        repo_path = repo["path"]
+        is_vault = repo["is_vault"]
+        
+        try:
+            result = subprocessRun(
+                ["git", "status", "--porcelain"], 
+                cwd=repo_path, capture_output=True, text=True, check=True
+            )
+            uncommitted = []
+            for line in result.stdout.splitlines():
+                if not line.strip():
+                    continue
+                status_path = line[3:].strip()
+                # Apply exclusions for the vault
+                if is_vault:
+                    if status_path.endswith(".md"):
+                        if any(x in status_path for x in EXCLUSIONS):
+                            continue
+                        uncommitted.append(status_path)
+                else:
+                    # Sibling repos: any uncommitted change matters
+                    if not any(x in status_path for x in EXCLUSIONS):
+                        uncommitted.append(status_path)
+                        
+            if uncommitted:
+                dirty_repos_info.append((repo_name, len(uncommitted)))
+        except Exception:
+            pass # Git not found or repo missing
+            
+    if dirty_repos_info:
+        if mode_choice == "3":
+            # Mode 3 - Strict Block
+            print("\n" + "🛑"*30)
+            print("🛑 CRITICAL GOVERNANCE VIOLATION: UNCLOSED MISSION DETECTED")
+            print("="*60)
+            print("The following repositories have uncommitted changes:")
+            for repo_name, count in dirty_repos_info:
+                print(f"  - {repo_name} ({count} file(s) dirty)")
+            print("\nIn Mode 3 (Fleet-Commander), startup is STRICTLY BLOCKED to prevent multi-repository drift.")
+            print("Please run 'python3 ./obsidian-brain/20-Scripts/close_mission.py' to verify and sign-off.")
+            print("="*60)
+            print("🛑"*30 + "\n")
+            print("👋 Session should be aborted...")
+        
+        elif mode_choice == "1":
+            # Mode 1 - Big warning with confirmation
+            print("\n" + "⚠️"*30)
+            print("⚠️  WARNING: UNCLOSED MISSION DETECTED")
+            print("="*60)
+            print("The following repositories have uncommitted changes:")
+            for repo_name, count in dirty_repos_info:
+                print(f"  - {repo_name} ({count} file(s) dirty)")
+            print("\nRunning in Mode 1 (Spec-First) with uncommitted changes can lead to state drift and integrity issues.")
+            print("It is highly recommended to run 'python3 ./obsidian-brain/20-Scripts/close_mission.py' first.")
+            print("="*60)
+            print("⚠️"*30 + "\n")
+            
+            confirm = input("Ignore and start session anyway? [y/N]: ").lower().strip()
             if confirm != 'y':
                 print("👋 Session aborted. Please close the previous mission first.")
                 sysExit(0)
-    except Exception:
-        pass # Git not found or other error
+                
+        elif mode_choice == "2":
+            # Mode 2 - Simple warning
+            print("\n💡 NOTE: The following repositories have uncommitted changes from a previous session:")
+            for repo_name, count in dirty_repos_info:
+                print(f"  - {repo_name} ({count} file(s) dirty)")
+            print("")
 
 def regenerate_agents() -> None:
     """
@@ -354,14 +430,14 @@ def check_rag_attached() -> bool:
 def reset_rag_index() -> None:
     """
     DATA FLOW:
-    Resolves the RAG virtual environment python executable and runs indexer.py --reset.
+    Resolves the RAG virtual environment python executable and runs main.py index --reset.
     """
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
     rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
-    indexer_script = osPathJoin(rag_dir, "src", "core", "indexer.py")
+    rag_main_script = osPathJoin(rag_dir, "main.py")
     
-    if not osPathExists(indexer_script):
-        print("❌ Error: indexer.py not found. Cannot reset RAG index.")
+    if not osPathExists(rag_main_script):
+        print("❌ Error: 08-RAG-Engine/main.py not found. Cannot reset RAG index.")
         return
         
     local_venv = osPathJoin(rag_dir, ".venv")
@@ -375,10 +451,14 @@ def reset_rag_index() -> None:
         resolved_python = parent_python
         
     if resolved_python and osPathExists(resolved_python):
-        print(f"🗑️  Resetting RAG database via {resolved_python} {indexer_script} --reset...")
+        print(f"🗑️  Resetting RAG database via {resolved_python} {rag_main_script} index --reset...")
         indexer_env = os.environ.copy()
         indexer_env["PYTHONPATH"] = rag_dir
-        subprocessRun([resolved_python, indexer_script, "--reset"], env=indexer_env)
+        indexer_env["ANONYMIZED_TELEMETRY"] = "False"
+        indexer_env["CHROMA_TELEMETRY"] = "False"
+        indexer_env["HF_HUB_OFFLINE"] = "1"
+        indexer_env["TRANSFORMERS_OFFLINE"] = "1"
+        subprocessRun([resolved_python, rag_main_script, "index", "--reset"], env=indexer_env)
     else:
         print("❌ Error: Python executable not found for RAG Engine.")
 
@@ -467,7 +547,6 @@ def start_engine() -> None:
 
         # 1. Verification & Sync
         ensure_python_requirements()
-        check_session_health()
         run_preflight()
         regenerate_agents()
         protect_core_kms()
@@ -519,6 +598,7 @@ def start_engine() -> None:
                             break
         
         # 3. Protocol Enforcement
+        check_session_health(choice)
         setup_mcp(choice)
         
         # 4. Display Mission Guidance
@@ -533,8 +613,13 @@ def start_engine() -> None:
         # Select Agent Persona dynamically
         available_agents = get_available_agents(active_cli)
         agent_choice = ""
-        if available_agents:
-            print("\n🎭 Available Agent Personas:")
+        
+        # Universal entry point: Orchestrator
+        if "orchestrator" in available_agents:
+            agent_choice = "orchestrator"
+            print(f"\n🎭 Mode {choice} active: Routing via Orchestrator (Universal Gateway).")
+        elif available_agents:
+            print("\n🎭 Orchestrator persona not found. Available Agent Personas:")
             for idx, agent in enumerate(sorted(available_agents), 1):
                 print(f"[{idx}] {agent}")
             print("[0] Generic (Default Session)")
@@ -588,12 +673,66 @@ def start_engine() -> None:
         else:
             print("\n📡 Initiating Mission Sign-off Ritual...")
             signoff_script = osPathJoin(script_dir, "close_mission.py")
+            cancelled_exit = False
             if osPathExists(signoff_script):
-                subprocessRun([sysExecutable, signoff_script])
+                while True:
+                    result = subprocessRun([sysExecutable, signoff_script])
+                    if result.returncode != 0:
+                        print("\n🛑 MISSION SIGN-OFF BLOCKED DUE TO GOVERNANCE VIOLATIONS.")
+                        print("Options:")
+                        print("  [r] Retry: Run sign-off again.")
+                        print("  [i] Force ignore: Exit anyway, bypassing violations.")
+                        print("  [c] Cancel exit: Return to the main command loop menu.")
+                        user_choice = input("Choice: ").strip().lower()
+                        if user_choice == 'r':
+                            continue
+                        elif user_choice == 'i':
+                            print("⚠️ Bypassing governance violations. Exiting.")
+                            break
+                        elif user_choice == 'c':
+                            print("Returning to main menu.")
+                            cancelled_exit = True
+                            break
+                        else:
+                            print("Invalid option. Retrying sign-off by default.")
+                            continue
+                    else:
+                        break
+            if cancelled_exit:
+                continue
             print("👋 Squad resting. Mission concluded.")
             break
 
 # -----------------------------------------------------------------------------------------------
+
+def get_settings_paths():
+    paths = [osPathJoin(osPathExpanduser("~/.gemini"), "settings.json")]
+    if osName != "nt":
+        paths.append(osPathJoin(osPathExpanduser("~/Library/Application Support/Claude"), "claude_desktop_config.json"))
+    else:
+        paths.append(osPathJoin(osPathExpanduser("~/AppData/Roaming/Claude"), "claude_desktop_config.json"))
+    return paths
+
+def backup_settings():
+    for path in get_settings_paths():
+        if osPathExists(path):
+            try:
+                import shutil
+                shutil.copy2(path, path + ".bak")
+                print(f"📦 Created backup of {osPathBasename(path)}")
+            except Exception as e:
+                print(f"⚠️ Warning: Could not backup {path}: {e}")
+
+def restore_settings():
+    for path in get_settings_paths():
+        bak_path = path + ".bak"
+        if osPathExists(bak_path):
+            try:
+                import shutil
+                shutil.move(bak_path, path)
+                print(f"📦 Restored original {osPathBasename(path)} from backup")
+            except Exception as e:
+                print(f"⚠️ Warning: Could not restore {path}: {e}")
 
 if __name__ == "__main__":
     import argparse
@@ -607,8 +746,11 @@ if __name__ == "__main__":
         else:
             print("⚠️ Warning: --reset-rag was ignored because 08-RAG-Engine is not attached.")
 
+    backup_settings()
     try:
         start_engine()
     except KeyboardInterrupt:
         print("\n\n👋 Forced exit. Session terminated.")
+    finally:
+        restore_settings()
         sysExit(0)
