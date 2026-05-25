@@ -2,7 +2,7 @@
 microservice: obsidian-brain
 type: governance
 status: active
-active-protocol: '[[MODE-MANUAL#Mode-1]]'
+active-protocol: "[[MODE-MANUAL#Mode-1]]"
 lifecycle:
   active_branch: develop
   protected_branches:

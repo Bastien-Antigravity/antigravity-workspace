@@ -7,6 +7,8 @@ active-protocol: "[[MODE-MANUAL#Mode-1]]"
 tags:
 - '#service/obsidian-brain'
 - '#zone/3-fleet'
+- '#type/session-state'
+- '#state/active'
 ---
 ## 📡 FleetCommander Session (2026-05-24)
 - **Implemented** pre-task git checkpoint rules for Mode 1, Mode 2, and Mode 4.
