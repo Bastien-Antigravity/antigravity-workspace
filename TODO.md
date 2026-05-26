@@ -17,7 +17,7 @@ tags:
 
 ## 🏗️ Architecture & Refactoring
 - [x] Consolidate common BDD templates into a centralized `00-AI-Orchestration/Templates/` folder.
-- [ ] **Persona Extractor — Disabled (needs rework)**: The current AST/regex-based `persona_extractor.py` is disabled (`__main__` commented out). Needs a proper implementation — consider something like [hermes-agent](https://github.com/nousresearch/hermes-agent) for richer polyglot codebase context extraction.
+- [x] **Persona Extractor — ENABLED**: Patched and enabled as a background process in `start_squad.py`.
 
 ## ✅ Completed
 - [x] Initial structure for `02-Business-BDD`. (Now `business-bdd-brain`)
@@ -30,3 +30,4 @@ tags:
 - [x] Submodule URL correction (`.gitmodules` → new repo names).
 - [x] Integrated Preflight Check system (`Preflight-Check.py`).
 - [x] Standardized Business Data Models (MarketEvent, OHLCV, Signal) and migrated business services.
+- [x] Repair start_squad.py & Workflow Governance (Mission COMPLETED).

@@ -62,7 +62,11 @@ class Sovereignty:
 
     def _index_workspace(self):
         from os import walk as osWalk
-        exclude_dirs = {".git", ".obsidian", "experiments", "node_modules", ".venv", "venv", "08-RAG-Engine"}
+        exclude_dirs = {
+            ".git", ".obsidian", ".gemini", ".claude", ".codex", ".deepseek", 
+            "experiments", "node_modules", ".venv", "venv", "08-RAG-Engine",
+            "dist-packages", "site-packages", "__pycache__", "target", "build"
+        }
         for root, dirs, files in osWalk(self.workspace_root):
             # Prune directories in-place to avoid traversing ignored folders
             dirs[:] = [d for d in dirs if d not in exclude_dirs and not d.startswith(".")]
@@ -91,12 +95,16 @@ class Sovereignty:
     def log_error(self, message: str):
         self.errors.append(message)
         if self.current_file:
-            self.file_errors.setdefault(str(self.current_file), []).append(message)
+            # Normalize path for reporting
+            file_key = str(self.current_file)
+            self.file_errors.setdefault(file_key, []).append(message)
 
     def log_warning(self, message: str):
         self.warnings.append(message)
         if self.current_file:
-            self.file_warnings.setdefault(str(self.current_file), []).append(message)
+            # Normalize path for reporting
+            file_key = str(self.current_file)
+            self.file_warnings.setdefault(file_key, []).append(message)
 
     # --- Validation Methods ---
 

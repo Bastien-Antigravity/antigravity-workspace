@@ -23,6 +23,7 @@ if os.path.exists(_venv_python):
 
 from pathlib import Path
 from datetime import datetime, timedelta
+from subprocess import run as subprocessRun
 
 # Add lib directory to sys.path
 script_dir = Path(__file__).resolve().parent
@@ -64,6 +65,19 @@ def get_fleet_repositories(workspace_root: Path) -> list:
     except Exception as e:
         print(f"⚠️ Failed to load inventory.json: {e}")
         return []
+
+def is_branch_safe(repo_path: Path) -> bool:
+    """Verifies if the current branch is allowed for automatic synchronization."""
+    allowed_branches = ["main", "master", "develop", "dev"]
+    try:
+        result = subprocessRun(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=repo_path, capture_output=True, text=True, check=True
+        )
+        current_branch = result.stdout.strip()
+        return current_branch in allowed_branches
+    except Exception:
+        return False
 
 def main():
     print("\n" + "═"*60)
@@ -110,8 +124,6 @@ def main():
         
     dirty_repos = []
     all_hot_files = []
-    
-    from subprocess import run as subprocessRun
     
     for repo in repos_to_check:
         repo_name = repo["name"]
@@ -195,6 +207,18 @@ def main():
     print(f"  {metadata_icon} METADATA  : {'PASSED' if report['success'] else 'VIOLATED'}")
     print(f"  {state_icon} STATE LOG : {'SYNCED' if state_ok else 'MISSING'}")
     
+    # Detailed per-file reporting
+    if report["file_errors"] or report["file_warnings"]:
+        print("\n📂 DETAILED AUDIT REPORT:")
+        for file_path, errors in report["file_errors"].items():
+            print(f"  ❌ {Path(file_path).name}")
+            for err in errors:
+                print(f"     - {err}")
+        for file_path, warnings in report["file_warnings"].items():
+            print(f"  ⚠️  {Path(file_path).name}")
+            for warn in warnings:
+                print(f"     - {warn}")
+
     if report["success"] and state_ok:
         print("\n✨ VERDICT: MISSION ACCOMPLISHED")
         print("   The fleet remains synchronized and sovereign.")
@@ -214,6 +238,10 @@ def main():
             repo_name = repo["name"]
             repo_path = repo["path"]
             
+            if not is_branch_safe(repo_path):
+                print(f"   ⚠️  Skipped automatic push for '{repo_name}': Protected or unknown branch. Push manually.")
+                continue
+
             if repo["is_vault"]:
                 try:
                     print(f"   Syncing vault repository '{repo_name}'...")
@@ -245,7 +273,7 @@ def main():
         for err in engine.errors:
             print(f"   [!] {err}")
             
-    if report["warnings"]:
+    if report["warnings"] and not report["file_warnings"]: # Avoid duplicate if already shown in per-file
         print("\n💡 HYGIENE SUGGESTIONS:")
         for warn in report["warnings"]:
             print(f"   [~] {warn}")

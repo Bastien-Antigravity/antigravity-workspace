@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding:utf-8
+
 """
 ESSENTIAL PROCESS:
 Initializes the Bastien-Antigravity AI Squad Command Center. Handles MCP binding,
@@ -258,22 +259,22 @@ def run_preflight() -> None:
     """
     workspace_root = osPathAbspath(osPathJoin(script_dir, "..", ".."))
     
-    # Candidates for Preflight and Audit scripts
-    scripts = [
-        osPathJoin(workspace_root, "core-kms-brain", "Scripts", "Preflight-Check.py"),
-        osPathJoin(script_dir, "../07-Core-KMS/Scripts/Preflight-Check.py"),
-        osPathJoin(workspace_root, "core-kms-brain", "Scripts", "Brain-Health-Audit.py"),
-        osPathJoin(script_dir, "../07-Core-KMS/Scripts/Brain-Health-Audit.py")
-    ]
+    # Priority paths (07-Core-KMS is the standardized location)
+    governance_scripts = ["Preflight-Check.py", "Brain-Health-Audit.py"]
     
-    executed_names = set()
-    for script in scripts:
-        if osPathExists(script):
-            basename = osPathBasename(script)
-            if basename not in executed_names:
-                print(f"📡 Executing Governance Audit: {basename}...")
-                subprocessRun([sysExecutable, script])
-                executed_names.add(basename)
+    for script_name in governance_scripts:
+        standard_path = osPathJoin(script_dir, "../07-Core-KMS/Scripts", script_name)
+        legacy_path = osPathJoin(workspace_root, "core-kms-brain", "Scripts", script_name)
+        
+        target = None
+        if osPathExists(standard_path):
+            target = standard_path
+        elif osPathExists(legacy_path):
+            target = legacy_path
+            
+        if target:
+            print(f"📡 Executing Governance Audit: {script_name}...")
+            subprocessRun([sysExecutable, target])
 
 def check_session_health(mode_choice: str) -> None:
     """
@@ -395,6 +396,29 @@ def regenerate_agents() -> None:
     if osPathExists(convert_script):
         print("🔄 Synchronizing AI Squad Roles across adapters...")
         subprocessRun([sysExecutable, convert_script])
+
+def unlock_core_kms() -> None:
+    """
+    Restores write permissions to 07-Core-KMS to allow audits and updates.
+    """
+    vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    kms_dir = osPathJoin(vault_root, "07-Core-KMS")
+    if not osPathExists(kms_dir):
+        return
+    print("🔓 Restoring write permissions to 07-Core-KMS for audit phase...")
+    for root, dirs, files in os.walk(kms_dir):
+        for d in dirs:
+            dir_path = osPathJoin(root, d)
+            try:
+                os.chmod(dir_path, 0o755)
+            except Exception:
+                pass
+        for f in files:
+            file_path = osPathJoin(root, f)
+            try:
+                os.chmod(file_path, 0o644)
+            except Exception:
+                pass
 
 def protect_core_kms() -> None:
     """
@@ -547,6 +571,7 @@ def start_engine() -> None:
 
         # 1. Verification & Sync
         ensure_python_requirements()
+        unlock_core_kms()
         run_preflight()
         regenerate_agents()
         protect_core_kms()
