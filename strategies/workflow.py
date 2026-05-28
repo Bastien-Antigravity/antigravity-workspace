@@ -4,8 +4,9 @@
 import os
 import yaml
 from typing import List, Optional, Any
-from ..models.context import SystemContext
-from ..models.workflow import WorkflowSchema, WorkflowStep
+from src.models.context import SystemContext
+from src.models.workflow import WorkflowSchema, WorkflowStep
+from src.models.message import AgentMessage
 
 class WorkflowManager:
     """
@@ -55,8 +56,25 @@ class WorkflowManager:
             
         elif step.action == "prompt":
             print(f"🤖 [AI: {step.persona}] Processing prompt logic...")
-            # provider = facade.get_provider()
-            # ...
+            provider = facade.get_provider()
+            if not provider:
+                print("❌ Error: AI Provider not configured.")
+                return
+
+            persona_prompt = facade.personas.load_prompt(step.persona) or "You are a helpful assistant."
+            user_input = step.params.get("prompt", "Please proceed with the next step.")
+            
+            messages = [
+                AgentMessage(role="system", content=persona_prompt),
+                AgentMessage(role="user", content=user_input)
+            ]
+            
+            response = await provider.chat(messages)
+            print(f"\n💬 [AI Response ({step.persona})]:\n{response.content}\n")
+            
+            if facade.session_id:
+                facade.memory.store_message(facade.session_id, messages[-1])
+                facade.memory.store_message(facade.session_id, response)
             
         elif step.action == "shell":
             cmd = step.params.get("cmd")

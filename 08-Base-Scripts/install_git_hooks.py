@@ -25,25 +25,25 @@ def install_hooks():
 cd "$(dirname "$0")/../.."
 
 # Run RAG Indexer in the background
-if [ -f "./08-RAG-Engine/.venv/bin/python3" ]; then
-    PYTHONPATH="./08-RAG-Engine" ./08-RAG-Engine/.venv/bin/python3 ./08-RAG-Engine/main.py index > /dev/null 2>&1 &
-elif [ -f "./08-RAG-Engine/.venv/Scripts/python.exe" ]; then
-    PYTHONPATH="./08-RAG-Engine" ./08-RAG-Engine/.venv/Scripts/python.exe ./08-RAG-Engine/main.py index > /dev/null 2>&1 &
+if [ -f "./09-RAG-Engine/.venv/bin/python3" ]; then
+    PYTHONPATH="./09-RAG-Engine" ./09-RAG-Engine/.venv/bin/python3 ./09-RAG-Engine/main.py index > /dev/null 2>&1 &
+elif [ -f "./09-RAG-Engine/.venv/Scripts/python.exe" ]; then
+    PYTHONPATH="./09-RAG-Engine" ./09-RAG-Engine/.venv/Scripts/python.exe ./09-RAG-Engine/main.py index > /dev/null 2>&1 &
 elif [ -f "./.venv/bin/python3" ]; then
-    PYTHONPATH="./08-RAG-Engine" ./.venv/bin/python3 ./08-RAG-Engine/main.py index > /dev/null 2>&1 &
+    PYTHONPATH="./09-RAG-Engine" ./.venv/bin/python3 ./09-RAG-Engine/main.py index > /dev/null 2>&1 &
 elif [ -f "./.venv/Scripts/python.exe" ]; then
-    PYTHONPATH="./08-RAG-Engine" ./.venv/Scripts/python.exe ./08-RAG-Engine/main.py index > /dev/null 2>&1 &
+    PYTHONPATH="./09-RAG-Engine" ./.venv/Scripts/python.exe ./09-RAG-Engine/main.py index > /dev/null 2>&1 &
 else
-    PYTHONPATH="./08-RAG-Engine" python3 ./08-RAG-Engine/main.py index > /dev/null 2>&1 &
+    PYTHONPATH="./09-RAG-Engine" python3 ./09-RAG-Engine/main.py index > /dev/null 2>&1 &
 fi
 
 # Run Persona Extractor in the background
 if [ -f "./.venv/bin/python3" ]; then
-    ./.venv/bin/python3 ./20-Scripts/persona_extractor.py --daemon > /dev/null 2>&1 &
+    ./.venv/bin/python3 ./08-Base-Scripts/persona_extractor.py --daemon > /dev/null 2>&1 &
 elif [ -f "./.venv/Scripts/python.exe" ]; then
-    ./.venv/Scripts/python.exe ./20-Scripts/persona_extractor.py --daemon > /dev/null 2>&1 &
+    ./.venv/Scripts/python.exe ./08-Base-Scripts/persona_extractor.py --daemon > /dev/null 2>&1 &
 else
-    python3 ./20-Scripts/persona_extractor.py --daemon > /dev/null 2>&1 &
+    python3 ./08-Base-Scripts/persona_extractor.py --daemon > /dev/null 2>&1 &
 fi
 """
 

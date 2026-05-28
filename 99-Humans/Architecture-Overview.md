@@ -7,7 +7,8 @@ tags:
 - '#service/obsidian-brain'
 - '#type/architecture'
 - '#state/active'
-- role/human-onboarding
+- '#role/human-onboarding'
+- '#type/documentation'
 ---
 # 🌌 Bastien-Antigravity: Architecture Overview
 
@@ -83,7 +84,7 @@ The ecosystem is orchestrated by the **AI Squad**, managed through centralized s
 
 | Tool | Purpose | Key File |
 | :--- | :--- | :--- |
-| **Squad Orchestrator** | Launches the AI CLI with Protocol Modes. | `20-Scripts/start_squad.py` |
+| **Squad Orchestrator** | Launches the AI CLI with Protocol Modes. | `08-Base-Scripts/start_squad.py` |
 | **Fleet Commander** | Manages mass-repo commits, syncs, and branches. | `05-Fleet-Operation/00-Repo-Control/fleet-manager.py` |
 | **Strategic Oracle** | Analyzes logs to prevent architectural drift. | `01-Strategic-Nexus/` |
 | **DocMaintainer** | Enforces metadata standards and link health. | `07-Core-KMS/Role-Prompts/05-DocMaintainer/` |

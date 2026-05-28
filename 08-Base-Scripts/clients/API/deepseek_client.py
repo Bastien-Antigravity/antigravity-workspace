@@ -6,7 +6,7 @@ DeepSeek API client adapter for the Bastien-Antigravity ecosystem.
 Provides two operating modes:
   Mode 1 (Passthrough): Launches the standard CLI binary.
   Mode 2 (DeepSeek SDK): Interactive chat powered by DeepSeek API via OpenAI SDK,
-                         with MCP tool calling against the 08-RAG-Engine.
+                         with MCP tool calling against the 09-RAG-Engine.
 
 DATA FLOW:
 1. Input: User selects mode and optional agent persona.
@@ -62,7 +62,7 @@ SCRIPT_DIR = osPathAbspath(osPathJoin(CLIENTS_DIR, ".."))
 VAULT_ROOT = osPathAbspath(osPathJoin(SCRIPT_DIR, ".."))
 WORKSPACE_ROOT = osPathAbspath(osPathJoin(VAULT_ROOT, ".."))
 
-RAG_DIR = osPathJoin(VAULT_ROOT, "08-RAG-Engine")
+RAG_DIR = osPathJoin(VAULT_ROOT, "09-RAG-Engine")
 RAG_SERVER_SCRIPT = osPathJoin(RAG_DIR, "src", "core", "server.py")
 
 DEFAULT_MODEL = "deepseek-chat"
@@ -513,10 +513,10 @@ Examples:
   export DEEPSEEK_BASE_URL="https://api.deepseek.com"   # optional
   export DEEPSEEK_MODEL="deepseek-chat"                 # optional
 
-  python3 20-Scripts/clients/API/deepseek_client.py
-  python3 20-Scripts/clients/API/deepseek_client.py --mode 2
-  python3 20-Scripts/clients/API/deepseek_client.py --mode 2 developer
-  python3 20-Scripts/clients/API/deepseek_client.py --mode 1 oracle
+  python3 08-Base-Scripts/clients/API/deepseek_client.py
+  python3 08-Base-Scripts/clients/API/deepseek_client.py --mode 2
+  python3 08-Base-Scripts/clients/API/deepseek_client.py --mode 2 developer
+  python3 08-Base-Scripts/clients/API/deepseek_client.py --mode 1 oracle
         """
     )
     parser.add_argument("agent", nargs="?", default="", help="Agent persona name (e.g. developer, architect, oracle)")

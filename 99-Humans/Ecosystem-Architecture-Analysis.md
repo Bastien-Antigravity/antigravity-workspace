@@ -31,7 +31,7 @@ The Obsidian Vault utilizes a strict double-digit prefix system to enforce segre
 | `06-Microservices` | Service hub files detailing microservice states, APIs, and schemas. | **Active** | Excluded in Mode 2. |
 | `07-Core-KMS` | Role prompts, workflows, and core audit/dispatcher scripts. | **Governance / Rules** | Excluded from editing by AI. |
 | `10-State-and-Tasks` | Task inbox (foundry) and task state boards. | **Active** | Read/write allowed. |
-| `20-Scripts` | Core automation, launchers, and local orchestration scripts. | **Ecosystem Automation** | Hidden from AI processes (Global Exclude). |
+| `08-Base-Scripts` | Core automation, launchers, and local orchestration scripts. | **Ecosystem Automation** | Hidden from AI processes (Global Exclude). |
 | `99-Humans` | Operator onboarding files, manual testing logs, sprint dashboards. | **Human-Only** | Globally ignored via `#ai/ignore` and RAG exclusions. |
 
 ---
@@ -60,7 +60,7 @@ graph TD
 
 ## 🛡️ 3. Core Governance Engine: `Sovereignty`
 
-Located in `20-Scripts/lib/sovereignty.py`, this class provides the central logic for auditing and fixing files. It is imported by the Sentinel, Fleet Commander, and Preflight checks to guarantee zero metadata drift.
+Located in `08-Base-Scripts/lib/sovereignty.py`, this class provides the central logic for auditing and fixing files. It is imported by the Sentinel, Fleet Commander, and Preflight checks to guarantee zero metadata drift.
 
 ### A. Tag Taxonomy Enforcement
 The system checks if a file possesses a valid `#type/` and `#state/` tag, validating them against `07-Core-KMS/tag_taxonomy.md`.
@@ -84,7 +84,7 @@ The `active_mode` variable in `00-AI-Orchestration/MODE-MANUAL.md` controls the 
 - **Mode 3: Fleet-Commander**: Git sync across repos. Reads code, no md read.
 - **Mode 4: Direct-Action**: Bypasses RAG locks; full access.
 
-- **State Sync**: `20-Scripts/switch_mode.py` updates the active mode header in `00-AI-Orchestration/AI-Session-State.md` and instructs the RAG server to swap its active directory exclusion lists to protect restricted zones.
+- **State Sync**: `08-Base-Scripts/switch_mode.py` updates the active mode header in `00-AI-Orchestration/AI-Session-State.md` and instructs the RAG server to swap its active directory exclusion lists to protect restricted zones.
 
 ---
 
@@ -116,7 +116,7 @@ A cleanup script that purges stale `AI-Session-State.md` files (older than 30 da
 
 ---
 
-## 🔌 6. Sovereign RAG Engine (`08-RAG-Engine`)
+## 🔌 6. Sovereign RAG Engine (`09-RAG-Engine`)
 
 A local, offline vector search and permission control layer that runs as an MCP Server.
 

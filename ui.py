@@ -8,16 +8,34 @@ Powered by Chainlit and the Exposed Strategy Engine.
 
 import os
 import sys
-import chainlit as cl
 
 # --- Virtual Environment Bootstrap ---
 _vault_root = os.path.dirname(os.path.abspath(__file__))
 if _vault_root not in sys.path:
     sys.path.append(_vault_root)
 
+# Resolve venv by walking up (parity with main.py)
+_venv_dir = _vault_root
+while _venv_dir and _venv_dir != os.path.dirname(_venv_dir) and not os.path.exists(os.path.join(_venv_dir, ".venv")):
+    _venv_dir = os.path.dirname(_venv_dir)
+
+_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
+
+def bootstrap():
+    if os.path.exists(_venv_python):
+        try:
+            if not os.path.samefile(sys.executable, _venv_python):
+                os.execl(_venv_python, _venv_python, *sys.argv)
+        except (OSError, ValueError):
+            pass
+
+bootstrap()
+
+import chainlit as cl
+
 try:
-    from src.squad import SquadFacade
-    from src.models.message import MSquadMessage
+    from src import EngineFacade as SquadFacade
+    from src.models.message import AgentMessage
 except ImportError:
     print("❌ Error: Could not import Squad Core. Ensure you are running from the vault root.")
     sys.exit(1)
@@ -27,7 +45,7 @@ facade = SquadFacade(_vault_root)
 @cl.on_chat_start
 async def start():
     # 1. Run Pre-session rituals (Strategy: Pre-treatment)
-    facade.rituals.run_preflight()
+    facade.governance.run_preflight()
     facade.mcp.configure_mcp()
     
     # 2. Initialize Memory Session
@@ -48,31 +66,42 @@ async def start():
 @cl.on_message
 async def main(message: cl.Message):
     f = cl.user_session.get("facade")
-    provider = f.get_provider()
     
+    # 1. Validate Provider
+    provider = f.get_provider()
     if not provider:
-        await cl.Message(content="❌ Error: AI Provider not configured. Check your API keys.").send()
+        await cl.Message(content="❌ AI Provider not configured. Check your API keys.").send()
         return
 
-    # Strategy: Persona Selection
-    persona_prompt = f.personas.load_prompt("orchestrator") or "You are a helpful assistant."
+    # 2. Add user message to memory
+    user_msg = AgentMessage(role="user", content=message.content)
+    f.memory.store_message(f.session_id, user_msg)
     
+    # 3. Prepare Prompt Logic (Strategy: Persona Selection)
+    persona = "orchestrator"  # Default for UI
+    system_prompt = f.personas.load_prompt(persona) or "You are a helpful assistant."
+    
+    # Retrieve history from SQLite
     history = f.memory.get_session_history(f.session_id)
     
-    msgs = [MSquadMessage(role="system", content=persona_prompt)] + history
-    msgs.append(MSquadMessage(role="user", content=message.content))
-    
-    f.memory.store_message(f.session_id, msgs[-1])
+    # Construct message list for provider
+    messages = [AgentMessage(role="system", content=system_prompt)] + history
 
-    thought_msg = cl.Message(content="")
-    await thought_msg.send()
+    # 4. Execute LLM Completion
+    # We send an empty message first to show the user we are working
+    response_msg_cl = cl.Message(content="")
+    await response_msg_cl.send()
     
-    # SDK execution
-    response_msg = await provider.chat(msgs)
+    response = await provider.chat(messages)
     
-    if response_msg.thought:
+    # Handle Reasoning/Thought if present
+    if response.thought:
         async with cl.Step(name="Reasoning") as step:
-            step.output = response_msg.thought
+            step.output = response.thought
     
-    await cl.Message(content=response_msg.content).send()
-    f.memory.store_message(f.session_id, response_msg)
+    # 5. Save assistant response to memory
+    f.memory.store_message(f.session_id, response)
+    
+    # 6. Update UI with final response
+    response_msg_cl.content = response.content
+    await response_msg_cl.update()

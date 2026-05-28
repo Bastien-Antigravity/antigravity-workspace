@@ -10,6 +10,12 @@ tags:
 - '#type/session-state'
 - '#state/active'
 ---
+## 📡 Gemini CLI Session (2026-05-28)
+- **Implemented** 'Mode Guardrail' in `SystemContext` and `GovernanceManager` to ensure sessions are correctly parked.
+- **Implemented** 'Knowledge Compression Script' (`20-Scripts/knowledge-compressor.py`) to distill session logs into actionable patterns.
+- **Verified** `main.py` virtual environment auto-execution logic.
+- **Updated** `TODO.md` to reflect completed governance gaps.
+
 ## 📡 FleetCommander Session (2026-05-27)
 - **Synchronized** entire fleet (29 repositories) using local git credentials.
 - **Restored** missing repositories (`demo-surface-vol`, `mt5-gateway`, `ontime-scheduler`) across the fleet.

@@ -6,7 +6,7 @@ import sys
 import json
 import subprocess
 from typing import List, Tuple
-from ..models.context import SystemContext
+from src.models.context import SystemContext
 
 class GovernanceManager:
     """
@@ -38,9 +38,20 @@ class GovernanceManager:
 
     def check_session_health(self) -> bool:
         """
-        Checks for uncommitted changes across the fleet.
+        Checks for uncommitted changes across the fleet and verifies mission parking.
         Returns False if a strict block (Mode 3) is triggered.
         """
+        # 1. Mode Guardrail: Ensure previous mission is parked
+        if self.ctx.mission_status == "active":
+            print(f"\n⚠️  MODE GUARDRAIL: Active Mission Detected ({self.ctx.mission_id})")
+            if self.ctx.active_mode in ["1", "3"]:
+                print(f"In Mode {self.ctx.active_mode}, you MUST park the current mission before starting a new one.")
+                confirm = input("Park current mission automatically? [y/N]: ").lower().strip()
+                if confirm == 'y':
+                    self.ctx.park_mission()
+                else:
+                    return False
+
         repos_to_check = []
         
         # Load fleet from inventory
@@ -130,7 +141,7 @@ class GovernanceManager:
 
     def run_signoff(self) -> bool:
         """Executes the close_task.py sign-off."""
-        signoff_script = os.path.join(self.ctx.vault_root, "20-Scripts/close_task.py")
+        signoff_script = os.path.join(self.ctx.vault_root, "08-Base-Scripts/close_task.py")
         if not os.path.exists(signoff_script):
             return True
             

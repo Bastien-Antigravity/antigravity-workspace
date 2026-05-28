@@ -22,7 +22,7 @@
 	path = 01-Strategic-Nexus
 	url = https://github.com/Bastien-Antigravity/nexus-strategic-brain.git
 	branch = develop
-[submodule "08-RAG-Engine"]
-	path = 08-RAG-Engine
+[submodule "09-RAG-Engine"]
+	path = 09-RAG-Engine
 	url = https://github.com/Bastien-Antigravity/obsidian-rag-mcp.git
 	branch = develop

@@ -6,7 +6,7 @@ import sqlite3
 import json
 from datetime import datetime
 from typing import List, Optional
-from ..models.message import AgentMessage
+from src.models.message import AgentMessage
 
 class MemoryManager:
     """
@@ -61,6 +61,10 @@ class MemoryManager:
                     json.dumps(msg.tool_calls) if msg.tool_calls else None
                 )
             )
+
+    def add_message(self, session_id: int, role: str, content: str, thought: Optional[str] = None):
+        """Convenience method to store a simple message."""
+        self.store_message(session_id, AgentMessage(role=role, content=content, thought=thought))
 
     def get_session_history(self, session_id: int) -> List[AgentMessage]:
         messages = []

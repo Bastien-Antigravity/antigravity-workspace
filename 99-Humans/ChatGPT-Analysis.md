@@ -48,7 +48,7 @@ The vault serves four primary functions.
 
 4. **Knowledge retrieval**
 
-   `08-RAG-Engine` implements a local MCP server and vector index so AI tools can query the vault semantically instead of reading large numbers of Markdown files directly. This is designed to reduce token usage and keep AI work grounded in the current vault.
+   `09-RAG-Engine` implements a local MCP server and vector index so AI tools can query the vault semantically instead of reading large numbers of Markdown files directly. This is designed to reduce token usage and keep AI work grounded in the current vault.
 
 ## How The Folder Is Organized
 
@@ -64,8 +64,8 @@ The structure follows a numbered knowledge architecture.
 | `05-Fleet-Operation` | Fleet inventory, action plans, deployment logs, CI/CD standards |
 | `06-Microservices` | Operational hub pages for each service |
 | `07-Core-KMS` | Agent prompts, workflows, tag taxonomy, knowledge-management rules |
-| `08-RAG-Engine` | Local semantic search and MCP bridge for AI agents |
-| `20-Scripts` | Automation scripts for squad startup, mode switching, audits, scaffolding |
+| `09-RAG-Engine` | Local semantic search and MCP bridge for AI agents |
+| `08-Base-Scripts` | Automation scripts for squad startup, mode switching, audits, scaffolding |
 | `99-Humans` | Human-facing dashboards, explanations, and onboarding material |
 
 There are also Obsidian configuration files under `.obsidian`, AI-agent integration folders such as `.gemini` and `.deepseek`, virtual environments, and Git metadata.
@@ -121,11 +121,11 @@ The intended interaction model is delegation: the human asks the appropriate age
 
 The most important automation entry points are:
 
-- `20-Scripts/start_squad.py`
-- `20-Scripts/switch_mode.py`
-- `20-Scripts/vault-sentinel.py`
+- `08-Base-Scripts/start_squad.py`
+- `08-Base-Scripts/switch_mode.py`
+- `08-Base-Scripts/vault-sentinel.py`
 - `05-Fleet-Operation/00-Repo-Control/fleet-manager.py`
-- `08-RAG-Engine/main.py`
+- `09-RAG-Engine/main.py`
 
 ### `start_squad.py`
 
@@ -152,11 +152,11 @@ It keeps the mode manual and session-state protocol aligned.
 
 ### `vault-sentinel.py`
 
-This script audits Markdown files for tag taxonomy and Obsidian link coherence. It uses `20-Scripts/lib/sovereignty.py` and the taxonomy source in `07-Core-KMS/tag_taxonomy.md`.
+This script audits Markdown files for tag taxonomy and Obsidian link coherence. It uses `08-Base-Scripts/lib/sovereignty.py` and the taxonomy source in `07-Core-KMS/tag_taxonomy.md`.
 
 It can also repair malformed frontmatter tags when run with `--fix`.
 
-### `08-RAG-Engine`
+### `09-RAG-Engine`
 
 The RAG engine provides a local MCP server over stdio. It indexes the workspace into ChromaDB using local embeddings and exposes tools such as:
 
@@ -224,9 +224,9 @@ The folder currently contains mostly Markdown and Python outside of virtual envi
 The Git working tree had pre-existing uncommitted changes at the time of this analysis:
 
 - modified `.obsidian/workspace.json`;
-- modified `20-Scripts/convert_agents.py`;
+- modified `08-Base-Scripts/convert_agents.py`;
 - untracked `.deepseek/`;
-- untracked `20-Scripts/clients/API/deepseek_client.py`.
+- untracked `08-Base-Scripts/clients/API/deepseek_client.py`.
 
 Those items were not modified by this analysis.
 
@@ -257,11 +257,11 @@ For a human operator:
 2. Check the active mode in `00-AI-Orchestration/MODE-MANUAL.md`.
 3. Read `AI-Session-State.md` before continuing previous work.
 4. Use `99-Humans` for simplified dashboards and explanations.
-5. Use `20-Scripts/start_squad.py` when launching the intended AI squad workflow.
+5. Use `08-Base-Scripts/start_squad.py` when launching the intended AI squad workflow.
 6. Use `02-Business-BDD` before changing stable product behavior.
 7. Use `04-Rapid-Prototyping` for experiments.
 8. Use `05-Fleet-Operation` for multi-repo work.
-9. Use `08-RAG-Engine` when AI context retrieval needs to be semantic and token-efficient.
+9. Use `09-RAG-Engine` when AI context retrieval needs to be semantic and token-efficient.
 
 ## Bottom Line
 

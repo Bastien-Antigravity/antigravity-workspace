@@ -67,7 +67,7 @@ def main() -> None:
         "05-Fleet-Operation",
         "06-Microservices",
         "07-Core-KMS/Role-Prompts",
-        "20-Scripts",
+        "08-Base-Scripts",
         "99-Humans"
     ]
     
@@ -79,7 +79,7 @@ def main() -> None:
     
     print("🧬 Copying AI Squad DNA...")
     shutilCopytree(current_dir / "07-Core-KMS/Role-Prompts", target_path / "07-Core-KMS/Role-Prompts", dirs_exist_ok=True)
-    shutilCopytree(current_dir / "20-Scripts", target_path / "20-Scripts", dirs_exist_ok=True)
+    shutilCopytree(current_dir / "08-Base-Scripts", target_path / "08-Base-Scripts", dirs_exist_ok=True)
 
     # 3. Create Template Files
     print("📝 Generating Project Compass...")
@@ -167,10 +167,10 @@ status: active
 
     # 5. Run Agent Conversion in the new project
     print("🤖 Baking the AI Squad into the new ecosystem...")
-    subprocessRun([sysExecutable, "20-Scripts/convert_agents.py"], cwd=target_path)
+    subprocessRun([sysExecutable, "08-Base-Scripts/convert_agents.py"], cwd=target_path)
 
     print(f"\n✅ SUCCESS! Your new Command Center is ready at: {target_path.absolute()}")
-    print(f"👉 To start: cd {target_path} && {sysExecutable} 20-Scripts/start_squad.py\n")
+    print(f"👉 To start: cd {target_path} && {sysExecutable} 08-Base-Scripts/start_squad.py\n")
 
 # -----------------------------------------------------------------------------------------------
 

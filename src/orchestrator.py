@@ -6,15 +6,14 @@ import sys
 import asyncio
 import subprocess
 from typing import Optional, Any
-from ..models.context import SystemContext, MODES
-from ..core.governance import GovernanceManager
-from ..managers.persona import PersonaManager
-from ..core.mcp import MCPManager
-from ..core.security import AccessController
-from ..core.memory import MemoryManager
-from ..strategies.workflow import WorkflowManager
-from ..providers.factory import LLMProviderFactory
-from ..interfaces.llm import ILLMProvider
+from src.models.context import SystemContext, MODES
+from src.core.governance import GovernanceManager
+from src.managers.persona import PersonaManager
+from src.core.mcp import MCPManager
+from src.core.security import AccessController
+from src.core.memory import MemoryManager
+from src.providers.factory import LLMProviderFactory
+from src.interfaces.llm import ILLMProvider
 
 class EngineFacade:
     """
@@ -22,6 +21,9 @@ class EngineFacade:
     Ties together Context, Governance, Personas, MCP, Security, Memory, and Workflows.
     """
     def __init__(self, vault_root: str):
+        # Delayed import to break circular dependency with strategies.workflow -> src.models.context -> src init
+        from strategies.workflow import WorkflowManager
+        
         workspace_root = os.path.abspath(os.path.join(vault_root, ".."))
         self.ctx = SystemContext(vault_root, workspace_root)
         self.governance = GovernanceManager(self.ctx)
@@ -110,28 +112,24 @@ class EngineFacade:
     def print_mission_help(self) -> None:
         """Displays ASCII cheat sheets and guidelines."""
         try:
-            # Add scripts directory to sys.path temporarily to import MissionHelper
-            scripts_dir = os.path.join(self.ctx.vault_root, "20-Scripts-new")
-            if scripts_dir not in sys.path:
-                sys.path.append(scripts_dir)
-            from engine_help import MissionHelper
+            from tools.mission_help import MissionHelper
             helper = MissionHelper()
             helper.print_cheat_sheet()
-        except ImportError:
-            print("\n💡 Tip: Use 'Mission Planning' for complex task delegation.")
+        except ImportError as e:
+            print(f"\n💡 Tip: Use 'Mission Planning' for complex task delegation. (Debug: {e})")
 
     def check_rag_attached(self) -> bool:
-        """Returns True if the 08-RAG-Engine and its server.py exist."""
-        rag_dir = os.path.join(self.ctx.vault_root, "08-RAG-Engine")
+        """Returns True if the 09-RAG-Engine and its server.py exist."""
+        rag_dir = os.path.join(self.ctx.vault_root, "09-RAG-Engine")
         rag_server_script = os.path.join(rag_dir, "src", "core", "server.py")
         return os.path.exists(rag_dir) and os.path.exists(rag_server_script)
 
     def reset_rag_index(self) -> None:
         """Resets and rebuilds ChromaDB RAG index."""
-        rag_dir = os.path.join(self.ctx.vault_root, "08-RAG-Engine")
+        rag_dir = os.path.join(self.ctx.vault_root, "09-RAG-Engine")
         rag_main_script = os.path.join(rag_dir, "main.py")
         if not os.path.exists(rag_main_script):
-            print("❌ Error: 08-RAG-Engine/main.py not found.")
+            print("❌ Error: 09-RAG-Engine/main.py not found.")
             return
 
         local_venv = os.path.join(rag_dir, ".venv")
@@ -144,9 +142,9 @@ class EngineFacade:
 
     def extract_personas(self) -> None:
         """Spawns persona_extractor.py context-gathering engine in the background."""
-        persona_script = os.path.join(self.ctx.vault_root, "20-Scripts-new", "persona_extractor.py")
+        persona_script = os.path.join(self.ctx.vault_root, "08-Base-Scripts-new", "persona_extractor.py")
         if not os.path.exists(persona_script):
-            persona_script = os.path.join(self.ctx.vault_root, "20-Scripts", "persona_extractor.py")
+            persona_script = os.path.join(self.ctx.vault_root, "08-Base-Scripts", "persona_extractor.py")
 
         if not os.path.exists(persona_script):
             print("❌ Error: persona_extractor.py not found.")

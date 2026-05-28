@@ -5,7 +5,7 @@ The system dynamically loads agent personalities from `07-Core-KMS/Role-Prompts`
 Instead of manual conversion, the **`PersonaManager`** reads markdown files directly and injects the mandatory **[SCAN]** restoration block for context integrity.
 
 ## 📡 RAG Integration
-The **08-RAG-Engine** is connected via the **Model Context Protocol (MCP)**.
+The **09-RAG-Engine** is connected via the **Model Context Protocol (MCP)**.
 *   **Automatic Registration**: The `MCPManager` detects the RAG server and registers it in your AI client settings (`settings.json`).
 *   **Firewall Isolation**: Based on the active Mode (1-4), the `MCPManager` dynamically restricts which folders are visible to the agent, providing a first layer of hardware-level isolation.
 

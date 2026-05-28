@@ -40,7 +40,7 @@ CLIENTS: Dict[str, Dict[str, str]] = {
     "deepseek": {
         "label": "DeepSeek",
         "kind": "api",
-        "script": "20-Scripts/clients/API/deepseek_client.py",
+        "script": "08-Base-Scripts/clients/API/deepseek_client.py",
         "agents_dir": ".deepseek/agents",
         "env_key": "DEEPSEEK_API_KEY",
     },

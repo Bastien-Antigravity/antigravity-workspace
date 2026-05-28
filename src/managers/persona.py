@@ -4,7 +4,7 @@
 import os
 import re
 from typing import List, Dict, Optional
-from ..models.context import SystemContext
+from src.models.context import SystemContext
 
 class PersonaManager:
     """
@@ -87,7 +87,7 @@ To prevent context degradation, you MUST begin EVERY single response with the fo
 
     def sync_to_adapters(self) -> None:
         """Triggers the legacy convert_agents.py for CLI compatibility."""
-        convert_script = os.path.join(self.ctx.vault_root, "20-Scripts/convert_agents.py")
+        convert_script = os.path.join(self.ctx.vault_root, "08-Base-Scripts/convert_agents.py")
         if os.path.exists(convert_script):
             import subprocess
             import sys

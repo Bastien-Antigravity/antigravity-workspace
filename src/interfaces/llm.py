@@ -3,7 +3,7 @@
 
 from abc import ABC, abstractmethod
 from typing import List, Optional, Any, Iterable
-from ..models.message import AgentMessage
+from src.models.message import AgentMessage
 
 class ILLMProvider(ABC):
     """

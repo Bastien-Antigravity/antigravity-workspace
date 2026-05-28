@@ -31,6 +31,10 @@ class SystemContext:
     session_root_file: str = field(init=False)
     inventory_file: str = field(init=False)
     
+    # State
+    mission_status: str = "parked"
+    mission_id: str = "NONE"
+    
     def __post_init__(self):
         self.orchestration_dir = os.path.join(self.vault_root, "00-AI-Orchestration")
         self.mode_file = os.path.join(self.orchestration_dir, "MODE-MANUAL.md")
@@ -43,6 +47,7 @@ class SystemContext:
         """Reloads state from the markdown files to ensure parity."""
         self.active_mode = self._read_mode()
         self.active_client = self._read_active_client()
+        self.mission_status, self.mission_id = self._read_mission_state()
 
     def _read_mode(self) -> str:
         if not os.path.exists(self.mode_file):
@@ -55,6 +60,23 @@ class SystemContext:
         except Exception:
             pass
         return "4"
+
+    def _read_mission_state(self) -> Tuple[str, str]:
+        status, mid = "parked", "NONE"
+        target = self.session_orch_file if os.path.exists(self.session_orch_file) else self.session_root_file
+        if not os.path.exists(target):
+            return status, mid
+            
+        try:
+            with open(target, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.startswith("status:"):
+                        status = line.split(":")[1].strip()
+                    if line.startswith("Mission-ID:"):
+                        mid = line.split(":")[1].strip()
+        except Exception:
+            pass
+        return status, mid
 
     def _read_active_client(self) -> str:
         client = "gemini"
@@ -95,6 +117,23 @@ class SystemContext:
         self._update_file_field(self.session_root_file, field_pattern, replacement)
         
         self.active_mode = choice
+        return True
+
+    def park_mission(self) -> bool:
+        """Sets mission status to 'parked' in all governance files."""
+        self._update_file_field(self.session_orch_file, r"status:\s*\w+", "status: parked")
+        self._update_file_field(self.session_root_file, r"status:\s*\w+", "status: parked")
+        self.mission_status = "parked"
+        return True
+
+    def start_mission(self, mission_id: str) -> bool:
+        """Sets mission status to 'active' and updates Mission-ID."""
+        self._update_file_field(self.session_orch_file, r"status:\s*\w+", "status: active")
+        self._update_file_field(self.session_root_file, r"status:\s*\w+", "status: active")
+        self._update_file_field(self.session_orch_file, r"Mission-ID:\s*.*", f"Mission-ID: {mission_id}")
+        self._update_file_field(self.session_root_file, r"Mission-ID:\s*.*", f"Mission-ID: {mission_id}")
+        self.mission_status = "active"
+        self.mission_id = mission_id
         return True
 
     def _update_file_field(self, file_path: str, pattern: str, replacement: str) -> bool:

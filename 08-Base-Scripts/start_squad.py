@@ -3,11 +3,11 @@
 
 """
 ESSENTIAL PROCESS:
-Initializes the Bastien-Antigravity AI Engine Command Center. Handles MCP binding,
+Initializes the Bastien-Antigravity AI Squad Command Center. Handles MCP binding,
 pre-session audits, role synchronization, and launches the selected AI client.
 
 DATA FLOW:
-1. Performs Preflight and Governance audits to detect architecture drift.
+1. Performs Preflight and Sovereignty audits to detect architecture drift.
 2. Synchronizes Role-Prompts to agent definitions (convert_agents.py).
 3. Invokes the Mode Selector and applies the protocol (switch_mode.py).
 4. Configures the MCP server-filesystem based on mode isolation rules.
@@ -42,12 +42,15 @@ from os.path import abspath as osPathAbspath, join as osPathJoin, dirname as osP
 
 # Add current directory to sys.path to enable library imports
 script_dir = osPathDirname(osPathAbspath(__file__))
+vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
 if script_dir not in sysPath:
     sysPath.append(script_dir)
+if vault_root not in sysPath:
+    sysPath.append(vault_root)
 
 try:
     from switch_mode import get_mode_choice_interactive, apply_mode_protocol, MODES
-    from mission_help import MissionHelper
+    from tools.mission_help import MissionHelper
     from clients.registry import (
         DEFAULT_CLIENT,
         build_launch_command,
@@ -58,7 +61,7 @@ try:
         normalize_client,
     )
 except ImportError:
-    print("❌ Error: Could not find required launcher modules in 20-Scripts/")
+    print("❌ Error: Could not find required launcher modules in 08-Base-Scripts/")
     sysExit(1)
 
 # Standardize terminal output encoding for Windows
@@ -101,7 +104,7 @@ def ensure_python_requirements() -> None:
     """
     Ensures the vault-level Python dependencies are installed in the active venv.
     This covers launcher/runtime dependencies such as PyYAML, OpenAI SDK, MCP client,
-    and python-dotenv. RAG-specific dependencies remain managed by 08-RAG-Engine.
+    and python-dotenv. RAG-specific dependencies remain managed by 09-RAG-Engine.
     """
     requirements_path = osPathAbspath(osPathJoin(script_dir, "..", "requirements.txt"))
     if not osPathExists(requirements_path):
@@ -135,7 +138,7 @@ def setup_mcp(mode_choice: str) -> None:
     workspace_root = osPathAbspath(osPathJoin(vault_root, ".."))
     
     # 1. Check if RAG Engine option is available
-    rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
+    rag_dir = osPathJoin(vault_root, "09-RAG-Engine")
     rag_server_script = osPathJoin(rag_dir, "src", "core", "server.py")
     has_rag = osPathExists(rag_dir) and osPathExists(rag_server_script)
     
@@ -144,14 +147,14 @@ def setup_mcp(mode_choice: str) -> None:
     
     if has_rag:
         # Determine the Python virtual environment path dynamically:
-        # 1. If local 08-RAG-Engine/.venv exists, use it (contains specific RAG packages).
+        # 1. If local 09-RAG-Engine/.venv exists, use it (contains specific RAG packages).
         # 2. Otherwise, fallback to the central obsidian-brain/.venv.
         local_venv = osPathJoin(rag_dir, ".venv")
         local_python = osPathJoin(local_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(local_venv, "bin", "python3")
         
         if osPathExists(local_python):
             resolved_python = local_python
-            print(f"📡 RAG using local 08-RAG-Engine virtual environment: {resolved_python}")
+            print(f"📡 RAG using local 09-RAG-Engine virtual environment: {resolved_python}")
         else:
             parent_venv = osPathJoin(vault_root, ".venv")
             parent_python = osPathJoin(parent_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(parent_venv, "bin", "python3")
@@ -162,7 +165,7 @@ def setup_mcp(mode_choice: str) -> None:
             "command": resolved_python,
             "args": [rag_server_script],
             "env": {
-                "ENGINE_ACTIVE_MODE": str(mode_choice),
+                "SQUAD_ACTIVE_MODE": str(mode_choice),
                 "PYTHONPATH": rag_dir
             }
         }
@@ -279,7 +282,7 @@ def run_preflight() -> None:
 def check_session_health(mode_choice: str) -> None:
     """
     Checks if there are uncommitted changes across the entire fleet from a previous session.
-    Enforces mode-specific rules for unclosed tasks.
+    Enforces mode-specific rules for unclosed missions.
     """
     workspace_root = osPathAbspath(osPathJoin(script_dir, "..", ".."))
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
@@ -351,13 +354,13 @@ def check_session_health(mode_choice: str) -> None:
         if mode_choice == "3":
             # Mode 3 - Strict Block
             print("\n" + "🛑"*30)
-            print("🛑 CRITICAL GOVERNANCE VIOLATION: UNCLOSED TASK DETECTED")
+            print("🛑 CRITICAL GOVERNANCE VIOLATION: UNCLOSED MISSION DETECTED")
             print("="*60)
             print("The following repositories have uncommitted changes:")
             for repo_name, count in dirty_repos_info:
                 print(f"  - {repo_name} ({count} file(s) dirty)")
             print("\nIn Mode 3 (Fleet-Commander), startup is STRICTLY BLOCKED to prevent multi-repository drift.")
-            print("Please run 'python3 ./obsidian-brain/20-Scripts/close_mission.py' to verify and sign-off.")
+            print("Please run 'python3 ./obsidian-brain/08-Base-Scripts/close_mission.py' to verify and sign-off.")
             print("="*60)
             print("🛑"*30 + "\n")
             print("👋 Session should be aborted...")
@@ -365,19 +368,19 @@ def check_session_health(mode_choice: str) -> None:
         elif mode_choice == "1":
             # Mode 1 - Big warning with confirmation
             print("\n" + "⚠️"*30)
-            print("⚠️  WARNING: UNCLOSED TASK DETECTED")
+            print("⚠️  WARNING: UNCLOSED MISSION DETECTED")
             print("="*60)
             print("The following repositories have uncommitted changes:")
             for repo_name, count in dirty_repos_info:
                 print(f"  - {repo_name} ({count} file(s) dirty)")
             print("\nRunning in Mode 1 (Spec-First) with uncommitted changes can lead to state drift and integrity issues.")
-            print("It is highly recommended to run 'python3 ./obsidian-brain/20-Scripts/close_mission.py' first.")
+            print("It is highly recommended to run 'python3 ./obsidian-brain/08-Base-Scripts/close_mission.py' first.")
             print("="*60)
             print("⚠️"*30 + "\n")
             
             confirm = input("Ignore and start session anyway? [y/N]: ").lower().strip()
             if confirm != 'y':
-                print("👋 Session aborted. Please close the previous task first.")
+                print("👋 Session aborted. Please close the previous mission first.")
                 sysExit(0)
                 
         elif mode_choice == "2":
@@ -394,7 +397,7 @@ def regenerate_agents() -> None:
     """
     convert_script = osPathJoin(script_dir, "convert_agents.py")
     if osPathExists(convert_script):
-        print("🔄 Synchronizing AI Engine Roles across adapters...")
+        print("🔄 Synchronizing AI Squad Roles across adapters...")
         subprocessRun([sysExecutable, convert_script])
 
 def unlock_core_kms() -> None:
@@ -445,9 +448,9 @@ def protect_core_kms() -> None:
                 pass
 
 def check_rag_attached() -> bool:
-    """Returns True if the 08-RAG-Engine and its server.py exist."""
+    """Returns True if the 09-RAG-Engine and its server.py exist."""
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
-    rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
+    rag_dir = osPathJoin(vault_root, "09-RAG-Engine")
     rag_server_script = osPathJoin(rag_dir, "src", "core", "server.py")
     return osPathExists(rag_dir) and osPathExists(rag_server_script)
 
@@ -457,11 +460,11 @@ def reset_rag_index() -> None:
     Resolves the RAG virtual environment python executable and runs main.py index --reset.
     """
     vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
-    rag_dir = osPathJoin(vault_root, "08-RAG-Engine")
+    rag_dir = osPathJoin(vault_root, "09-RAG-Engine")
     rag_main_script = osPathJoin(rag_dir, "main.py")
     
     if not osPathExists(rag_main_script):
-        print("❌ Error: 08-RAG-Engine/main.py not found. Cannot reset RAG index.")
+        print("❌ Error: 09-RAG-Engine/main.py not found. Cannot reset RAG index.")
         return
         
     local_venv = osPathJoin(rag_dir, ".venv")
@@ -566,7 +569,7 @@ def start_engine() -> None:
     """
     while True:
         print("\n" + "="*60)
-        print("🧠 BASTIEN-ANTIGRAVITY: AI ENGINE COMMAND")
+        print("🧠 BASTIEN-ANTIGRAVITY: AI SQUAD COMMAND")
         print("="*60)
 
         # 1. Verification & Sync
@@ -626,7 +629,7 @@ def start_engine() -> None:
         check_session_health(choice)
         setup_mcp(choice)
         
-        # 4. Display Guidance
+        # 4. Display Mission Guidance
         helper = MissionHelper()
         helper.print_cheat_sheet()
         
@@ -688,7 +691,7 @@ def start_engine() -> None:
         
         has_rag = check_rag_attached()
         prompt_suffix = " / r: Reset RAG" if has_rag else ""
-        decision = input(f"Re-launch Engine? [y: Yes / n: Exit & Sign-off / s: Switch Mode{prompt_suffix}]: ").lower().strip()
+        decision = input(f"Re-launch Squad? [y: Yes / n: Exit & Sign-off / s: Switch Mode{prompt_suffix}]: ").lower().strip()
         
         if decision == 'r' and has_rag:
             reset_rag_index()
@@ -696,14 +699,14 @@ def start_engine() -> None:
         elif decision == 's' or decision == 'y':
             continue
         else:
-            print("\n📡 Initiating Session Sign-off Protocol...")
+            print("\n📡 Initiating Mission Sign-off Ritual...")
             signoff_script = osPathJoin(script_dir, "close_mission.py")
             cancelled_exit = False
             if osPathExists(signoff_script):
                 while True:
                     result = subprocessRun([sysExecutable, signoff_script])
                     if result.returncode != 0:
-                        print("\n🛑 SESSION SIGN-OFF BLOCKED DUE TO GOVERNANCE VIOLATIONS.")
+                        print("\n🛑 MISSION SIGN-OFF BLOCKED DUE TO GOVERNANCE VIOLATIONS.")
                         print("Options:")
                         print("  [r] Retry: Run sign-off again.")
                         print("  [i] Force ignore: Exit anyway, bypassing violations.")
@@ -725,7 +728,7 @@ def start_engine() -> None:
                         break
             if cancelled_exit:
                 continue
-            print("👋 Engine resting. Task concluded.")
+            print("👋 Squad resting. Mission concluded.")
             break
 
 # -----------------------------------------------------------------------------------------------
@@ -761,7 +764,7 @@ def restore_settings():
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Bastien-Antigravity AI Engine Command Center")
+    parser = argparse.ArgumentParser(description="Bastien-Antigravity AI Squad Command Center")
     parser.add_argument("--reset-rag", action="store_true", help="Reset and rebuild the ChromaDB RAG index before starting.")
     args, unknown = parser.parse_known_args()
 
@@ -769,7 +772,7 @@ if __name__ == "__main__":
         if check_rag_attached():
             reset_rag_index()
         else:
-            print("⚠️ Warning: --reset-rag was ignored because 08-RAG-Engine is not attached.")
+            print("⚠️ Warning: --reset-rag was ignored because 09-RAG-Engine is not attached.")
 
     backup_settings()
     try:

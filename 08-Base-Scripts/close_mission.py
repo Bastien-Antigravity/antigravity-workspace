@@ -24,6 +24,7 @@ if os.path.exists(_venv_python):
 from pathlib import Path
 from datetime import datetime, timedelta
 from subprocess import run as subprocessRun
+import json
 
 # Add lib directory to sys.path
 script_dir = Path(__file__).resolve().parent
@@ -35,14 +36,10 @@ except ImportError:
     print("❌ Error: Could not find sovereignty.py in lib/")
     sys.exit(1)
 
-import json
-
 def get_active_mode(vault_root: Path) -> str:
-    # 1. Check environment variable
     mode = os.environ.get("SQUAD_ACTIVE_MODE")
     if mode:
         return mode
-    # 2. Check MODE-MANUAL.md
     mode_file = vault_root / "00-AI-Orchestration" / "MODE-MANUAL.md"
     if mode_file.exists():
         try:
@@ -52,7 +49,7 @@ def get_active_mode(vault_root: Path) -> str:
                         return line.split(":")[1].strip()
         except Exception:
             pass
-    return "4"  # Default fallback to Mode 4
+    return "4"
 
 def get_fleet_repositories(workspace_root: Path) -> list:
     inventory_path = workspace_root / "obsidian-brain" / "05-Fleet-Operation" / "00-Repo-Control" / "inventory.json"
@@ -66,18 +63,19 @@ def get_fleet_repositories(workspace_root: Path) -> list:
         print(f"⚠️ Failed to load inventory.json: {e}")
         return []
 
-def is_branch_safe(repo_path: Path) -> bool:
-    """Verifies if the current branch is allowed for automatic synchronization."""
-    allowed_branches = ["main", "master", "develop", "dev"]
+def get_current_branch(repo_path: Path) -> str:
     try:
         result = subprocessRun(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
             cwd=repo_path, capture_output=True, text=True, check=True
         )
-        current_branch = result.stdout.strip()
-        return current_branch in allowed_branches
+        return result.stdout.strip()
     except Exception:
-        return False
+        return ""
+
+def confirm_step(prompt: str) -> bool:
+    choice = input(f"   ❓ {prompt} [y/N]: ").strip().lower()
+    return choice == 'y'
 
 def main():
     print("\n" + "═"*60)
@@ -90,16 +88,12 @@ def main():
     active_mode = get_active_mode(vault_root)
     print(f"📡 Active Mode Detected: Mode {active_mode}")
     
-    # Exclude internal folders, templates, and programmatic manuals from the mandatory audit
     EXCLUSIONS = [".git", ".obsidian", ".gemini", "Templates", "MODE-MANUAL.md"]
-    
     engine = Sovereignty(workspace_root=workspace_root)
     
-    # Discover repositories to check
     repositories = get_fleet_repositories(workspace_root)
     repos_to_check = []
     
-    # Ensure obsidian-brain itself is in the check list if it exists
     has_vault_in_inventory = False
     for repo in repositories:
         repo_name = repo.get("name")
@@ -128,7 +122,6 @@ def main():
     for repo in repos_to_check:
         repo_name = repo["name"]
         repo_path = repo["path"]
-        
         is_dirty = False
         repo_hot_files = []
         session_state_modified = False
@@ -145,16 +138,13 @@ def main():
                     status_path = line[3:].strip()
                     if "AI-Session-State.md" in status_path:
                         session_state_modified = True
-                    
                     if status_path.endswith(".md"):
                         if any(x in status_path for x in EXCLUSIONS):
                             continue
                         full_path = repo_path / status_path
                         if full_path.exists() and not engine.is_ignored_by_firewall(full_path):
                             repo_hot_files.append(full_path)
-        except Exception as e:
-            # Fallback to time-based detection
-            print(f"⚠️ Git status failed for {repo_name}: {e}. Falling back to 2-hour window...")
+        except Exception:
             hot_threshold = datetime.now() - timedelta(hours=2)
             for path in repo_path.rglob("*.md"):
                 if any(x in path.parts for x in EXCLUSIONS):
@@ -174,12 +164,8 @@ def main():
         if is_dirty:
             dirty_repos.append(repo)
             print(f"📡 Repo '{repo_name}' is dirty. Auditing...")
-            
-            # Verify AI-Session-State.md modification
             if not session_state_modified:
                 engine.log_error(f"[{repo_name}] Dirty repository lacks updates to its local AI-Session-State.md.")
-                
-            # Audit and auto-fix files
             for path in repo_hot_files:
                 engine.auto_fix_file(path)
                 engine.audit_file(path)
@@ -190,14 +176,11 @@ def main():
         return
         
     report = engine.get_report()
-    
-    # Check if all dirty repositories had their session states updated
     state_ok = True
     for err in engine.errors:
         if "AI-Session-State.md" in err:
             state_ok = False
             
-    # 4. Ritual Reporting
     print("\n" + "─"*60)
     print("📊 SOVEREIGNTY GATE STATUS")
     print("─"*60)
@@ -207,7 +190,6 @@ def main():
     print(f"  {metadata_icon} METADATA  : {'PASSED' if report['success'] else 'VIOLATED'}")
     print(f"  {state_icon} STATE LOG : {'SYNCED' if state_ok else 'MISSING'}")
     
-    # Detailed per-file reporting
     if report["file_errors"] or report["file_warnings"]:
         print("\n📂 DETAILED AUDIT REPORT:")
         for file_path, errors in report["file_errors"].items():
@@ -221,9 +203,6 @@ def main():
 
     if report["success"] and state_ok:
         print("\n✨ VERDICT: MISSION ACCOMPLISHED")
-        print("   The fleet remains synchronized and sovereign.")
-        
-        # Generate the Seal
         mission_id = datetime.now().strftime("M-%Y%m%d-%H%M")
         print("\n📜 SESSION SIGN-OFF SEAL:")
         print("   " + "─"*40)
@@ -232,54 +211,49 @@ def main():
         print(f"   Taxonomy   : Trinity-Compliant")
         print("   " + "─"*40)
         
-        # 5. AUTOMATIC PUSH RITUAL
-        print("\n🚀 Initiating Fleet Synchronization (Git Push)...")
+        # 5. GIT RITUAL (STRICTLY ON DEVELOP)
+        print("\n🚀 Initiating Fleet Synchronization Ritual...")
         for repo in dirty_repos:
             repo_name = repo["name"]
             repo_path = repo["path"]
+            branch = get_current_branch(repo_path)
             
-            if not is_branch_safe(repo_path):
-                print(f"   ⚠️  Skipped automatic push for '{repo_name}': Protected or unknown branch. Push manually.")
+            if branch != "develop":
+                if branch in ["main", "master"]:
+                    print(f"   🛑 PROHIBITED: Automatic ritual is FORBIDDEN on the '{branch}' branch.")
+                else:
+                    print(f"   ⚠️  SKIPPED: Ritual only allowed on 'develop'. Current branch is '{branch}'.")
                 continue
 
-            if repo["is_vault"]:
-                try:
-                    print(f"   Syncing vault repository '{repo_name}'...")
-                    subprocessRun(["git", "add", "."], cwd=repo_path, check=True)
-                    commit_msg = f"chore(governance): mission sign-off {mission_id}"
+            try:
+                print(f"   📦 Preparing updates for '{repo_name}' on 'develop'...")
+                subprocessRun(["git", "add", "."], cwd=repo_path, check=True)
+                
+                if confirm_step(f"Commit changes to '{repo_name}'?"):
+                    commit_msg = f"chore: mission sign-off {mission_id}"
                     subprocessRun(["git", "commit", "-m", commit_msg], cwd=repo_path, check=True)
-                    subprocessRun(["git", "push"], cwd=repo_path, check=True)
-                    print(f"   ✅ Vault '{repo_name}' pushed successfully.")
-                except Exception as e:
-                    print(f"   ⚠️  Push failed for '{repo_name}': {e}")
-                    print("      Please push manually to complete the sync.")
-            else:
-                if active_mode == "3":
-                    try:
-                        print(f"   Syncing sibling repository '{repo_name}'...")
-                        subprocessRun(["git", "add", "."], cwd=repo_path, check=True)
-                        commit_msg = f"chore(governance): mission sign-off {mission_id}"
-                        subprocessRun(["git", "commit", "-m", commit_msg], cwd=repo_path, check=True)
-                        subprocessRun(["git", "push"], cwd=repo_path, check=True)
-                        print(f"   ✅ Sibling '{repo_name}' pushed successfully.")
-                    except Exception as e:
-                        print(f"   ⚠️  Push failed for sibling '{repo_name}': {e}")
-                        print("      Please push manually to complete the sync.")
+                    print(f"   ✅ Changes committed.")
+                    
+                    if confirm_step(f"Push changes for '{repo_name}' to origin develop?"):
+                        subprocessRun(["git", "push", "origin", "develop"], cwd=repo_path, check=True)
+                        print(f"   ✅ Pushed successfully.")
+                    else:
+                        print(f"   ➡️  Push skipped.")
                 else:
-                    print(f"   ⚠️  Mode {active_mode} Active: Skipped automatic push for sibling repository '{repo_name}'. Please push manually.")
+                    print(f"   ➡️  Commit skipped.")
+            except Exception as e:
+                print(f"   ⚠️  Sync failed for '{repo_name}': {e}")
     else:
         print("\n🛑 VERDICT: MISSION BLOCKED")
-        print("   Please resolve the following governance violations:")
         for err in engine.errors:
             print(f"   [!] {err}")
             
-    if report["warnings"] and not report["file_warnings"]: # Avoid duplicate if already shown in per-file
+    if report["warnings"] and not report["file_warnings"]:
         print("\n💡 HYGIENE SUGGESTIONS:")
         for warn in report["warnings"]:
             print(f"   [~] {warn}")
             
     print("\n" + "═"*60 + "\n")
-    
     if not (report["success"] and state_ok):
         sys.exit(1)
 

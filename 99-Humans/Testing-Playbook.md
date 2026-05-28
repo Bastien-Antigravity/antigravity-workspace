@@ -7,7 +7,7 @@ tags:
 - '#service/obsidian-brain'
 - '#type/documentation'
 - '#state/active'
-- role/human-onboarding
+- '#role/human-onboarding'
 ---
 # 🧪 Testing Playbook: The Quality Engine
 

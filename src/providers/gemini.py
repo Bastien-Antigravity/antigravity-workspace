@@ -4,8 +4,8 @@
 import os
 from typing import List, Optional, Any, Iterable
 import google.generativeai as genai
-from ..interfaces.llm import ILLMProvider
-from ..models.message import AgentMessage
+from src.interfaces.llm import ILLMProvider
+from src.models.message import AgentMessage
 
 class GeminiProvider(ILLMProvider):
     """
@@ -19,12 +19,26 @@ class GeminiProvider(ILLMProvider):
     async def chat(self, messages: List[AgentMessage], tools: Optional[List[Any]] = None) -> AgentMessage:
         # Note: google-generativeai has its own history management
         # For simplicity in this stateless abstraction, we rebuild the chat session
+        system_instruction = None
         history = []
-        for m in messages[:-1]:
-            role = "user" if m.role == "user" else "model"
-            history.append({"role": role, "parts": [m.content]})
         
-        chat_session = self.client.start_chat(history=history)
+        for m in messages[:-1]:
+            if m.role == "system":
+                system_instruction = m.content
+            else:
+                role = "user" if m.role == "user" else "model"
+                history.append({"role": role, "parts": [m.content]})
+        
+        # Google GenAI requires history to start with a 'user' message.
+        while history and history[0]["role"] != "user":
+            history.pop(0)
+            
+        # If there is a system instruction, we must recreate the model with it
+        model = self.client
+        if system_instruction:
+            model = genai.GenerativeModel(model_name=self.model, system_instruction=system_instruction)
+            
+        chat_session = model.start_chat(history=history)
         last_msg = messages[-1].content
         
         # Tools integration in Gemini SDK is via the GenerativeModel constructor or start_chat

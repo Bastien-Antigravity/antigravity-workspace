@@ -11,13 +11,11 @@ tags:
 ---
 # TODO: obsidian-brain (Governance & Meta-Logic)
 
-## 🚨 High Priority (Governance Gaps)
-- [ ] **Mode Guardrail**: Add a mandatory "Current Mode" check to the AI-Session-State handshake to ensure the previous mode is "parked."
-- [ ] **Knowledge Compression Script**: Implement an automated way to distill old session logs into fresh patterns to keep the context window clean.
-
 ## 🏗️ Architecture & Refactoring
 - [x] Consolidate common BDD templates into a centralized `00-AI-Orchestration/Templates/` folder.
 - [x] **Persona Extractor — ENABLED**: Patched and enabled as a background process in `start_squad.py`.
+- [x] **Mode Guardrail**: Added a mandatory "Current Mode" check to the AI-Session-State handshake to ensure the previous mode is "parked."
+- [x] **Knowledge Compression Script**: Implemented an automated way to distill old session logs into fresh patterns to keep the context window clean.
 
 ## ✅ Completed
 - [x] Initial structure for `02-Business-BDD`. (Now `business-bdd-brain`)

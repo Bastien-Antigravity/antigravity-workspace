@@ -5,8 +5,8 @@ import os
 import asyncio
 from typing import List, Optional, Any, Iterable
 from openai import AsyncOpenAI
-from ..interfaces.llm import ILLMProvider
-from ..models.message import AgentMessage
+from src.interfaces.llm import ILLMProvider
+from src.models.message import AgentMessage
 
 class OpenAIProvider(ILLMProvider):
     """

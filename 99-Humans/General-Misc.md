@@ -7,7 +7,7 @@ tags:
 - '#service/obsidian-brain'
 - '#type/documentation'
 - '#state/active'
-- role/human-onboarding
+- '#role/human-onboarding'
 ---
 # 🌌 The Obsidian Brain: Purpose, Philosophy & Operator's Guide
 
@@ -197,8 +197,8 @@ These are for rare cases when you need to run something outside an AI session (e
 
 | Command | When to use |
 | :--- | :--- |
-| `python3 20-Scripts/start_squad.py` | **First thing** — launches the AI session with mode selection. |
-| `python3 20-Scripts/scaffold_new_brain.py` | Cloning the architecture for a brand new project. |
+| `python3 08-Base-Scripts/start_squad.py` | **First thing** — launches the AI session with mode selection. |
+| `python3 08-Base-Scripts/scaffold_new_brain.py` | Cloning the architecture for a brand new project. |
 | `python3 vault-sentinel.py` | Quick manual link check (the Sentinel does this automatically). |
 
 ---

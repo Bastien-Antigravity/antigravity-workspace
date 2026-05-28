@@ -5,7 +5,7 @@ import os
 import sys
 import json
 from typing import List, Dict, Any
-from ..models.context import SystemContext
+from src.models.context import SystemContext
 
 class MCPManager:
     """
@@ -78,6 +78,27 @@ class MCPManager:
         else:
             paths.append((os.path.join(home, "Library/Application Support/Claude", "claude_desktop_config.json"), "Claude Mac"))
         return paths
+
+    def backup_settings(self) -> None:
+        import shutil
+        for path, label in self._get_config_paths():
+            if os.path.exists(path):
+                try:
+                    shutil.copy2(path, path + ".bak")
+                    print(f"📦 Created backup of {label} config")
+                except Exception as e:
+                    print(f"⚠️ Warning: Could not backup {label}: {e}")
+
+    def restore_settings(self) -> None:
+        import shutil
+        for path, label in self._get_config_paths():
+            bak_path = path + ".bak"
+            if os.path.exists(bak_path):
+                try:
+                    shutil.move(bak_path, path)
+                    print(f"📦 Restored original {label} from backup")
+                except Exception as e:
+                    print(f"⚠️ Warning: Could not restore {label}: {e}")
 
     def _update_config(self, path: str, label: str, has_rag: bool, rag_config: dict, fs_args: list) -> None:
         os.makedirs(os.path.dirname(path), exist_ok=True)

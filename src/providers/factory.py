@@ -3,8 +3,8 @@
 
 import os
 from typing import Optional
-from ..interfaces.llm import ILLMProvider
-from ..models.context import SystemContext
+from src.interfaces.llm import ILLMProvider
+from src.models.context import SystemContext
 
 class LLMProviderFactory:
     """

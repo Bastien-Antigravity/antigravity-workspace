@@ -4,8 +4,8 @@
 import operator
 from typing import Annotated, Sequence, TypedDict, Union, Dict, Any
 from langgraph.graph import StateGraph, END
-from ..models.context import SystemContext
-from ..models.message import AgentMessage
+from src.models.context import SystemContext
+from src.models.message import AgentMessage
 
 class AgentState(TypedDict):
     """
@@ -22,8 +22,9 @@ class GraphWorkflowManager:
     AI-CONTEXT: Formalized Workflow Engine using LangGraph.
     Enables cyclical flows, error recovery, and persistence.
     """
-    def __init__(self, ctx: SystemContext):
+    def __init__(self, ctx: SystemContext, facade: Any = None):
         self.ctx = ctx
+        self.facade = facade
         self.workflow = StateGraph(AgentState)
         self._build_standard_graph()
 
@@ -55,17 +56,59 @@ class GraphWorkflowManager:
 
     def node_audit(self, state: AgentState):
         print("🔍 [Graph] Running Governance Audit...")
-        # GovernanceManager call would go here
+        if self.facade:
+            self.facade.governance.run_preflight()
         return {"next_step": "process"}
 
-    def node_agent(self, state: AgentState):
-        print(f"🤖 [Graph] Agent {state['active_persona']} is working...")
-        # SDK Provider call would go here
-        return {"messages": [AgentMessage(role="assistant", content="Work completed.")]}
+    async def node_agent(self, state: AgentState):
+        persona = state.get("active_persona", "orchestrator")
+        print(f"🤖 [Graph] Agent {persona} is working...")
+        
+        if not self.facade:
+            return {"messages": [AgentMessage(role="assistant", content="Work completed.")]}
 
-    def node_quality_gate(self, state: AgentState):
+        provider = self.facade.get_provider()
+        if not provider:
+            return {"messages": [AgentMessage(role="assistant", content="Error: AI Provider not configured.")]}
+
+        persona_prompt = self.facade.personas.load_prompt(persona) or "You are a helpful assistant."
+        history = list(state.get("messages", []))
+        msgs = [AgentMessage(role="system", content=persona_prompt)] + history
+
+        response = await provider.chat(msgs)
+        print(f"\n💬 [Graph AI Response ({persona})]:\n{response.content}\n")
+        return {"messages": [response]}
+
+    async def node_quality_gate(self, state: AgentState):
         print("⚖️ [Graph] Verifying results...")
-        return {"metadata": {"quality_score": 1.0}}
+        if not self.facade:
+            return {"metadata": {"quality_score": 1.0}}
+
+        provider = self.facade.get_provider()
+        if not provider:
+            return {"metadata": {"quality_score": 1.0}}
+
+        last_message = state["messages"][-1].content if state["messages"] else ""
+        evaluation_prompt = f"""
+        Review the following work done by the agent and evaluate if it is complete and meets high quality standards.
+        Return a single float number between 0.0 and 1.0 representing the quality score (e.g. 0.85). Do not write anything else.
+
+        WORK TO EVALUATE:
+        {last_message}
+        """
+
+        review_msg = AgentMessage(role="user", content=evaluation_prompt)
+        response = await provider.chat([review_msg])
+
+        try:
+            import re
+            match = re.search(r"(\d+\.\d+|\d+)", response.content)
+            score = float(match.group(1)) if match else 1.0
+        except Exception:
+            score = 1.0
+
+        print(f"⚖️ [Graph Quality Gate] Evaluated Score: {score}")
+        return {"metadata": {"quality_score": score}}
 
     def should_continue(self, state: AgentState):
         score = state.get("metadata", {}).get("quality_score", 0)

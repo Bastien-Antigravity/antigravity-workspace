@@ -16,10 +16,10 @@ This guide explains how to start the AI Squad with Gemini, Claude, Codex, or Dee
 The main entry point is:
 
 ```bash
-python3 20-Scripts/start_squad.py
+python3 08-Base-Scripts/start_squad.py
 ```
 
-Gemini is the default client. The client registry lives in `20-Scripts/clients/registry.py`.
+Gemini is the default client. The client registry lives in `08-Base-Scripts/clients/registry.py`.
 
 ## Supported Clients
 
@@ -39,19 +39,19 @@ Run these from the `obsidian-brain` folder.
 Gemini is the default:
 
 ```bash
-python3 20-Scripts/start_squad.py
+python3 08-Base-Scripts/start_squad.py
 ```
 
 Equivalent explicit form:
 
 ```bash
-ACTIVE_CLIENT=gemini python3 20-Scripts/start_squad.py
+ACTIVE_CLIENT=gemini python3 08-Base-Scripts/start_squad.py
 ```
 
 ### Claude
 
 ```bash
-ACTIVE_CLIENT=claude python3 20-Scripts/start_squad.py
+ACTIVE_CLIENT=claude python3 08-Base-Scripts/start_squad.py
 ```
 
 Requires the `claude` CLI to be installed and available in `PATH`.
@@ -59,7 +59,7 @@ Requires the `claude` CLI to be installed and available in `PATH`.
 ### Codex
 
 ```bash
-ACTIVE_CLIENT=codex python3 20-Scripts/start_squad.py
+ACTIVE_CLIENT=codex python3 08-Base-Scripts/start_squad.py
 ```
 
 Requires the `codex` CLI to be installed and available in `PATH`.
@@ -69,15 +69,15 @@ Requires the `codex` CLI to be installed and available in `PATH`.
 DeepSeek is API-backed:
 
 ```bash
-ACTIVE_CLIENT=deepseek python3 20-Scripts/start_squad.py
+ACTIVE_CLIENT=deepseek python3 08-Base-Scripts/start_squad.py
 ```
 
-It does not use a native DeepSeek MCP client. Instead, `20-Scripts/clients/API/deepseek_client.py` connects to the local RAG MCP server and bridges MCP tools to DeepSeek function calls.
+It does not use a native DeepSeek MCP client. Instead, `08-Base-Scripts/clients/API/deepseek_client.py` connects to the local RAG MCP server and bridges MCP tools to DeepSeek function calls.
 
 You can also run the DeepSeek adapter directly:
 
 ```bash
-python3 20-Scripts/clients/API/deepseek_client.py --mode 2 developer
+python3 08-Base-Scripts/clients/API/deepseek_client.py --mode 2 developer
 ```
 
 ## Client Selection
@@ -85,13 +85,13 @@ python3 20-Scripts/clients/API/deepseek_client.py --mode 2 developer
 Preferred override:
 
 ```bash
-ACTIVE_CLIENT=deepseek python3 20-Scripts/start_squad.py
+ACTIVE_CLIENT=deepseek python3 08-Base-Scripts/start_squad.py
 ```
 
 Backward-compatible override:
 
 ```bash
-ACTIVE_CLI=deepseek python3 20-Scripts/start_squad.py
+ACTIVE_CLI=deepseek python3 08-Base-Scripts/start_squad.py
 ```
 
 You can also set the default in `00-AI-Orchestration/MODE-MANUAL.md`:
@@ -130,10 +130,10 @@ The adapter also supports local `.env` files as a development fallback, but shel
 
 ## Agent Personas
 
-Run `20-Scripts/convert_agents.py` to regenerate all client-specific agent files:
+Run `08-Base-Scripts/convert_agents.py` to regenerate all client-specific agent files:
 
 ```bash
-python3 20-Scripts/convert_agents.py
+python3 08-Base-Scripts/convert_agents.py
 ```
 
 Generated folders:
@@ -161,7 +161,7 @@ Expected DeepSeek RAG tools:
 
 ## About `STATE LOG : MISSING`
 
-This message comes from `20-Scripts/close_mission.py`, not from the client startup itself.
+This message comes from `08-Base-Scripts/close_mission.py`, not from the client startup itself.
 
 It appears during the sign-off path when there are uncommitted Markdown changes but no changed `AI-Session-State.md` file in the same session payload.
 
