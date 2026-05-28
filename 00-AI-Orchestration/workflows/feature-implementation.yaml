@@ -1,0 +1,22 @@
+name: Feature Implementation
+description: Standard workflow to go from BDD Spec to code and verification.
+steps:
+  - name: Audit
+    action: audit
+    description: Ensure brain health before start.
+  - name: Spec Review
+    action: prompt
+    persona: brainsentinel
+    description: Analyze the targeted BDD spec.
+  - name: Implementation
+    action: prompt
+    persona: developer
+    description: Generate the code changes based on the spec.
+  - name: Verification
+    action: shell
+    params:
+      cmd: pytest tests/
+    description: Run automated tests to verify the fix.
+  - name: Signoff
+    action: signoff
+    description: Finalize and seal the mission.

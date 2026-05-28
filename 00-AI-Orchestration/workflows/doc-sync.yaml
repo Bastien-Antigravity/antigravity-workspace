@@ -1,0 +1,23 @@
+name: Documentation Sync
+description: Formal process to synchronize ecosystem maps and verify internal links.
+steps:
+  - name: Audit
+    action: audit
+    description: Preflight health check.
+  - name: Ecosystem Mapping
+    action: shell
+    params:
+      cmd: python 20-Scripts/map_feats.py
+    description: Generate the latest Ecosystem-Map-MOC.
+  - name: Persona Update
+    action: prompt
+    persona: docmaintainer
+    description: Review new features and update internal documentation nodes.
+  - name: Link Verification
+    action: shell
+    params:
+      cmd: python 20-Scripts/fix_feats.py
+    description: Auto-fix broken links and update YAML headers.
+  - name: Signoff
+    action: signoff
+    description: Ritual mission closure.
