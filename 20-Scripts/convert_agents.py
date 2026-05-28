@@ -1,21 +1,17 @@
 #!/usr/bin/env python
 # coding:utf-8
 import os, sys
-# Ensure we are running inside the virtual environment
-_venv_dir = os.path.dirname(os.path.abspath(__file__))
-while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _parent = os.path.dirname(_venv_dir)
-    if _parent == _venv_dir:
-        break
-    _venv_dir = _parent
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-# Bypass virtual environment re-exec to allow unsandboxed run
-if False:
-    try:
-        if not os.path.samefile(sys.executable, _venv_python):
-            os.execl(_venv_python, _venv_python, *sys.argv)
-    except OSError:
-        pass
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
+    _vault_root = os.path.dirname(_vault_root)
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 
 """
@@ -70,10 +66,22 @@ def _find_workspace_root() -> str:
 def main() -> None:
     workspace_root = _find_workspace_root()
 
-    # Try standalone clone first, fall back to submodule inside obsidian-brain
-    source_dir = osPathJoin(workspace_root, "core-kms-brain", "Role-Prompts")
-    if not osPathIsdir(source_dir):
-        source_dir = osPathJoin(workspace_root, "obsidian-brain", "07-Core-KMS", "Role-Prompts")
+    # Precedence:
+    # 1. 01-Strategic-Nexus (Source of Truth for Strategic Identities)
+    # 2. 07-Core-KMS (Central Repository for Operational Personas)
+    
+    source_dirs = [
+        osPathJoin(workspace_root, "obsidian-brain", "01-Strategic-Nexus", "Role-Prompts"),
+        osPathJoin(workspace_root, "obsidian-brain", "02-Business-BDD", "Role-Prompts"),
+        osPathJoin(workspace_root, "obsidian-brain", "03-Tech-Stack", "Role-Prompts"),
+        osPathJoin(workspace_root, "obsidian-brain", "07-Core-KMS", "Role-Prompts"),
+        # Standalone clones support
+        osPathJoin(workspace_root, "core-kms-brain", "Role-Prompts"),
+        osPathJoin(workspace_root, "nexus-strategic-brain", "Role-Prompts"),
+    ]
+    
+    # Filter only existing directories
+    active_source_dirs = [d for d in source_dirs if osPathIsdir(d)]
     
     vault_root = osPathJoin(workspace_root, "obsidian-brain")
 
@@ -116,32 +124,42 @@ def main() -> None:
                 except OSError as e:
                     print(f"   ⚠️ Could not purge {f}: {e}")
 
-    # Map folder names to clean agent names
-    for folder in osListdir(source_dir):
-        folder_path = osPathJoin(source_dir, folder)
-        if osPathIsdir(folder_path):
-            md_files = globGlob(osPathJoin(folder_path, "*.md"))
-            if md_files:
-                # Prioritize files starting with "Prompt-"
-                prompt_files = [f for f in md_files if os.path.basename(f).startswith("Prompt-")]
-                md_file = prompt_files[0] if prompt_files else md_files[0]
+    # Track processed agents to ensure Source of Truth precedence
+    processed_agents = set()
+
+    # Process all active source directories in precedence order
+    for source_dir in active_source_dirs:
+        print(f"📥 Processing roles from: {os.path.basename(os.path.dirname(source_dir))}")
+        for folder in osListdir(source_dir):
+            folder_path = osPathJoin(source_dir, folder)
+            if osPathIsdir(folder_path):
                 # e.g. "04-QA" -> "qa"
                 agent_name = folder.split("-", 1)[1].lower() if "-" in folder else folder.lower()
                 
-                with open(md_file, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                
-                # Strip existing frontmatter from source content if present
-                from re import sub as reSub, DOTALL as reDotAll
-                content = reSub(r'^---.*?---\s*', '', content, flags=reDotAll)
-                
-                yaml_frontmatter = f"""---
+                # Precedence check: if we already processed this agent from a higher-priority source, skip
+                if agent_name in processed_agents:
+                    continue
+
+                md_files = globGlob(osPathJoin(folder_path, "*.md"))
+                if md_files:
+                    # Prioritize files starting with "Prompt-"
+                    prompt_files = [f for f in md_files if os.path.basename(f).startswith("Prompt-")]
+                    md_file = prompt_files[0] if prompt_files else md_files[0]
+                    
+                    with open(md_file, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    
+                    # Strip existing frontmatter from source content if present
+                    from re import sub as reSub, DOTALL as reDotAll
+                    content = reSub(r'^---.*?---\s*', '', content, flags=reDotAll)
+                    
+                    yaml_frontmatter = f"""---
 name: {agent_name}
 description: The {agent_name} persona from the Bastien-Antigravity squad.
 ---
 """
-                
-                scan_block = f"""
+                    
+                    scan_block = f"""
 # 💾 STATE MANAGEMENT RULE (CRITICAL)
 Before finishing any major task or concluding a session, you MUST use your available file management tools to append a summary of your actions to the local `AI-Session-State.md` file in the target repository. This acts as our Hard-Stop Context Block to prevent memory loss across sessions.
 
@@ -150,16 +168,18 @@ To prevent context degradation, you MUST begin EVERY single response with the fo
 
 **[SCAN]** Role: {agent_name} | Source: [Source Verification] | State: [Session Progress]
 """
-                
-                # Sync to all active targets
-                for name, target in active_targets:
-                    target_file = osPathJoin(target, f"{agent_name}.md")
-                    try:
-                        with open(target_file, 'w', encoding='utf-8') as f:
-                            f.write(yaml_frontmatter + content + "\n" + scan_block)
-                        print(f"   [{name}] Created agent: {agent_name}")
-                    except OSError as e:
-                        print(f"   ⚠️ Could not write agent {agent_name} to {name}: {e}")
+                    
+                    # Sync to all active targets
+                    for name, target in active_targets:
+                        target_file = osPathJoin(target, f"{agent_name}.md")
+                        try:
+                            with open(target_file, 'w', encoding='utf-8') as f:
+                                f.write(yaml_frontmatter + content + "\n" + scan_block)
+                            print(f"   [{name}] Created agent: {agent_name}")
+                        except OSError as e:
+                            print(f"   ⚠️ Could not write agent {agent_name} to {name}: {e}")
+                    
+                    processed_agents.add(agent_name)
 
 # -----------------------------------------------------------------------------------------------
 
