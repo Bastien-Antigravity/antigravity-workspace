@@ -9,27 +9,15 @@ Powered by Chainlit and the Exposed Strategy Engine.
 import os
 import sys
 
-# --- Virtual Environment Bootstrap ---
-_vault_root = os.path.dirname(os.path.abspath(__file__))
-if _vault_root not in sys.path:
-    sys.path.append(_vault_root)
-
-# Resolve venv by walking up (parity with main.py)
-_venv_dir = _vault_root
-while _venv_dir and _venv_dir != os.path.dirname(_venv_dir) and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _venv_dir = os.path.dirname(_venv_dir)
-
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-
-def bootstrap():
-    if os.path.exists(_venv_python):
-        try:
-            if not os.path.samefile(sys.executable, _venv_python):
-                os.execl(_venv_python, _venv_python, *sys.argv)
-        except (OSError, ValueError):
-            pass
-
-bootstrap()
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 import chainlit as cl
 

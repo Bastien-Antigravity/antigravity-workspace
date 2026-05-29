@@ -21,20 +21,17 @@ KEY PARAMETERS:
 - agent: Optional agent persona name loaded from .deepseek/agents/.
 """
 import os, sys
-# Ensure we are running inside the virtual environment
-_venv_dir = os.path.dirname(os.path.abspath(__file__))
-while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _parent = os.path.dirname(_venv_dir)
-    if _parent == _venv_dir:
-        break
-    _venv_dir = _parent
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-if os.path.exists(_venv_python):
-    try:
-        if not os.path.samefile(sys.executable, _venv_python):
-            os.execl(_venv_python, _venv_python, *sys.argv)
-    except OSError:
-        pass
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
+    _vault_root = os.path.dirname(_vault_root)
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 import asyncio
 import json
@@ -158,7 +155,7 @@ def _resolve_active_repo_dir() -> str:
     """Dynamically determine the active target project folder based on current working directory."""
     cwd = osPathAbspath(os.getcwd())
     inventory_path = osPathJoin(VAULT_ROOT, "05-Fleet-Operation", "00-Repo-Control", "inventory.json")
-    default_repo = osPathJoin(WORKSPACE_ROOT, "obsidian-brain")
+    default_repo = VAULT_ROOT
     if not osPathExists(inventory_path):
         return default_repo
     try:
@@ -187,8 +184,8 @@ def _load_governance_context(active_repo_dir: str) -> str:
     
     # 1. Global context
     global_files = [
-        ("Global Ecosystem Map MOC", osPathJoin(WORKSPACE_ROOT, "obsidian-brain", "Ecosystem-Map-MOC.md")),
-        ("Global AI Session State", osPathJoin(WORKSPACE_ROOT, "obsidian-brain", "00-AI-Orchestration", "AI-Session-State.md"))
+        ("Global Ecosystem Map MOC", osPathJoin(VAULT_ROOT, "Ecosystem-Map-MOC.md")),
+        ("Global AI Session State", osPathJoin(VAULT_ROOT, "00-AI-Orchestration", "AI-Session-State.md"))
     ]
     for label, path in global_files:
         if osPathExists(path):

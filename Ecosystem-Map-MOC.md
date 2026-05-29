@@ -42,7 +42,7 @@ The "Strategic Oracle" that analyzes history, patterns, and project blind spots.
 - **[[01-Strategic-Nexus/Strategy-Audit-MOC|🌌 Strategy Audit Index]]**
 - **[[01-Strategic-Nexus/Strategic-Patterns|🧩 Strategic Patterns]]**
 - **[[01-Strategic-Nexus/Anti-Backlog|🚫 The Anti-Backlog]]**
-- **[📖 Nexus Overview](https://github.com/Bastien-Antigravity/01-Strategic-Nexus)**
+- **[[01-Strategic-Nexus/README|📖 Nexus Overview]]**
 - **[[07-Core-KMS/Role-Prompts/00-Oracle/Prompt-Chronos-Oracle|🛰️ Role 00: Chronos-Oracle]]**
 
 ## 👔 02 - Business BDD
@@ -57,8 +57,18 @@ Behavior-Driven Development specifications, Domain-Driven Design glossary, and A
 The structural paradigms for all polyglot microservices, coding idioms, and deployment standards.
 
 ### 🏛️ Architecture
+- [[03-Tech-Stack/01-Obsidian-Brain/Obsidian-Brain-Organization|📐 Obsidian Brain & Repository Organization]]
+- [[03-Tech-Stack/01-Obsidian-Brain/Obsidian-Brain-Management|📐 Obsidian Brain Management & Merged Filesystem]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/01-Strategic-Nexus|Level 01: Strategic Nexus]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/02-Business-BDD|Level 02: Business BDD]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/03-Tech-Stack|Level 03: Tech Stack]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/04-Rapid-Prototyping|Level 04: Rapid Prototyping]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/05-Fleet-Operation|Level 05: Fleet Operations]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/06-Microservices|Level 06: Microservices]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/07-Core-KMS|Level 07: Core KMS]]
+    - [[03-Tech-Stack/01-Obsidian-Brain/09-RAG-Engine|Level 09: RAG Engine]]
 - [[03-Tech-Stack/02-Project-Architecture/Global-Architecture-Rules|The System Hub (Primary Rules)]]
-- [🎨 Visual Ecosystem Topology](03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas)
+- [[03-Tech-Stack/02-Project-Architecture/Ecosystem-Topology.canvas|🎨 Visual Ecosystem Topology]]
 - [[03-Tech-Stack/02-Project-Architecture/01-Facade-Pattern|The Facade Pattern Rules]]
 - [[03-Tech-Stack/02-Project-Architecture/02-Decoupling-and-Interfaces|Decoupling & Interfaces]]
 - [[03-Tech-Stack/02-Project-Architecture/03-Repository-Structure|Repository Layouts]]
@@ -78,6 +88,9 @@ The structural paradigms for all polyglot microservices, coding idioms, and depl
 - [[03-Tech-Stack/03-Project-Coding/02-Go-Memory-and-Concurrency|Go Memory and Concurrency]]
 - [[03-Tech-Stack/03-Project-Coding/03-Rust-Safety-and-Async|Rust Safety and Async]]
 - [[03-Tech-Stack/03-Project-Coding/04-Python-Types-and-Structure|Python Types and Structure]]
+- [[03-Tech-Stack/03-Project-Coding/09-CPP-Performance-and-FFI|C++ Performance and FFI]]
+- [[03-Tech-Stack/03-Project-Coding/10-VBA-Excel-Integration|VBA Excel Integration]]
+- [[03-Tech-Stack/03-Project-Coding/12-Cross-Language-FFI|Cross-Language FFI & Shared Libraries]]
 - [[03-Tech-Stack/03-Project-Coding/Documentation-Requirements|Documentation Requirements]]
 - [[03-Tech-Stack/03-Project-Coding/Core-Libraries-and-Toolbox|Core Libraries & Toolbox]]
 
@@ -90,12 +103,12 @@ The structural paradigms for all polyglot microservices, coding idioms, and depl
 
 ## 🚀 04 - Rapid Prototyping
 Fast-path development, experiments, and prototypes. **(Zone 2: Fluid)**
-- [🧪 Labs Overview](https://github.com/Bastien-Antigravity/04-Rapid-Prototyping)
+- [[04-Rapid-Prototyping/README|🧪 Labs Overview]]
 
 ## 🛰️ 05 - Fleet Operations
 Fleet-wide action plans, deployment logs, and migration states. **(Zone 3: Fleet)**
-- [Fleet Operations (Zone 3)](https://github.com/Bastien-Antigravity/05-Fleet-Operation)
-- **Command Center**: [Global Repo Registry](05-Fleet-Operation/00-Repo-Control/inventory.json)
+- [[05-Fleet-Operation/README|Fleet Operations (Zone 3)]]
+- **Command Center**: [[05-Fleet-Operation/00-Repo-Control/inventory.json|Global Repo Registry]]
 - **Automation**: `fleet-manager.py` (Mass Sync & Audit)
 - **Logs**: [[05-Fleet-Operation/Deployment-Logs-MOC|🛰️ Deployment Logs Index]]
 - **Strategy**: [[05-Fleet-Operation/05-Fleet-Strategy/04-CICD-Standards|CI/CD Standards]]
@@ -131,7 +144,7 @@ Live documentation and operational hubs for the service fleet.
 
 ## 🧠 07 - Core KMS
 Knowledge Management System, Agent Role Prompts, and Workflows.
-- [KMS Overview](https://github.com/Bastien-Antigravity/07-Core-KMS)
+- [[07-Core-KMS/README|KMS Overview]]
 - [[07-Core-KMS/tag_taxonomy|🏷️ Tag Taxonomy (Source of Truth)]]
 - [[07-Core-KMS/Agent-Roles-MOC|🤖 Agent Roles Index]]
 - [[07-Core-KMS/00-Knowledge-Management-Playbook|📐 Knowledge Management Playbook]]
@@ -147,10 +160,10 @@ Knowledge Management System, Agent Role Prompts, and Workflows.
   - [[07-Core-KMS/Role-Prompts/08-Purger/Mister-Straight-to-Goal|🧹 Role 08: Purger]]
   - [[07-Core-KMS/Role-Prompts/09-Sentinel/Prompt-Sentinel|🛡️ Role 09: Sentinel]]
 
-## 🧠 08 - RAG Engine
+## 🧠 09 - RAG Engine
 Local sovereign semantic search and real-time knowledge watcher.
-- [RAG Engine Overview](https://github.com/Bastien-Antigravity/obsidian-rag-mcp)
-- [[08-RAG-Engine/README|🔌 Setup & Usage Guide]]
+- [[09-RAG-Engine/README|RAG Engine Overview]]
+- [[09-RAG-Engine/README|🔌 Setup & Usage Guide]]
 - **Available Agent Tools**:
   - `query_brain(query: str, zone_filter: str = None, limit: int = 3)` — Sub-paragraph level semantic vector query.
   - `get_brain_stats()` — Fetch active database volume and indexing status.
@@ -160,14 +173,14 @@ Local sovereign semantic search and real-time knowledge watcher.
 Live sprint tracking and standardized templates.
 - [[99-Humans/Sprint-Dashboard|⚡ Live Sprint Dashboard]]
 - [[99-Humans/Domain-Dashboard|🌐 Domain Ontology Matrix]]
-- [📥 Task Inbox (Foundry)](00-AI-Orchestration/Templates/Template-00-Idea-Pitch.md)
+- [[00-AI-Orchestration/Templates/Template-00-Idea-Pitch|📥 Task Inbox (Foundry)]]
 
-## 🛠️ 20 - Scripts
+## 🛠️ 08 - Base Scripts
 Ecosystem automation scripts.
-- [Multi-repo Validator](03-Tech-Stack/05-Project-Scripts/Multi-Repo-Validator.py)
-- [🧹 Purger: Dark Matter Audit](07-Core-KMS/Scripts/Joint-Audit-Purger.py)
-- [Squad Launcher](20-Scripts/start_squad.py)
-- [Vault Sentinel](20-Scripts/vault-sentinel.py)
+- [[03-Tech-Stack/05-Project-Scripts/Multi-Repo-Validator.py|Multi-repo Validator]]
+- [[07-Core-KMS/Scripts/Joint-Audit-Purger.py|🧹 Purger: Dark Matter Audit]]
+- [[08-Base-Scripts/start_squad.py|Squad Launcher]]
+- [[08-Base-Scripts/vault-sentinel.py|Vault Sentinel]]
 
 ---
 ## 🧪 Quality & Testing
@@ -195,3 +208,26 @@ The flow is: `02-Business-BDD` (WHAT) → `sandbox-testing` (HOW) → microservi
 > where type = "moc" or type = "architecture"
 > sort file.name asc
 > ```
+ders are left **EMPTY**, ready for your new project's unique logic.
+4. **Auto-Bake**: The script automatically runs the agent conversion so the new CLI is ready to use immediately.
+
+### Why use this?
+This allows you to treat your **AI Infrastructure** as a reusable asset. You build the "Squad" once, and then you deploy it to any new "World" (project) you want to build.
+
+---
+
+## 🧠 12. The Semantic Search Engine (RAG-mcp)
+
+The **09-RAG-Engine** is a localized, offline vector database indexer that integrates into your AI Squad CLI via the Model Context Protocol (MCP). Instead of loading entire, large documentation files which consume massive amounts of context tokens, the RAG engine chunks files dynamically to provide high-density paragraph-level knowledge context.
+
+### Dynamic Architecture
+- **Dynamic Virtual Environment**: The system automatically utilizes the central vault `.venv` if configured; otherwise, it falls back to the RAG subfolder virtual environment.
+- **Sovereign Embeddings**: Runs 100% offline using `SentenceTransformer` (`all-MiniLM-L6-v2`) inside a local `ChromaDB` instance, keeping all intellectual property strictly offline and local.
+- **Automatic Event Watcher**: Spawns a background file watcher daemon (`watcher.py`) with a thread-safe `0.5s` debounced quiet-window when starting the squad session. When you edit, rename, or delete any note in Obsidian, the index updates instantly in the background.
+
+### Core RAG Tools
+* **`query_brain(query: str, zone_filter: str = None, limit: int = 3)`**: Searches the entire vault. Results can be strictly filtered to a specific zone (e.g. `1-frozen`).
+* **`get_brain_stats()`**: Returns full stats detailing indexed notes and chunk counts grouped by knowledge zones.
+* **`find_similar_files(filepath: str, limit: int = 3)`**: Semantic linker. Finds and lists other notes in your knowledge graph sharing proximal semantic concepts with the queried file path.
+
+---

@@ -4,8 +4,8 @@ title: 'AI Operating Manual: Multi-Mode Protocols'
 version: 2.0
 type: architecture
 status: active
-active_mode: 1
-active_client: gemini
+active_mode: 4
+active_client: antigravity
 tags:
 - '#zone/3-fleet'
 - '#service/obsidian-brain'

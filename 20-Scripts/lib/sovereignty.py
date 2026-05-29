@@ -6,20 +6,17 @@ Centralized validation logic for the Bastien-Antigravity Obsidian Brain.
 Enforces DocMaintainer and Sentinel rules with high reliability.
 """
 import os, sys
-# Ensure we are running inside the virtual environment
-_venv_dir = os.path.dirname(os.path.abspath(__file__))
-while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _parent = os.path.dirname(_venv_dir)
-    if _parent == _venv_dir:
-        break
-    _venv_dir = _parent
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-if os.path.exists(_venv_python):
-    try:
-        if not os.path.samefile(sys.executable, _venv_python):
-            os.execl(_venv_python, _venv_python, *sys.argv)
-    except OSError:
-        pass
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
+    _vault_root = os.path.dirname(_vault_root)
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 
 import re
@@ -49,11 +46,13 @@ class Sovereignty:
         self.valid_stems = set()
         self.valid_paths = set()
         
-        # Determine workspace root (defaults to obsidian-brain)
+        self.vault_root = Path(__file__).resolve().parents[2]
+        
+        # Determine workspace root (defaults to parent of vault)
         if workspace_root is None:
-            self.workspace_root = Path(__file__).resolve().parents[2]
+            self.workspace_root = self.vault_root.parent
         else:
-            self.workspace_root = workspace_root
+            self.workspace_root = Path(workspace_root)
             
         self._index_workspace()
         
@@ -140,7 +139,7 @@ class Sovereignty:
 
     def validate_isolation_zone(self, repo_path: Path, repo_name: str) -> bool:
         """Checks for the presence and structure of the isolation zone."""
-        is_brain = (repo_name == "obsidian-brain")
+        is_brain = (repo_name == self.vault_root.name)
         zone_name = "99-Humans" if is_brain else "quick-overview"
         zone_dir = repo_path / zone_name
         
@@ -352,13 +351,13 @@ class Sovereignty:
                 "08-Base-Scripts": {"type": "automation", "status": "active"},
             }
             
-            vault_root = self.workspace_root / "obsidian-brain"
+            vault_root = self.vault_root
             try:
                 rel_path = path.relative_to(vault_root)
             except ValueError:
                 try:
                     rel_path = path.relative_to(self.workspace_root)
-                    if rel_path.parts and rel_path.parts[0] == "obsidian-brain":
+                    if rel_path.parts and rel_path.parts[0] == self.vault_root.name:
                         rel_path = Path(*rel_path.parts[1:])
                 except ValueError:
                     rel_path = path
@@ -368,7 +367,7 @@ class Sovereignty:
             defaults = zone_map.get(zone, {"type": "note", "status": "active"})
             
             # Determine microservice
-            microservice = "obsidian-brain"
+            microservice = self.vault_root.name
             if zone == "06-Microservices" and len(parts) > 1:
                 hub_match = re.search(r"([\w-]+)-Hub", parts[-1])
                 if hub_match:

@@ -19,6 +19,12 @@ VAULT_ROOT = abspath(join(SCRIPT_DIR, ".."))
 DEFAULT_CLIENT = "gemini"
 
 CLIENTS: Dict[str, Dict[str, str]] = {
+    "antigravity": {
+        "label": "Antigravity CLI",
+        "kind": "cli",
+        "command": "antigravity-cli",
+        "agents_dir": ".agents/skills",
+    },
     "gemini": {
         "label": "Gemini",
         "kind": "cli",
@@ -40,7 +46,7 @@ CLIENTS: Dict[str, Dict[str, str]] = {
     "deepseek": {
         "label": "DeepSeek",
         "kind": "api",
-        "script": "20-Scripts/clients/API/deepseek_client.py",
+        "script": "08-Base-Scripts/clients/API/deepseek_client.py",
         "agents_dir": ".deepseek/agents",
         "env_key": "DEEPSEEK_API_KEY",
     },
@@ -64,6 +70,7 @@ def normalize_client(name: str) -> str:
         "openai": "codex",
         "chatgpt": "codex",
         "gpt": "codex",
+        "agy": "antigravity",
     }
     return aliases.get(candidate, candidate)
 
@@ -87,6 +94,14 @@ def list_agents(vault_root: str, client_name: str) -> List[str]:
     if not exists(agents_dir):
         return []
     try:
+        # Support both flat .md files and skill directory structure
+        if client_name == "antigravity" or "skills" in agents_dir:
+            agents = []
+            for item in os.listdir(agents_dir):
+                item_path = join(agents_dir, item)
+                if os.path.isdir(item_path) and exists(join(item_path, "SKILL.md")):
+                    agents.append(item)
+            return sorted(agents)
         return sorted(f[:-3] for f in os.listdir(agents_dir) if f.endswith(".md"))
     except OSError:
         return []
@@ -99,7 +114,13 @@ def is_client_available(client_name: str, vault_root: str) -> bool:
         return False
 
     if config["kind"] == "cli":
-        return which(config["command"]) is not None
+        # Check primary command
+        if which(config["command"]) is not None:
+            return True
+        # Fallback for Antigravity -> Gemini
+        if client_name == "antigravity" and which("gemini") is not None:
+            return True
+        return False
 
     if config["kind"] == "api":
         script_path = join(vault_root, config["script"])
@@ -121,7 +142,13 @@ def build_launch_command(
         raise ValueError(f"Unsupported AI client: {client_name}")
 
     if config["kind"] == "cli":
-        command = [config["command"]]
+        command_name = config["command"]
+        # Fallback for Antigravity -> Gemini if primary command is missing
+        if client_name == "antigravity" and not which(command_name):
+            if which("gemini"):
+                command_name = "gemini"
+        
+        command = [command_name]
         if agent:
             command.append(agent)
         return command

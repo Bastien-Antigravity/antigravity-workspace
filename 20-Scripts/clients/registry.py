@@ -16,9 +16,15 @@ from typing import Dict, Iterable, List, Optional
 SCRIPT_DIR = dirname(dirname(abspath(__file__)))
 VAULT_ROOT = abspath(join(SCRIPT_DIR, ".."))
 
-DEFAULT_CLIENT = "gemini"
+DEFAULT_CLIENT = "antigravity"
 
 CLIENTS: Dict[str, Dict[str, str]] = {
+    "antigravity": {
+        "label": "Antigravity",
+        "kind": "cli",
+        "command": "agy",
+        "agents_dir": ".agents/skills",
+    },
     "gemini": {
         "label": "Gemini",
         "kind": "cli",
@@ -122,7 +128,7 @@ def build_launch_command(
 
     if config["kind"] == "cli":
         command = [config["command"]]
-        if agent:
+        if agent and config["command"] != "agy":
             command.append(agent)
         return command
 

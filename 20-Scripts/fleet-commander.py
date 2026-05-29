@@ -8,20 +8,17 @@ KEY PARAMETERS:
     - commit_msg: Standardized commit message
 """
 import os, sys
-# Ensure we are running inside the virtual environment
-_venv_dir = os.path.dirname(os.path.abspath(__file__))
-while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _parent = os.path.dirname(_venv_dir)
-    if _parent == _venv_dir:
-        break
-    _venv_dir = _parent
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-if os.path.exists(_venv_python):
-    try:
-        if not os.path.samefile(sys.executable, _venv_python):
-            os.execl(_venv_python, _venv_python, *sys.argv)
-    except OSError:
-        pass
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
+    _vault_root = os.path.dirname(_vault_root)
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 from os.path import join as osPathJoin, exists as osPathExists, abspath as osPathAbspath, dirname as osPathDirname
 import subprocess as subProcess
@@ -60,7 +57,8 @@ class FleetCommander:
         self.engine = Sovereignty(workspace_root=Path(self.base_path))
         self.excluded_repos = set()
         
-        self.inventory_path = osPathJoin(self.base_path, "obsidian-brain/05-Fleet-Operation/00-Repo-Control/inventory.json")
+        self.vault_name = os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.inventory_path = osPathJoin(self.base_path, self.vault_name, "05-Fleet-Operation/00-Repo-Control/inventory.json")
         
         self.repo_name_to_path = {}
         all_repos = self._load_inventory()
@@ -198,11 +196,11 @@ class FleetCommander:
         
         # Automatically trigger deployment logs & action plans housekeeping
         try:
-            log_archiver = osPathJoin(self.base_path, "obsidian-brain/05-Fleet-Operation/02-Deployment-Logs/archive.py")
+            log_archiver = osPathJoin(self.base_path, self.vault_name, "05-Fleet-Operation/02-Deployment-Logs/archive.py")
             if osPathExists(log_archiver):
                 self._run_command(f"python3 {log_archiver}", self.base_path)
                 
-            plan_archiver = osPathJoin(self.base_path, "obsidian-brain/05-Fleet-Operation/01-Fleet-Action-Plans/archive.py")
+            plan_archiver = osPathJoin(self.base_path, self.vault_name, "05-Fleet-Operation/01-Fleet-Action-Plans/archive.py")
             if osPathExists(plan_archiver):
                 self._run_command(f"python3 {plan_archiver}", self.base_path)
         except Exception:

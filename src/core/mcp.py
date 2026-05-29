@@ -25,7 +25,7 @@ class MCPManager:
             self._update_config(path, label, has_rag, rag_config, mcp_args)
 
     def _get_rag_config(self) -> tuple[bool, Dict[str, Any]]:
-        rag_dir = os.path.join(self.ctx.vault_root, "08-RAG-Engine")
+        rag_dir = os.path.join(self.ctx.vault_root, "09-RAG-Engine")
         rag_script = os.path.join(rag_dir, "src", "core", "server.py")
         if not os.path.exists(rag_script):
             return False, {}

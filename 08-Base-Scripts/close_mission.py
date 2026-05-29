@@ -6,20 +6,17 @@ Finalizes the AI session by verifying state updates and documentation health.
 Run this before concluding any major task.
 """
 import os, sys
-# Ensure we are running inside the virtual environment
-_venv_dir = os.path.dirname(os.path.abspath(__file__))
-while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _parent = os.path.dirname(_venv_dir)
-    if _parent == _venv_dir:
-        break
-    _venv_dir = _parent
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-if os.path.exists(_venv_python):
-    try:
-        if not os.path.samefile(sys.executable, _venv_python):
-            os.execl(_venv_python, _venv_python, *sys.argv)
-    except OSError:
-        pass
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
+    _vault_root = os.path.dirname(_vault_root)
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -51,8 +48,8 @@ def get_active_mode(vault_root: Path) -> str:
             pass
     return "4"
 
-def get_fleet_repositories(workspace_root: Path) -> list:
-    inventory_path = workspace_root / "obsidian-brain" / "05-Fleet-Operation" / "00-Repo-Control" / "inventory.json"
+def get_fleet_repositories(vault_root: Path) -> list:
+    inventory_path = vault_root / "05-Fleet-Operation" / "00-Repo-Control" / "inventory.json"
     if not inventory_path.exists():
         return []
     try:
@@ -82,8 +79,8 @@ def main():
     print("🎭 BASTIEN-ANTIGRAVITY: MISSION SIGN-OFF RITUAL")
     print("═"*60)
     
-    workspace_root = script_dir.parents[1]
-    vault_root = workspace_root / "obsidian-brain"
+    vault_root = script_dir.parent
+    workspace_root = vault_root.parent
     
     active_mode = get_active_mode(vault_root)
     print(f"📡 Active Mode Detected: Mode {active_mode}")
@@ -91,7 +88,7 @@ def main():
     EXCLUSIONS = [".git", ".obsidian", ".gemini", "Templates", "MODE-MANUAL.md"]
     engine = Sovereignty(workspace_root=workspace_root)
     
-    repositories = get_fleet_repositories(workspace_root)
+    repositories = get_fleet_repositories(vault_root)
     repos_to_check = []
     
     has_vault_in_inventory = False
@@ -100,7 +97,7 @@ def main():
         repo_path_rel = repo.get("path")
         repo_abs_path = (workspace_root / repo_path_rel).resolve()
         if repo_abs_path.exists() and (repo_abs_path / ".git").exists():
-            is_vault = (repo_name == "obsidian-brain" or repo_abs_path == vault_root.resolve())
+            is_vault = (repo_name == vault_root.name or repo_abs_path.resolve() == vault_root.resolve())
             if is_vault:
                 has_vault_in_inventory = True
             repos_to_check.append({
@@ -111,7 +108,7 @@ def main():
             
     if not has_vault_in_inventory and vault_root.exists():
         repos_to_check.insert(0, {
-            "name": "obsidian-brain",
+            "name": vault_root.name,
             "path": vault_root.resolve(),
             "is_vault": True
         })

@@ -12,67 +12,19 @@ import asyncio
 import subprocess
 from datetime import datetime
 
-# --- Virtual Environment Bootstrap ---
-_vault_root = os.path.dirname(os.path.abspath(__file__))
-if _vault_root not in sys.path:
-    sys.path.append(_vault_root)
-
-# Resolve venv by walking up (parity with start_engine.py)
-_venv_dir = _vault_root
-while _venv_dir and _venv_dir != os.path.dirname(_venv_dir) and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _venv_dir = os.path.dirname(_venv_dir)
-
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-
-def bootstrap():
-    if os.path.exists(_venv_python):
-        try:
-            if not os.path.samefile(sys.executable, _venv_python):
-                os.execl(_venv_python, _venv_python, *sys.argv)
-        except (OSError, ValueError):
-            pass
-
-bootstrap()
-
-# --- Dependency Validation ---
-def _missing_python_packages(python_executable: str) -> list:
-    module_to_package = {
-        "yaml": "PyYAML",
-        "mcp": "mcp",
-        "openai": "openai",
-        "dotenv": "python-dotenv",
-        "langgraph": "langgraph",
-        "chainlit": "chainlit",
-    }
-    check_code = (
-        "import importlib.util\n"
-        f"mods = {list(module_to_package.keys())!r}\n"
-        "print('\\n'.join(m for m in mods if importlib.util.find_spec(m) is None))\n"
-    )
-    result = subprocess.run(
-        [python_executable, "-B", "-c", check_code],
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode != 0:
-        return list(module_to_package.values())
-    missing_modules = [line.strip() for line in result.stdout.splitlines() if line.strip()]
-    return [module_to_package[module] for module in missing_modules]
-
-def ensure_python_requirements():
-    requirements_path = os.path.join(_vault_root, "requirements.txt")
-    if not os.path.exists(requirements_path):
-        return
-    
-    missing = _missing_python_packages(sys.executable)
-    if missing:
-        print(f"\n📦 Missing dependencies: {', '.join(missing)}")
-        subprocess.run([sys.executable, "-m", "pip", "install", "-r", requirements_path])
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 from src import EngineFacade as SquadFacade
 
 def main():
-    ensure_python_requirements()
     facade = SquadFacade(_vault_root)
     
     facade.mcp.backup_settings()

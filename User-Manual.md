@@ -26,12 +26,12 @@ Before you begin, ensure your environment is configured:
    ```
    `start_squad.py` also checks these vault-level requirements at startup and installs missing packages into the active virtual environment.
 2. **Node.js**: Required to run the MCP Filesystem servers.
-3. **Gemini CLI**: Install via npm:
+3. **Antigravity CLI**: Install via curl:
    ```bash
-   npm install -g @google/gemini-cli
+   curl -fsSL https://antigravity.google/cli/install.sh | bash
    ```
-4. **Auth**: Run `gemini /auth signin` to link your Google account or Google AI Pro account.
-5. IDE: **Antigravity IDE** or **Vscode** and **gemini-cli** extension is recommanded but not mandatory...
+4. **Auth**: The first time you launch `antigravity-cli`, it will automatically trigger a Google Sign-In OAuth flow in your web browser.
+5. IDE: **Antigravity IDE** or **Vscode** with the **Antigravity** extension is recommended but not mandatory...
 
 ---
 
@@ -47,15 +47,16 @@ This script configures the MCP "Filesystem Bridge" and prepares the subagents.
     # Ensure your virtual environment is active first!
     source .venv/bin/activate
     
-    # Run using the default Gemini CLI:
-    python3 obsidian-brain/20-Scripts/start_squad.py
+    # Run using the default Antigravity CLI:
+    # Run using the default Antigravity CLI:
+    python3 obsidian-brain/08-Base-Scripts/start_squad.py
     
-    # Or override and start directly using another client (gemini/claude/codex/deepseek):
-    ACTIVE_CLIENT=deepseek python3 obsidian-brain/20-Scripts/start_squad.py
+    # Or override and start directly using another client (antigravity/gemini/claude/codex/deepseek):
+    ACTIVE_CLIENT=deepseek python3 obsidian-brain/08-Base-Scripts/start_squad.py
 ```
 
-The supported client adapters are centralized in `20-Scripts/clients/registry.py`.
-Gemini, Claude, and Codex are native CLI clients. DeepSeek is an API-backed client implemented in `20-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
+The supported client adapters are centralized in `08-Base-Scripts/clients/registry.py`.
+Antigravity, Gemini, Claude, and Codex are native CLI clients. DeepSeek is an API-backed client implemented in `08-Base-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
 See [[99-Humans/AI-Client-Startup-Guide]] for per-client startup commands.
 
 Preferred DeepSeek setup uses shell environment variables:
@@ -76,7 +77,7 @@ If the CLI asks "Do you want to connect Antigravity?", select **1. Yes**. This a
 
 ### Step 3: Verify the Tools
 
-Inside the Gemini CLI (or any configured AI engine), verify the vault and RAG bridges are successfully bound:
+Inside the Antigravity CLI (or any configured AI engine), verify the vault and RAG bridges are successfully bound:
 
 > `/mcp list`
 > *(You should see `obsidian_vault` with tools like `read_file`, and `obsidian_rag` with tools like `query_brain`, `get_brain_stats`, and `find_similar_files`)*
@@ -127,7 +128,7 @@ To keep navigation predictable for both humans and AI, the vault follows this nu
 | **`05-Fleet-Operation`**   | **Zone 3: Fleet**  | Multi-Repo Inventory     |
 | **`06-Microservices`**     | Service Hubs             | Operational Docs         |
 | **`07-Core-KMS`**          | AI Agent Engine          | Agent Prompts (OS)       |
-| **`20-Scripts`**           | Automation               | CLI Scripts              |
+| **`08-Base-Scripts`**      | Automation               | CLI Scripts              |
 
 ---
 
@@ -140,7 +141,7 @@ The Brain has three distinct "Protocols" that change how the AI works. You can s
 1. **At Startup**: The `start_squad.py` script now asks you to select a mode before the CLI begins.
 2. **Anytime**: Run the standalone switcher script:
    ```bash
-   python3 20-Scripts/switch_mode.py
+   python3 08-Base-Scripts/switch_mode.py
    ```
 3. **The "Oracle" Command**: You can also ask the AI to do it: *"Switch to Mode 2 and update the manual."*
 
@@ -234,7 +235,7 @@ If you want to start a **completely new project** (e.g., a Marketing campaign, a
 ### The Scaffolding Command:
 From the root of your current brain, run:
 ```bash
-python3 20-Scripts/scaffold_new_brain.py
+python3 08-Base-Scripts/scaffold_new_brain.py
 ```
 
 ### What happens?
@@ -250,7 +251,7 @@ This allows you to treat your **AI Infrastructure** as a reusable asset. You bui
 
 ## 🧠 12. The Semantic Search Engine (RAG-mcp)
 
-The **08-RAG-Engine** is a localized, offline vector database indexer that integrates into your AI Squad CLI via the Model Context Protocol (MCP). Instead of loading entire, large documentation files which consume massive amounts of context tokens, the RAG engine chunks files dynamically to provide high-density paragraph-level knowledge context.
+The **09-RAG-Engine** is a localized, offline vector database indexer that integrates into your AI Squad CLI via the Model Context Protocol (MCP). Instead of loading entire, large documentation files which consume massive amounts of context tokens, the RAG engine chunks files dynamically to provide high-density paragraph-level knowledge context.
 
 ### Dynamic Architecture
 - **Dynamic Virtual Environment**: The system automatically utilizes the central vault `.venv` if configured; otherwise, it falls back to the RAG subfolder virtual environment.

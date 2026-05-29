@@ -109,12 +109,25 @@ def main() -> None:
     # Cleanup: Remove orphaned agents in all active targets
     for name, target in active_targets:
         print(f"🧹 Purging old {name} agents in {target}...")
-        for f in osListdir(target):
-            if f.endswith(".md"):
-                try:
-                    os.remove(osPathJoin(target, f))
-                except OSError as e:
-                    print(f"   ⚠️ Could not purge {f}: {e}")
+        if "skills" in target or name == "Antigravity":
+            if osPathExists(target):
+                for f in osListdir(target):
+                    dir_path = osPathJoin(target, f)
+                    if osPathIsdir(dir_path):
+                        skill_md = osPathJoin(dir_path, "SKILL.md")
+                        if osPathExists(skill_md):
+                            try:
+                                os.remove(skill_md)
+                                os.rmdir(dir_path)
+                            except OSError as e:
+                                print(f"   ⚠️ Could not purge skill {f}: {e}")
+        else:
+            for f in osListdir(target):
+                if f.endswith(".md"):
+                    try:
+                        os.remove(osPathJoin(target, f))
+                    except OSError as e:
+                        print(f"   ⚠️ Could not purge {f}: {e}")
 
     # Map folder names to clean agent names
     for folder in osListdir(source_dir):
@@ -153,7 +166,12 @@ To prevent context degradation, you MUST begin EVERY single response with the fo
                 
                 # Sync to all active targets
                 for name, target in active_targets:
-                    target_file = osPathJoin(target, f"{agent_name}.md")
+                    if "skills" in target or name == "Antigravity":
+                        skill_dir = osPathJoin(target, agent_name)
+                        osMakedirs(skill_dir, exist_ok=True)
+                        target_file = osPathJoin(skill_dir, "SKILL.md")
+                    else:
+                        target_file = osPathJoin(target, f"{agent_name}.md")
                     try:
                         with open(target_file, 'w', encoding='utf-8') as f:
                             f.write(yaml_frontmatter + content + "\n" + scan_block)

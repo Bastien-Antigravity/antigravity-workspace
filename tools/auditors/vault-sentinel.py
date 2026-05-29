@@ -102,7 +102,7 @@ class VaultSentinel:
             ignore_dirs = {
                 ".git", ".obsidian", ".gemini", ".venv", "venv", "node_modules",
                 "experiments", "deployments", "plans", "Templates", "04-Templates", "99-Humans", "quick-overview",
-                "08-RAG-Engine"
+                "09-RAG-Engine"
             }
             for root, dirs, files in osWalk(target_dir):
                 # Prune ignored directories in-place

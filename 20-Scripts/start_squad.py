@@ -18,20 +18,17 @@ KEY PARAMETERS:
 - mcp_args: Dynamic arguments for the filesystem MCP server.
 """
 import os, sys
-# Ensure we are running inside the virtual environment
-_venv_dir = os.path.dirname(os.path.abspath(__file__))
-while _venv_dir and _venv_dir != '/' and not os.path.exists(os.path.join(_venv_dir, ".venv")):
-    _parent = os.path.dirname(_venv_dir)
-    if _parent == _venv_dir:
-        break
-    _venv_dir = _parent
-_venv_python = os.path.join(_venv_dir, ".venv", "Scripts", "python.exe") if os.name == "nt" else os.path.join(_venv_dir, ".venv", "bin", "python3")
-if os.path.exists(_venv_python):
-    try:
-        if not os.path.samefile(sys.executable, _venv_python):
-            os.execl(_venv_python, _venv_python, *sys.argv)
-    except OSError:
-        pass
+# --- Bootstrap ---
+import os, sys
+_vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
+    _vault_root = os.path.dirname(_vault_root)
+sys.path.append(_vault_root)
+try:
+    from src.core.bootstrap import init as bootstrap_init
+    bootstrap_init(__file__)
+except ImportError:
+    pass
 
 from sys import executable as sysExecutable, path as sysPath, stdout as sysStdout, exit as sysExit
 from os import makedirs as osMakedirs, listdir as osListdir, name as osName, getenv as osGetenv 
@@ -47,6 +44,9 @@ if script_dir not in sysPath:
     sysPath.append(script_dir)
 if vault_root not in sysPath:
     sysPath.append(vault_root)
+
+_venv_python = osPathJoin(vault_root, ".venv", "Scripts", "python.exe") if osName == "nt" else osPathJoin(vault_root, ".venv", "bin", "python3")
+
 
 try:
     from switch_mode import get_mode_choice_interactive, apply_mode_protocol, MODES
@@ -76,55 +76,6 @@ if sysStdout.encoding != 'utf-8':
 def get_vault_python() -> str:
     """Return the vault virtualenv Python when available, otherwise current Python."""
     return _venv_python if osPathExists(_venv_python) else sysExecutable
-
-def _missing_python_packages(python_executable: str) -> list:
-    """Check required import modules using the target Python interpreter."""
-    module_to_package = {
-        "yaml": "PyYAML",
-        "mcp": "mcp",
-        "openai": "openai",
-        "dotenv": "python-dotenv",
-    }
-    check_code = (
-        "import importlib.util\n"
-        f"mods = {list(module_to_package.keys())!r}\n"
-        "print('\\n'.join(m for m in mods if importlib.util.find_spec(m) is None))\n"
-    )
-    result = subprocessRun(
-        [python_executable, "-B", "-c", check_code],
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode != 0:
-        return list(module_to_package.values())
-    missing_modules = [line.strip() for line in result.stdout.splitlines() if line.strip()]
-    return [module_to_package[module] for module in missing_modules]
-
-def ensure_python_requirements() -> None:
-    """
-    Ensures the vault-level Python dependencies are installed in the active venv.
-    This covers launcher/runtime dependencies such as PyYAML, OpenAI SDK, MCP client,
-    and python-dotenv. RAG-specific dependencies remain managed by 09-RAG-Engine.
-    """
-    requirements_path = osPathAbspath(osPathJoin(script_dir, "..", "requirements.txt"))
-    if not osPathExists(requirements_path):
-        return
-
-    pip_python = get_vault_python()
-    missing_packages = _missing_python_packages(pip_python)
-    if not missing_packages:
-        return
-
-    print("\n📦 Missing Python dependencies detected:")
-    for package in missing_packages:
-        print(f"   - {package}")
-    print("   Installing vault requirements...")
-
-    result = subprocessRun([pip_python, "-m", "pip", "install", "-r", requirements_path])
-    if result.returncode != 0:
-        print("⚠️ Warning: dependency installation failed. Install manually with:")
-        print(f"   {pip_python} -m pip install -r {requirements_path}")
-
 # -----------------------------------------------------------------------------------------------
 
 def setup_mcp(mode_choice: str) -> None:
@@ -146,20 +97,16 @@ def setup_mcp(mode_choice: str) -> None:
     mcp_args = None
     
     if has_rag:
-        # Determine the Python virtual environment path dynamically:
-        # 1. If local 09-RAG-Engine/.venv exists, use it (contains specific RAG packages).
-        # 2. Otherwise, fallback to the central obsidian-brain/.venv.
-        local_venv = osPathJoin(rag_dir, ".venv")
-        local_python = osPathJoin(local_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(local_venv, "bin", "python3")
+                # Determine the Python virtual environment path dynamically:
+        # We now use the unified obsidian-brain environment for everything.
+        local_python = osPathJoin(vault_root, ".venv", "Scripts", "python.exe") if osName == "nt" else osPathJoin(vault_root, ".venv", "bin", "python3")
         
         if osPathExists(local_python):
             resolved_python = local_python
-            print(f"📡 RAG using local 09-RAG-Engine virtual environment: {resolved_python}")
+            print(f"📡 RAG using unified {osPathBasename(vault_root)} virtual environment: {resolved_python}")
         else:
-            parent_venv = osPathJoin(vault_root, ".venv")
-            parent_python = osPathJoin(parent_venv, "Scripts", "python.exe") if osName == "nt" else osPathJoin(parent_venv, "bin", "python3")
-            resolved_python = parent_python
-            print(f"📡 RAG using central obsidian-brain virtual environment: {resolved_python}")
+            resolved_python = sysExecutable
+            print(f"📡 RAG using system Python fallback: {resolved_python}")
             
         obsidian_rag_config = {
             "command": resolved_python,
@@ -173,7 +120,7 @@ def setup_mcp(mode_choice: str) -> None:
         # Fallback to standard basic filesystem MCP server
         # --- Dynamic Context Exclusion Logic (The Firewall) ---
         global_excludes = {
-            ".obsidian", ".git", ".gemini", ".claude", ".codex", ".deepseek",
+            ".obsidian", ".git", ".gemini", ".claude", ".codex", ".deepseek", ".agents",
             "node_modules", "99-Humans", "quick-overview"
         }
         mode_excludes_map = {
@@ -198,10 +145,12 @@ def setup_mcp(mode_choice: str) -> None:
                 
         mcp_args = ["-y", "@modelcontextprotocol/server-filesystem"] + allowed_dirs
     
-    # 2. Update MCP configs (AI-Agnostic: Gemini and Claude)
+    # 2. Update MCP configs (AI-Agnostic: Gemini, Claude, and Antigravity)
     configs_to_update = [
         # (filepath, label)
         (osPathJoin(osPathExpanduser("~/.gemini"), "settings.json"), "Gemini Settings"),
+        (osPathJoin(osPathExpanduser("~/.gemini/antigravity-cli"), "mcp_config.json"), "Antigravity CLI MCP Config"),
+        (osPathJoin(osPathExpanduser("~/.gemini/antigravity-cli"), "settings.json"), "Antigravity CLI Settings"),
     ]
     if osName != "nt":  # Claude desktop is Mac/Windows, but on Mac we definitely expand it
         configs_to_update.append(
@@ -317,7 +266,7 @@ def check_session_health(mode_choice: str) -> None:
         })
         
     dirty_repos_info = []
-    EXCLUSIONS = [".git", ".obsidian", ".gemini", ".claude", ".codex", ".deepseek", "Templates", "MODE-MANUAL.md"]
+    EXCLUSIONS = [".git", ".obsidian", ".gemini", ".claude", ".codex", ".deepseek", ".agents", "Templates", "MODE-MANUAL.md"]
     
     for repo in repos_to_check:
         repo_name = repo["name"]
@@ -360,7 +309,7 @@ def check_session_health(mode_choice: str) -> None:
             for repo_name, count in dirty_repos_info:
                 print(f"  - {repo_name} ({count} file(s) dirty)")
             print("\nIn Mode 3 (Fleet-Commander), startup is STRICTLY BLOCKED to prevent multi-repository drift.")
-            print("Please run 'python3 ./obsidian-brain/08-Base-Scripts/close_mission.py' to verify and sign-off.")
+            print(f"Please run 'python3 ./{osPathBasename(vault_root)}/08-Base-Scripts/close_mission.py' to verify and sign-off.")
             print("="*60)
             print("🛑"*30 + "\n")
             print("👋 Session should be aborted...")
@@ -374,7 +323,7 @@ def check_session_health(mode_choice: str) -> None:
             for repo_name, count in dirty_repos_info:
                 print(f"  - {repo_name} ({count} file(s) dirty)")
             print("\nRunning in Mode 1 (Spec-First) with uncommitted changes can lead to state drift and integrity issues.")
-            print("It is highly recommended to run 'python3 ./obsidian-brain/08-Base-Scripts/close_mission.py' first.")
+            print(f"It is highly recommended to run 'python3 ./{osPathBasename(vault_root)}/08-Base-Scripts/close_mission.py' first.")
             print("="*60)
             print("⚠️"*30 + "\n")
             
@@ -554,8 +503,12 @@ def run_client_with_fallback(active_client: str, agent_choice: str, mode_choice:
         if client_name != active_client:
             print(f"⚠️ Warning: {active_client} unavailable. Trying fallback client: {client_name}")
 
-        subprocessRun(cmd_prefix + cli_cmd)
-        return
+        try:
+            subprocessRun(cmd_prefix + cli_cmd)
+            return
+        except FileNotFoundError:
+            print(f"⚠️ Warning: Client command '{cli_cmd[0]}' not found on path.")
+            continue
 
     raise FileNotFoundError(f"No available AI client found. Tried: {', '.join(launch_order)}")
 
@@ -573,7 +526,6 @@ def start_engine() -> None:
         print("="*60)
 
         # 1. Verification & Sync
-        ensure_python_requirements()
         unlock_core_kms()
         run_preflight()
         regenerate_agents()
@@ -734,7 +686,11 @@ def start_engine() -> None:
 # -----------------------------------------------------------------------------------------------
 
 def get_settings_paths():
-    paths = [osPathJoin(osPathExpanduser("~/.gemini"), "settings.json")]
+    paths = [
+        osPathJoin(osPathExpanduser("~/.gemini"), "settings.json"),
+        osPathJoin(osPathExpanduser("~/.gemini/antigravity-cli"), "mcp_config.json"),
+        osPathJoin(osPathExpanduser("~/.gemini/antigravity-cli"), "settings.json")
+    ]
     if osName != "nt":
         paths.append(osPathJoin(osPathExpanduser("~/Library/Application Support/Claude"), "claude_desktop_config.json"))
     else:
@@ -766,7 +722,11 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Bastien-Antigravity AI Squad Command Center")
     parser.add_argument("--reset-rag", action="store_true", help="Reset and rebuild the ChromaDB RAG index before starting.")
+    parser.add_argument("--client", "-c", type=str, help="Specify the active client on startup (e.g. gemini, claude, deepseek, codex, antigravity).")
     args, unknown = parser.parse_known_args()
+
+    if args.client:
+        os.environ["ACTIVE_CLIENT"] = args.client
 
     if args.reset_rag:
         if check_rag_attached():

@@ -50,31 +50,20 @@ except ImportError:
 
 # -----------------------------------------------------------------------------------------------
 
-def _find_workspace_root() -> str:
-    """
-    Walk up from this script's location until we find the workspace root.
-    """
-    current = osPathDirname(osPathAbspath(__file__))
-    while current != osPathDirname(current):
-        if globGlob(osPathJoin(current, "*.code-workspace")):
-            return current
-        if osPathIsdir(osPathJoin(current, "obsidian-brain")) and osPathIsdir(osPathJoin(current, "fleet-operation-brain")):
-            return current
-        current = osPathDirname(current)
-    return osPathAbspath(osPathJoin(osPathDirname(osPathAbspath(__file__)), "..", ".."))
-
 def main() -> None:
-    workspace_root = _find_workspace_root()
+    # Resolve roots dynamically relative to SCRIPT_DIR (script is in vault_root/08-Base-Scripts or vault_root/20-Scripts)
+    vault_root = osPathDirname(SCRIPT_DIR)
+    workspace_root = osPathDirname(vault_root)
 
     # Precedence:
     # 1. 01-Strategic-Nexus (Source of Truth for Strategic Identities)
     # 2. 07-Core-KMS (Central Repository for Operational Personas)
     
     source_dirs = [
-        osPathJoin(workspace_root, "obsidian-brain", "01-Strategic-Nexus", "Role-Prompts"),
-        osPathJoin(workspace_root, "obsidian-brain", "02-Business-BDD", "Role-Prompts"),
-        osPathJoin(workspace_root, "obsidian-brain", "03-Tech-Stack", "Role-Prompts"),
-        osPathJoin(workspace_root, "obsidian-brain", "07-Core-KMS", "Role-Prompts"),
+        osPathJoin(vault_root, "01-Strategic-Nexus", "Role-Prompts"),
+        osPathJoin(vault_root, "02-Business-BDD", "Role-Prompts"),
+        osPathJoin(vault_root, "03-Tech-Stack", "Role-Prompts"),
+        osPathJoin(vault_root, "07-Core-KMS", "Role-Prompts"),
         # Standalone clones support
         osPathJoin(workspace_root, "core-kms-brain", "Role-Prompts"),
         osPathJoin(workspace_root, "nexus-strategic-brain", "Role-Prompts"),
@@ -82,8 +71,6 @@ def main() -> None:
     
     # Filter only existing directories
     active_source_dirs = [d for d in source_dirs if osPathIsdir(d)]
-    
-    vault_root = osPathJoin(workspace_root, "obsidian-brain")
 
     # Sync every supported adapter directory from the central client registry.
     if iter_clients:
@@ -117,12 +104,25 @@ def main() -> None:
     # Cleanup: Remove orphaned agents in all active targets
     for name, target in active_targets:
         print(f"🧹 Purging old {name} agents in {target}...")
-        for f in osListdir(target):
-            if f.endswith(".md"):
-                try:
-                    os.remove(osPathJoin(target, f))
-                except OSError as e:
-                    print(f"   ⚠️ Could not purge {f}: {e}")
+        if "skills" in target or name == "Antigravity":
+            if osPathExists(target):
+                for f in osListdir(target):
+                    dir_path = osPathJoin(target, f)
+                    if osPathIsdir(dir_path):
+                        skill_md = osPathJoin(dir_path, "SKILL.md")
+                        if osPathExists(skill_md):
+                            try:
+                                os.remove(skill_md)
+                                os.rmdir(dir_path)
+                            except OSError as e:
+                                print(f"   ⚠️ Could not purge skill {f}: {e}")
+        else:
+            for f in osListdir(target):
+                if f.endswith(".md"):
+                    try:
+                        os.remove(osPathJoin(target, f))
+                    except OSError as e:
+                        print(f"   ⚠️ Could not purge {f}: {e}")
 
     # Track processed agents to ensure Source of Truth precedence
     processed_agents = set()
@@ -171,7 +171,12 @@ To prevent context degradation, you MUST begin EVERY single response with the fo
                     
                     # Sync to all active targets
                     for name, target in active_targets:
-                        target_file = osPathJoin(target, f"{agent_name}.md")
+                        if "skills" in target or name == "Antigravity":
+                            skill_dir = osPathJoin(target, agent_name)
+                            osMakedirs(skill_dir, exist_ok=True)
+                            target_file = osPathJoin(skill_dir, "SKILL.md")
+                        else:
+                            target_file = osPathJoin(target, f"{agent_name}.md")
                         try:
                             with open(target_file, 'w', encoding='utf-8') as f:
                                 f.write(yaml_frontmatter + content + "\n" + scan_block)
