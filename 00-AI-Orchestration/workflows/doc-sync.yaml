@@ -7,7 +7,7 @@ steps:
   - name: Ecosystem Mapping
     action: shell
     params:
-      cmd: python 20-Scripts/map_feats.py
+      cmd: python 08-Base-Scripts/map_feats.py
     description: Generate the latest Ecosystem-Map-MOC.
   - name: Persona Update
     action: prompt
@@ -16,7 +16,7 @@ steps:
   - name: Link Verification
     action: shell
     params:
-      cmd: python 20-Scripts/fix_feats.py
+      cmd: python 08-Base-Scripts/fix_feats.py
     description: Auto-fix broken links and update YAML headers.
   - name: Signoff
     action: signoff

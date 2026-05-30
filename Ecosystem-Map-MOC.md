@@ -38,9 +38,9 @@ These define the generic "Team of Agents" architecture, workflows, and prompts f
 
 ## 🌌 01 - Strategic Oracle
 The "Strategic Oracle" that analyzes history, patterns, and project blind spots.
-- **[[01-Strategic-Nexus/STRAT-001-The-Dormant-Pipeline|👁️ Current Strategic Audit]]**
-- **[[01-Strategic-Nexus/Strategy-Audit-MOC|🌌 Strategy Audit Index]]**
-- **[[01-Strategic-Nexus/Strategic-Patterns|🧩 Strategic Patterns]]**
+- **[[01-Strategic-Nexus/archive/STRAT-001-The-Dormant-Pipeline|👁️ Current Strategic Audit]]**
+- **[[01-Strategic-Nexus/strategic/Strategy-Audit-MOC|🌌 Strategy Audit Index]]**
+- **[[01-Strategic-Nexus/strategic/Strategic-Patterns|🧩 Strategic Patterns]]**
 - **[[01-Strategic-Nexus/Anti-Backlog|🚫 The Anti-Backlog]]**
 - **[[01-Strategic-Nexus/README|📖 Nexus Overview]]**
 - **[[07-Core-KMS/Role-Prompts/00-Oracle/Prompt-Chronos-Oracle|🛰️ Role 00: Chronos-Oracle]]**

@@ -7,21 +7,24 @@ Run this before concluding any major task.
 """
 import os, sys
 # --- Bootstrap ---
-import os, sys
 _vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
     _vault_root = os.path.dirname(_vault_root)
-sys.path.append(_vault_root)
-try:
-    from src.core.bootstrap import init as bootstrap_init
-    bootstrap_init(__file__)
-except ImportError:
-    pass
+if _vault_root not in sys.path:
+    sys.path.append(_vault_root)
+
+_orch_dir = os.path.join(_vault_root, "00-AI-Orchestration")
+if _orch_dir not in sys.path:
+    sys.path.append(_orch_dir)
 
 from pathlib import Path
 from datetime import datetime, timedelta
 from subprocess import run as subprocessRun
 import json
+
+from orchestration_lib import setup_terminal, get_active_mode, get_fleet_repositories
+
+setup_terminal()
 
 # Add lib directory to sys.path
 script_dir = Path(__file__).resolve().parent
@@ -32,33 +35,6 @@ try:
 except ImportError:
     print("❌ Error: Could not find sovereignty.py in lib/")
     sys.exit(1)
-
-def get_active_mode(vault_root: Path) -> str:
-    mode = os.environ.get("SQUAD_ACTIVE_MODE")
-    if mode:
-        return mode
-    mode_file = vault_root / "00-AI-Orchestration" / "MODE-MANUAL.md"
-    if mode_file.exists():
-        try:
-            with open(mode_file, 'r', encoding='utf-8') as f:
-                for line in f:
-                    if line.startswith("active_mode:"):
-                        return line.split(":")[1].strip()
-        except Exception:
-            pass
-    return "4"
-
-def get_fleet_repositories(vault_root: Path) -> list:
-    inventory_path = vault_root / "05-Fleet-Operation" / "00-Repo-Control" / "inventory.json"
-    if not inventory_path.exists():
-        return []
-    try:
-        with open(inventory_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            return data.get("repositories", [])
-    except Exception as e:
-        print(f"⚠️ Failed to load inventory.json: {e}")
-        return []
 
 def get_current_branch(repo_path: Path) -> str:
     try:
@@ -215,15 +191,15 @@ def main():
             repo_path = repo["path"]
             branch = get_current_branch(repo_path)
             
-            if branch != "develop":
-                if branch in ["main", "master"]:
-                    print(f"   🛑 PROHIBITED: Automatic ritual is FORBIDDEN on the '{branch}' branch.")
-                else:
-                    print(f"   ⚠️  SKIPPED: Ritual only allowed on 'develop'. Current branch is '{branch}'.")
+            if branch in ["main", "master"]:
+                print(f"   🛑 PROHIBITED: Automatic ritual is FORBIDDEN on the '{branch}' branch.")
+                continue
+            elif branch != "develop" and not branch.startswith("feature/"):
+                print(f"   ⚠️  SKIPPED: Ritual only allowed on 'develop' or 'feature/*' branches. Current branch is '{branch}'.")
                 continue
 
             try:
-                print(f"   📦 Preparing updates for '{repo_name}' on 'develop'...")
+                print(f"   📦 Preparing updates for '{repo_name}' on '{branch}'...")
                 subprocessRun(["git", "add", "."], cwd=repo_path, check=True)
                 
                 if confirm_step(f"Commit changes to '{repo_name}'?"):
@@ -231,8 +207,8 @@ def main():
                     subprocessRun(["git", "commit", "-m", commit_msg], cwd=repo_path, check=True)
                     print(f"   ✅ Changes committed.")
                     
-                    if confirm_step(f"Push changes for '{repo_name}' to origin develop?"):
-                        subprocessRun(["git", "push", "origin", "develop"], cwd=repo_path, check=True)
+                    if confirm_step(f"Push changes for '{repo_name}' to origin {branch}?"):
+                        subprocessRun(["git", "push", "origin", branch], cwd=repo_path, check=True)
                         print(f"   ✅ Pushed successfully.")
                     else:
                         print(f"   ➡️  Push skipped.")

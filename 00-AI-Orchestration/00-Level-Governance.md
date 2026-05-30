@@ -59,4 +59,4 @@ All files within this level reside inside the `00-AI-Orchestration/` folder:
 *   **Objective**: Intake raw requests, run the **"Grill-Me" clarification loop** to verify targets and test boundaries, and compile the final `[INTAKE PACKAGE]` to delegate to the squad.
 
 ---
-*References: [[Ecosystem-Map-MOC]], [[07-Knowledge-Management-Playbook]]*
+*References: [[Ecosystem-Map-MOC]], [[00-Knowledge-Management-Playbook]]*

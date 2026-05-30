@@ -2,7 +2,7 @@
 microservice: obsidian-brain
 type: governance
 status: active
-active-protocol: "[[MODE-MANUAL#Mode-4]]"
+active-protocol: '[[MODE-MANUAL#Mode-4]]'
 lifecycle:
   active_branch: develop
   protected_branches:
@@ -30,10 +30,17 @@ Mission-ID: Vault-Architecture-Enhancements
 > Update associated documentation (**README.md**, **ARCHITECTURE.md**) and relevant **Obsidian Brain** nodes ONLY upon feature completion or sprint closure to preserve compute and prevent task drift. Do NOT update documentation after every minor code modification.
 
 ## 🚀 Progress Tracking
+- [x] **Vault Coherence & Healing**: Corrected all path references to `08-Base-Scripts` (from `20-Scripts`), aligned all 13 agent skills/prompts to eliminate deleted `10-State-and-Tasks` references, updated core Project DNA, and achieved 100% Sentinel health compliance (0 errors). (COMPLETED 2026-05-29)
 - [x] **Multi-Client Startup Guide**: Renamed the client adapter notes into `99-Humans/AI-Client-Startup-Guide.md`, documented Gemini/Claude/Codex/DeepSeek startup commands, clarified DeepSeek API environment variables, and explained the `STATE LOG : MISSING` sign-off gate. (COMPLETED 2026-05-20)
 - [x] **DeepSeek Dependency Bootstrap**: Added `openai`, `mcp`, and `python-dotenv` to root requirements and taught `start_squad.py` to install missing vault-level Python dependencies at startup. (COMPLETED 2026-05-20)
 - [x] **Vault Architecture Enhancements**: Hardened obsidian-brain with strict YAML frontmatter auto-formatting, log context pruning, strict write boundaries, semantic task routing, and a hybrid purging workflow with review checklists. (COMPLETED 2026-05-19)
 - [x] **Fleet Sovereignty Hardening**: Re-engineered `start_squad.py` and `close_mission.py` into a Git-aware, stateless ritual system. Hardened `sovereignty.py` with Trinity tagging and isolation zone audits. Standardized all 12 templates and synchronized 10 AI agents for multi-AI compatibility. Reset versioning to `v0.0.1`. (COMPLETED 2026-05-16)
+
+## 🛰️ Mission-ID: Vault-Coherence-Healing | Trace-ID: 2026-05-29
+- [x] **Path Resolution**: Fixed and updated `Brain-Health-Audit.py`, `Hardening-YAML.py`, and `Joint-Audit-Purger.py` to point to `08-Base-Scripts` (renamed from `20-Scripts`).
+- [x] **Role Prompts & Skills Alignment**: Synchronized the roles of all 13 agents, updating obsolete references to `10-State-and-Tasks/` to point to the correct locations inside `03-Tech-Stack/Templates` and `00-AI-Orchestration/Templates`.
+- [x] **DNA Document Sync**: Added missing roles (Architect, QA, DocIndexer, CodeIndexer, PatternSentinel) to the core project DNA.
+- [x] **Sovereignty Health Restoration**: Resolved multiple broken links and session state formatting errors, returning the Brain Sentinel health audit to a perfect 0-error result. (COMPLETED 2026-05-29)
 
 ## 🛰️ Mission-ID: Multi-Client-Startup-Guide | Trace-ID: 2026-05-20
 - [x] **Human Startup Documentation**: Added the human-facing guide for selecting AI clients with `ACTIVE_CLIENT`, including Gemini default startup, Claude/Codex CLI startup, and DeepSeek API startup.

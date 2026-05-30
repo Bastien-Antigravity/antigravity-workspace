@@ -1,0 +1,22 @@
+# --- obsidian-brain Root .dockerignore ---
+
+.git
+.github
+.obsidian
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Large runtime database folders
+.chroma_db
+09-RAG-Engine/.chroma_db
+09-RAG-Engine/alignment_registry.db
+
+# Other submodules docker ignores will handle their inner builds, but let's exclude parent directories
+*/.git
+*/.github
+*/.venv
+*/__pycache__

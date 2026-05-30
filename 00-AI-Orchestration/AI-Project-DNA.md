@@ -40,6 +40,16 @@ tags:
     - Maintain the `01-Strategic-Nexus/` vault and the **Anti-Backlog**.
 - **Developer**:
     - Follow the PARA/Diátaxis hybrid organizational system.
+- **Architect**:
+    - Design decoupled system interfaces and blueprints, performing Mode 1 design verification gates.
+- **QA**:
+    - Design BDD Gherkin test scenarios and sandbox execution skeletons before coding, verifying exit pass gates.
+- **DocIndexer**:
+    - Specialize in parsing, tokenizing, and indexing markdown files into the hybrid lexical/vector storage.
+- **CodeIndexer**:
+    - Specialize in AST-based code analysis, chunking, and code dependency index management.
+- **PatternSentinel**:
+    - Audit changes to enforce strict governance protocols, decoupling, and coding style standards.
 
 ## 🚦 Lifecycle & Versioning
 - **Primary Branch**: `develop`

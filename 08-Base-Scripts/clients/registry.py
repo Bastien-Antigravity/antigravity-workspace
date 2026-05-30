@@ -16,19 +16,19 @@ from typing import Dict, Iterable, List, Optional
 SCRIPT_DIR = dirname(dirname(abspath(__file__)))
 VAULT_ROOT = abspath(join(SCRIPT_DIR, ".."))
 
-DEFAULT_CLIENT = "gemini"
+DEFAULT_CLIENT = "antigravity"
 
 CLIENTS: Dict[str, Dict[str, str]] = {
     "antigravity": {
         "label": "Antigravity CLI",
         "kind": "cli",
-        "command": "antigravity-cli",
+        "command": "agy",
         "agents_dir": ".agents/skills",
     },
     "gemini": {
         "label": "Gemini",
         "kind": "cli",
-        "command": "gemini",
+        "command": "gemini-cli",
         "agents_dir": ".gemini/agents",
     },
     "claude": {
@@ -70,6 +70,7 @@ def normalize_client(name: str) -> str:
         "openai": "codex",
         "chatgpt": "codex",
         "gpt": "codex",
+        "gemini-cli": "gemini",
         "agy": "antigravity",
     }
     return aliases.get(candidate, candidate)
@@ -95,7 +96,7 @@ def list_agents(vault_root: str, client_name: str) -> List[str]:
         return []
     try:
         # Support both flat .md files and skill directory structure
-        if client_name == "antigravity" or "skills" in agents_dir:
+        if client_name in ("antigravity", "agy") or "skills" in agents_dir:
             agents = []
             for item in os.listdir(agents_dir):
                 item_path = join(agents_dir, item)
@@ -107,6 +108,19 @@ def list_agents(vault_root: str, client_name: str) -> List[str]:
         return []
 
 
+def _resolve_command_name(command_name: str) -> str:
+    """Resolve aliases/alternative command names dynamically depending on what is in PATH."""
+    if command_name == "agy" and which("agy") is None:
+        if which("antigravity-ide") is not None:
+            return "antigravity-ide"
+        if which("agy-ide") is not None:
+            return "agy-ide"
+    if command_name == "gemini-cli" and which("gemini-cli") is None:
+        if which("gemini") is not None:
+            return "gemini"
+    return command_name
+
+
 def is_client_available(client_name: str, vault_root: str) -> bool:
     """Check whether a client can be launched locally."""
     config = get_client_config(client_name)
@@ -115,10 +129,12 @@ def is_client_available(client_name: str, vault_root: str) -> bool:
 
     if config["kind"] == "cli":
         # Check primary command
-        if which(config["command"]) is not None:
+        resolved = _resolve_command_name(config["command"])
+        if which(resolved) is not None:
             return True
         # Fallback for Antigravity -> Gemini
-        if client_name == "antigravity" and which("gemini") is not None:
+        resolved_gemini = _resolve_command_name("gemini-cli")
+        if client_name == "antigravity" and which(resolved_gemini) is not None:
             return True
         return False
 
@@ -142,11 +158,12 @@ def build_launch_command(
         raise ValueError(f"Unsupported AI client: {client_name}")
 
     if config["kind"] == "cli":
-        command_name = config["command"]
+        command_name = _resolve_command_name(config["command"])
         # Fallback for Antigravity -> Gemini if primary command is missing
         if client_name == "antigravity" and not which(command_name):
-            if which("gemini"):
-                command_name = "gemini"
+            resolved_gemini = _resolve_command_name("gemini-cli")
+            if which(resolved_gemini):
+                command_name = resolved_gemini
         
         command = [command_name]
         if agent:

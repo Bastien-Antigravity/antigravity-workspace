@@ -3,13 +3,21 @@ microservice: obsidian-brain
 type: session-state
 status: active
 Mission-ID: KMS-FIX-AUTOGEN
-active-protocol: "[[MODE-MANUAL#Mode-4]]"
+active-protocol: '[[MODE-MANUAL#Mode-4]]'
 tags:
 - '#service/obsidian-brain'
 - '#zone/3-fleet'
 - '#type/session-state'
 - '#state/active'
 ---
+## 📡 FleetArchitect Session (2026-05-30)
+- **Reconciled** sub-repository configurations within the `obsidian-brain` vault using an updated `fleet-manager.py` that interpolates `dependabot.yml` polyglot placeholders correctly.
+- **Removed** unauthorized `.github/workflows/ci.yml` and `.github/dependabot.yml` from knowledge-base sub-repositories (`obsidian-brain`, `01-Strategic-Nexus`, `02-Business-BDD`, `03-Tech-Stack`, `04-Rapid-Prototyping`, `07-Core-KMS`) to strictly satisfy the CI/CD Exclusion Rule.
+- **Preserved** the `.github` directory in `05-Fleet-Operation` to host the central reusable master workflows for the ecosystem.
+- **Standardized** Docker orchestration in `09-RAG-Engine` and `10-Agent-Factory` (Python Polyglot runtimes) by providing standard `Dockerfile`, `.dockerignore`, and `docker-compose.yaml`.
+- **Created** a root `docker-compose.yaml` in `obsidian-brain` to easily orchestrate and run all executable services (`rag-engine`, `agent-factory`, `strategic-nexus`) locally.
+- **Refined** FleetArchitect skill rules in `SKILL.md` (and related IDE/role prompts) to explicitly support independent local Docker service runtimes while maintaining the GitHub Actions workflows exclusion rule for file-only repositories.
+
 ## 📡 Gemini CLI Session (2026-05-28)
 - **Implemented** 'Mode Guardrail' in `SystemContext` and `GovernanceManager` to ensure sessions are correctly parked.
 - **Implemented** 'Knowledge Compression Script' (`20-Scripts/knowledge-compressor.py`) to distill session logs into actionable patterns.

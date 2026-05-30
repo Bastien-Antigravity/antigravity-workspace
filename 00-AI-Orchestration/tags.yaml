@@ -1,0 +1,59 @@
+# tags.yaml - Updated canonical tag taxonomy for the Obsidian Brain vault (including sub‑repositories)
+# Format: <category>/<value>
+# This file is referenced by validation scripts to ensure consistent tagging.
+
+tags:
+  service:
+    - obsidian-brain
+    - nexus-strategic-brain
+    - business-bdd-brain
+    - config-server
+    - log-server
+    - notif-server
+    - ingest-server
+    - search-engine
+    - ecosystem-wide
+  type:
+    - architecture
+    - task
+    - note
+    - playbook
+    - mocs
+    - tutorial
+    - governance
+    - documentation
+    - behavior-spec
+    - spec
+    - reference
+    - session-state
+  domain:
+    - networking
+    - security
+    - observability
+    - storage
+    - ddd
+  state:
+    - active
+    - deprecated
+    - draft
+    - pending
+  zone:
+    - 0-orchestration
+    - 1-strategic
+    - 1-nexus
+    - 2-business
+    - 3-fleet
+    - 4-deployment
+    - 5-microservices
+    - 6-core
+    - 7-base
+    - 8-rag
+    - 9-agent-factory
+  tier:
+    - governance
+    - architecture
+    - implementation
+    - testing
+  ai:
+    - task
+    - ignore

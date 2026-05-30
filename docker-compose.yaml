@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  rag-engine:
+    build:
+      context: ./09-RAG-Engine
+      dockerfile: Dockerfile
+    image: ghcr.io/bastien-antigravity/obsidian-rag-mcp:${TAG:-latest}
+    container_name: rag-engine
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount this folder as the obsidian-brain workspace inside the RAG container
+      - .:/app/obsidian-brain
+    networks:
+      - teleremote-network
+
+  agent-factory:
+    build:
+      context: ./10-Agent-Factory
+      dockerfile: Dockerfile
+    image: ghcr.io/bastien-antigravity/oop-agent-factory:${TAG:-latest}
+    container_name: agent-factory
+    restart: unless-stopped
+    volumes:
+      # Mount this folder to allow Agent Factory to read/write outputs in the workspace
+      - .:/app/obsidian-brain
+    depends_on:
+      - rag-engine
+    networks:
+      - teleremote-network
+
+  strategic-nexus:
+    build:
+      context: ./01-Strategic-Nexus
+      dockerfile: Dockerfile
+    image: ghcr.io/bastien-antigravity/nexus-strategic-brain:${TAG:-latest}
+    container_name: strategic-nexus
+    restart: unless-stopped
+    volumes:
+      # Mount this folder so the Oracle agent has access to strategic documents
+      - .:/app/obsidian-brain
+    depends_on:
+      - rag-engine
+    networks:
+      - teleremote-network
+
+networks:
+  teleremote-network:
+    name: teleremote-network
+    driver: bridge

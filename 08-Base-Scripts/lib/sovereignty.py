@@ -11,12 +11,8 @@ import os, sys
 _vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
     _vault_root = os.path.dirname(_vault_root)
-sys.path.append(_vault_root)
-try:
-    from src.core.bootstrap import init as bootstrap_init
-    bootstrap_init(__file__)
-except ImportError:
-    pass
+if _vault_root not in sys.path:
+    sys.path.append(_vault_root)
 
 
 import re
@@ -249,7 +245,7 @@ class Sovereignty:
             if not is_valid:
                 self.log_warning(f"[{file_name}] Orphan tag detected: {full_tag}")
 
-    def is_ignored_by_firewall(self, path: Path) -> bool:
+    def is_ignored_by_firewall(self, path: Path, ignore_ai_tag: bool = False) -> bool:
         """Checks if a path is ignored by context firewalls (.aiignore etc) or carries the #ai/ignore tag."""
         try:
             current = path.resolve()
@@ -264,6 +260,9 @@ class Sovereignty:
                 check_dir = check_dir.parent
         except Exception:
             pass
+
+        if ignore_ai_tag:
+            return False
 
         try:
             if path.is_file() and path.suffix == ".md":
@@ -282,7 +281,7 @@ class Sovereignty:
         if not path.suffix == ".md":
             return
 
-        if self.is_ignored_by_firewall(path):
+        if self.is_ignored_by_firewall(path, ignore_ai_tag=True):
             return
 
         self.current_file = path
@@ -326,7 +325,7 @@ class Sovereignty:
         if not path.suffix == ".md":
             return
             
-        if self.is_ignored_by_firewall(path):
+        if self.is_ignored_by_firewall(path, ignore_ai_tag=True):
             return
             
         if yaml is None:
@@ -351,7 +350,6 @@ class Sovereignty:
                 "05-Fleet-Operation": {"type": "fleet-op", "status": "active"},
                 "06-Microservices": {"type": "hub", "status": "active"},
                 "07-Core-KMS": {"type": "kms", "status": "active"},
-                "10-State-and-Tasks": {"type": "task", "status": "active"},
                 "08-Base-Scripts": {"type": "automation", "status": "active"},
             }
             

@@ -14,12 +14,15 @@ import os, sys
 _vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
     _vault_root = os.path.dirname(_vault_root)
-sys.path.append(_vault_root)
-try:
-    from src.core.bootstrap import init as bootstrap_init
-    bootstrap_init(__file__)
-except ImportError:
-    pass
+if _vault_root not in sys.path:
+    sys.path.append(_vault_root)
+
+_orch_dir = os.path.join(_vault_root, "00-AI-Orchestration")
+if _orch_dir not in sys.path:
+    sys.path.append(_orch_dir)
+
+from orchestration_lib import setup_terminal
+setup_terminal()
 
 from sys import exit as sysExit, stdout as sysStdout, path as sysPath
 from os import walk as osWalk
@@ -37,13 +40,6 @@ try:
 except ImportError:
     print("❌ Error: sovereignty.py not found in lib/")
     sysExit(1)
-
-# Standardize terminal output encoding for Windows
-if sysStdout.encoding != 'utf-8':
-    try:
-        sysStdout.reconfigure(encoding='utf-8')
-    except (AttributeError, Exception):
-        pass
 
 
 class VaultSentinel:

@@ -17,25 +17,14 @@ KEY PARAMETERS:
 - vault_root: Resolved path to the Obsidian Brain vault.
 - mcp_args: Dynamic arguments for the filesystem MCP server.
 """
-import os, sys
-# --- Bootstrap ---
-import os, sys
-_vault_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-while not os.path.exists(os.path.join(_vault_root, ".venv")) and _vault_root != os.path.dirname(_vault_root):
-    _vault_root = os.path.dirname(_vault_root)
-sys.path.append(_vault_root)
-try:
-    from src.core.bootstrap import init as bootstrap_init
-    bootstrap_init(__file__)
-except ImportError:
-    pass
 
-from sys import executable as sysExecutable, path as sysPath, stdout as sysStdout, exit as sysExit
-from os import makedirs as osMakedirs, listdir as osListdir, name as osName, getenv as osGetenv 
+from os import makedirs as osMakedirs, listdir as osListdir, name as osName, getenv as osGetenv, remove as osRemove, \
+               environ as osEnviron, chmod as osChmod, walk as osWalk
 from json import dump as jsonDump, load as jsonLoad
 from subprocess import run as subprocessRun
 from os.path import abspath as osPathAbspath, join as osPathJoin, dirname as osPathDirname, exists as osPathExists, \
-                    expanduser as osPathExpanduser, isdir as osPathIsdir, basename as osPathBasename
+                    expanduser as osPathExpanduser, isdir as osPathIsdir, basename as osPathBasename, getmtime as osPathGetmtime
+from sys import exit as sysExit, executable as sysExecutable, path as sysPath, stdout as sysStdout, exit as sysExit
 
 # Add current directory to sys.path to enable library imports
 script_dir = osPathDirname(osPathAbspath(__file__))
@@ -49,8 +38,8 @@ _venv_python = osPathJoin(vault_root, ".venv", "Scripts", "python.exe") if osNam
 
 
 try:
-    from switch_mode import get_mode_choice_interactive, apply_mode_protocol, MODES
-    from tools.mission_help import MissionHelper
+    from switch_mode import apply_mode_protocol, MODES
+    from mission_help import MissionHelper
     from clients.registry import (
         DEFAULT_CLIENT,
         build_launch_command,
@@ -64,18 +53,151 @@ except ImportError:
     print("❌ Error: Could not find required launcher modules in 08-Base-Scripts/")
     sysExit(1)
 
-# Standardize terminal output encoding for Windows
-if sysStdout.encoding != 'utf-8':
-    try:
-        sysStdout.reconfigure(encoding='utf-8')
-    except (AttributeError, Exception):
-        pass
-
 # -----------------------------------------------------------------------------------------------
 
 def get_vault_python() -> str:
     """Return the vault virtualenv Python when available, otherwise current Python."""
     return _venv_python if osPathExists(_venv_python) else sysExecutable
+
+# -----------------------------------------------------------------------------------------------
+
+def print_process_manifest_summary() -> None:
+    """
+    Reads process-manifest.json and prints a beautiful status table of all active components.
+    """
+    C_RESET = "\033[0m"
+    C_GREEN = "\033[92m"
+    C_RED = "\033[91m"
+    C_BOLD = "\033[1m"
+
+    manifest_path = osPathJoin(vault_root, "00-AI-Orchestration", "process-manifest.json")
+    if not osPathExists(manifest_path):
+        print(f"{C_RED}⚠️ Process manifest not found at {manifest_path}{C_RESET}")
+        return
+
+    try:
+        with open(manifest_path, 'r', encoding='utf-8') as f:
+            manifest = jsonLoad(f)
+    except Exception as e:
+        print(f"{C_RED}⚠️ Error loading process manifest: {e}{C_RESET}")
+        return
+
+    print("\n" + "═"*75)
+    print(f"📊 {C_BOLD}BASTIEN-ANTIGRAVITY: MULTIDIMENSIONAL PROCESS REGISTRY SUMMARY{C_RESET}")
+    print("═"*75)
+    
+    header_format = "{:<20} {:<10} {:<32} {:<10}"
+    print(C_BOLD + header_format.format("Component Name", "Type", "Trigger Condition", "Status") + C_RESET)
+    print("─"*75)
+
+    all_ok = True
+    for category in ["processes", "agents", "concepts"]:
+        elements = manifest.get(category, [])
+        for el in elements:
+            name = el.get("name", "Unknown")
+            trigger = el.get("trigger_condition", "N/A")
+            assoc_file = el.get("associated_file", "")
+            
+            if len(trigger) > 30:
+                trigger = trigger[:27] + "..."
+                
+            full_path = osPathJoin(vault_root, assoc_file)
+            if osPathExists(full_path):
+                status_str = f"{C_GREEN}GREEN [OK]{C_RESET}"
+            else:
+                status_str = f"{C_RED}RED [DRIFT]{C_RESET}"
+                all_ok = False
+                
+            type_label = category[:-1].upper()
+            print(header_format.format(name, type_label, trigger, status_str))
+
+    print("═"*75)
+    if all_ok:
+        print(f"✨ {C_GREEN}SYSTEM COHERENCE: All active control elements are verified.{C_RESET}")
+    else:
+        print(f"⚠️  {C_RED}SYSTEM ALERT: Component drift detected! Check missing files.{C_RESET}")
+    print("═"*75 + "\n")
+
+# -----------------------------------------------------------------------------------------------
+
+def archive_strat_files() -> None:
+    """
+    DATA FLOW:
+    Finds all STRAT-*.md files in the root of 01-Strategic-Nexus and moves them to 01-Strategic-Nexus/archive/.
+    Creates the archive folder if it doesn't exist.
+    Updates the links in all Strategy-Nexus markdown files to reflect the new location if needed.
+    """
+    vault_root = osPathAbspath(osPathJoin(script_dir, ".."))
+    nexus_dir = osPathJoin(vault_root, "01-Strategic-Nexus")
+    if not osPathExists(nexus_dir):
+        return
+        
+    archive_dir = osPathJoin(nexus_dir, "archive")
+    
+    moved_any = False
+    
+    try:
+        # Scan for STRAT-*.md files in the root of 01-Strategic-Nexus
+        for item in osListdir(nexus_dir):
+            if item.startswith("STRAT-") and item.endswith(".md"):
+                # Create archive folder on demand
+                if not osPathExists(archive_dir):
+                    try:
+                        osMakedirs(archive_dir, exist_ok=True)
+                        print("📁 Created archive directory in 01-Strategic-Nexus")
+                    except Exception as e:
+                        print(f"⚠️ Warning: Could not create archive directory via python: {e}")
+                
+                src_path = osPathJoin(nexus_dir, item)
+                dst_path = osPathJoin(archive_dir, item)
+                
+                # Robust move with copy+delete fallback to bypass OS permission/metadata locks
+                import shutil
+                try:
+                    shutil.move(src_path, dst_path)
+                    print(f"📦 Archived STRAT audit: {item} -> archive/{item}")
+                    moved_any = True
+                except Exception as e_move:
+                    # Fallback to copy and remove
+                    try:
+                        with open(src_path, "rb") as f_src:
+                            with open(dst_path, "wb") as f_dst:
+                                f_dst.write(f_src.read())
+                        try:
+                            osRemove(src_path)
+                        except Exception as e_rm:
+                            print(f"⚠️ Warning: Could not remove source file {item}: {e_rm}")
+                        print(f"📦 Archived STRAT audit (fallback): {item} -> archive/{item}")
+                        moved_any = True
+                    except Exception as e_copy:
+                        print(f"⚠️ Warning: Could not move {item} to archive: {e_move} (fallback failed: {e_copy})")
+                
+        # If we moved files, update links in all markdown files in 01-Strategic-Nexus (excluding archive/)
+        if moved_any:
+            import re
+            for file_item in osListdir(nexus_dir):
+                if file_item.endswith(".md"):
+                    file_path = osPathJoin(nexus_dir, file_item)
+                    try:
+                        with open(file_path, "r", encoding="utf-8") as f:
+                            content = f.read()
+                        
+                        # Use negative lookahead to prevent double-archiving already updated links
+                        updated_content = re.sub(
+                            r'\[\[(?!archive/)(STRAT-\d+-[^\]]+)\]\]',
+                            r'[[archive/\1]]',
+                            content
+                        )
+                        
+                        if updated_content != content:
+                            with open(file_path, "w", encoding="utf-8") as f:
+                                f.write(updated_content)
+                            print(f"📝 Updated links in {file_item} to target the archive folder.")
+                    except Exception as e:
+                        print(f"⚠️ Warning: Could not update links in {file_item}: {e}")
+    except Exception as e:
+        print(f"⚠️ Warning: Error archiving STRAT files: {e}")
+
 # -----------------------------------------------------------------------------------------------
 
 def setup_mcp(mode_choice: str) -> None:
@@ -274,10 +396,17 @@ def check_session_health(mode_choice: str) -> None:
         is_vault = repo["is_vault"]
         
         try:
-            result = subprocessRun(
-                ["git", "status", "--porcelain"], 
-                cwd=repo_path, capture_output=True, text=True, check=True
-            )
+            try:
+                result = subprocessRun(
+                    ["git", "status", "--porcelain"], 
+                    cwd=repo_path, capture_output=True, text=True, check=True
+                )
+            except FileNotFoundError:
+                print("⚠️ Git executable not found; skipping repo health check.")
+                continue
+            except Exception as e:
+                print(f"⚠️ Git status failed for {repo_name}: {e}")
+                continue
             uncommitted = []
             for line in result.stdout.splitlines():
                 if not line.strip():
@@ -358,17 +487,17 @@ def unlock_core_kms() -> None:
     if not osPathExists(kms_dir):
         return
     print("🔓 Restoring write permissions to 07-Core-KMS for audit phase...")
-    for root, dirs, files in os.walk(kms_dir):
+    for root, dirs, files in osWalk(kms_dir):
         for d in dirs:
             dir_path = osPathJoin(root, d)
             try:
-                os.chmod(dir_path, 0o755)
+                osChmod(dir_path, 0o755)
             except Exception:
                 pass
         for f in files:
             file_path = osPathJoin(root, f)
             try:
-                os.chmod(file_path, 0o644)
+                osChmod(file_path, 0o644)
             except Exception:
                 pass
 
@@ -382,17 +511,17 @@ def protect_core_kms() -> None:
     if not osPathExists(kms_dir):
         return
     print("🔒 Enforcing read-only permissions on 07-Core-KMS directory...")
-    for root, dirs, files in os.walk(kms_dir):
+    for root, dirs, files in osWalk(kms_dir):
         for d in dirs:
             dir_path = osPathJoin(root, d)
             try:
-                os.chmod(dir_path, 0o555)
+                osChmod(dir_path, 0o555)
             except Exception:
                 pass
         for f in files:
             file_path = osPathJoin(root, f)
             try:
-                os.chmod(file_path, 0o444)
+                osChmod(file_path, 0o444)
             except Exception:
                 pass
 
@@ -428,7 +557,7 @@ def reset_rag_index() -> None:
         
     if resolved_python and osPathExists(resolved_python):
         print(f"🗑️  Resetting RAG database via {resolved_python} {rag_main_script} index --reset...")
-        indexer_env = os.environ.copy()
+        indexer_env = osEnviron.copy()
         indexer_env["PYTHONPATH"] = rag_dir
         indexer_env["ANONYMIZED_TELEMETRY"] = "False"
         indexer_env["CHROMA_TELEMETRY"] = "False"
@@ -527,6 +656,7 @@ def start_engine() -> None:
 
         # 1. Verification & Sync
         unlock_core_kms()
+        archive_strat_files()
         run_preflight()
         regenerate_agents()
         protect_core_kms()
@@ -592,10 +722,12 @@ def start_engine() -> None:
         
         # Select Agent Persona dynamically
         available_agents = get_available_agents(active_cli)
-        agent_choice = ""
+        env_agent = osGetenv("ACTIVE_AGENT", "").strip().lower()
         
-        # Universal entry point: Orchestrator
-        if "orchestrator" in available_agents:
+        if env_agent and env_agent in available_agents:
+            agent_choice = env_agent
+            print(f"\n🎭 Routing via pre-selected Agent: {agent_choice}")
+        elif "orchestrator" in available_agents:
             agent_choice = "orchestrator"
             print(f"\n🎭 Mode {choice} active: Routing via Orchestrator (Universal Gateway).")
         elif available_agents:
@@ -612,6 +744,8 @@ def start_engine() -> None:
                         agent_choice = sorted(available_agents)[val - 1]
             except (KeyboardInterrupt, EOFError):
                 pass
+        
+        print_process_manifest_summary()
         
         if agent_choice:
             print(f"\n🚀 Firing up {active_label} [Protocol: {choice} | Agent: {agent_choice}]...")
@@ -656,7 +790,14 @@ def start_engine() -> None:
             cancelled_exit = False
             if osPathExists(signoff_script):
                 while True:
-                    result = subprocessRun([sysExecutable, signoff_script])
+                    try:
+                        result = subprocessRun([sysExecutable, signoff_script], check=True)
+                    except FileNotFoundError:
+                        print("⚠️ Sign‑off script not found.")
+                        break
+                    except Exception as e:
+                        print(f"⚠️ Sign‑off execution error: {e}")
+                        break
                     if result.returncode != 0:
                         print("\n🛑 MISSION SIGN-OFF BLOCKED DUE TO GOVERNANCE VIOLATIONS.")
                         print("Options:")
@@ -678,6 +819,7 @@ def start_engine() -> None:
                             continue
                     else:
                         break
+
             if cancelled_exit:
                 continue
             print("👋 Squad resting. Mission concluded.")
@@ -685,7 +827,7 @@ def start_engine() -> None:
 
 # -----------------------------------------------------------------------------------------------
 
-def get_settings_paths():
+def get_settings_paths() -> list:
     paths = [
         osPathJoin(osPathExpanduser("~/.gemini"), "settings.json"),
         osPathJoin(osPathExpanduser("~/.gemini/antigravity-cli"), "mcp_config.json"),
@@ -697,24 +839,35 @@ def get_settings_paths():
         paths.append(osPathJoin(osPathExpanduser("~/AppData/Roaming/Claude"), "claude_desktop_config.json"))
     return paths
 
-def backup_settings():
+def backup_settings() -> None:
     for path in get_settings_paths():
         if osPathExists(path):
-            try:
-                import shutil
-                shutil.copy2(path, path + ".bak")
-                print(f"📦 Created backup of {osPathBasename(path)}")
-            except Exception as e:
-                print(f"⚠️ Warning: Could not backup {path}: {e}")
+            bak_path = path + ".bak"
+            if not osPathExists(bak_path):
+                try:
+                    import shutil
+                    shutil.copy2(path, bak_path)
+                    print(f"📦 Created backup of {osPathBasename(path)}")
+                except Exception as e:
+                    print(f"⚠️ Warning: Could not backup {path}: {e}")
+            else:
+                # Backup already exists; skip to avoid overwriting
+                print(f"⚠️ Backup already exists for {osPathBasename(path)}; skipping.")
 
-def restore_settings():
+def restore_settings() -> None:
     for path in get_settings_paths():
         bak_path = path + ".bak"
         if osPathExists(bak_path):
+            # Only restore if the original file has not changed since backup
             try:
-                import shutil
-                shutil.move(bak_path, path)
-                print(f"📦 Restored original {osPathBasename(path)} from backup")
+                original_mtime = osPathGetmtime(path) if osPathExists(path) else None
+                backup_mtime = osPathGetmtime(bak_path)
+                if original_mtime is None or backup_mtime > original_mtime:
+                    import shutil
+                    shutil.move(bak_path, path)
+                    print(f"📦 Restored original {osPathBasename(path)} from backup")
+                else:
+                    print(f"⚠️ Original {osPathBasename(path)} unchanged; keeping current version.")
             except Exception as e:
                 print(f"⚠️ Warning: Could not restore {path}: {e}")
 
@@ -723,10 +876,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bastien-Antigravity AI Squad Command Center")
     parser.add_argument("--reset-rag", action="store_true", help="Reset and rebuild the ChromaDB RAG index before starting.")
     parser.add_argument("--client", "-c", type=str, help="Specify the active client on startup (e.g. gemini, claude, deepseek, codex, antigravity).")
+    parser.add_argument("--agent", "-a", type=str, help="Specify the active agent persona on startup (e.g. oracle, developer, qa).")
     args, unknown = parser.parse_known_args()
 
     if args.client:
-        os.environ["ACTIVE_CLIENT"] = args.client
+        osEnviron["ACTIVE_CLIENT"] = args.client
+
+    if args.agent:
+        osEnviron["ACTIVE_AGENT"] = args.agent
 
     if args.reset_rag:
         if check_rag_attached():
