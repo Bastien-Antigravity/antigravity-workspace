@@ -1,0 +1,74 @@
+---
+microservice: obsidian-brain
+type: note
+status: active
+tags:
+- '#service/obsidian-brain'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.SymbolWindow(sym]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.fetchConfig]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.getDisplayData]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.initializeApp]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.mergeData]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.openConnectionLog]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.renderList]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.scheduleUpdate]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.sendSubscription]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.setupTimeframeEventListener]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.setupTimeframeSelector]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.startWebSocket]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateAnalysisBlocks]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateConnectionStatus]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateMetrics]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateSymbolsList]] (method: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateUI]] (method: defines_method)
+- [[web-interface/web-interface/web/html/TradedVolume.html.md|TradedVolume.html]] (same_package)
+- [[web-interface/web-interface/web/html/TradedVolume.html.md|onclose]] (function: calls)
+- [[web-interface/web-interface/web/html/TradedVolume.html.md|onerror]] (function: calls)
+- [[web-interface/web-interface/web/html/TradedVolume.html.md|onmessage]] (function: calls)
+- [[web-interface/web-interface/web/html/TradedVolume.html.md|onopen]] (function: calls)
+- [[web-interface/web-interface/web/static/analyst/charts.js.md|volumeChart.volume]] (method: calls)
+- [[web-interface/web-interface/web/static/js/gridstack-all.js.md|i.sort]] (method: calls)
+- [[web-interface/web-interface/web/static/js/realtime-common.js.md|ConnectionManager.log]] (method: calls)
+- [[web-interface/web-interface/web/templates/base.html.md|SITE_BASE_URL]] (constant: calls)
+- [[web-interface/web-interface/web/templates/base.html.md|SITE_WSS_URL]] (constant: calls)
+
+### 🔌 Consumers (Inbound)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|#activeSymbols (div)]] (element: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|#blockAbnormalVol (div)]] (element: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|#connectionIcon (button)]] (element: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|#lastUpdate (div)]] (element: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|#metricsGrid (div)]] (element: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|#timeframeSelector (select)]] (element: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|APP_CONFIG]] (constant: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.SymbolWindow(sym]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.fetchConfig]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.getDisplayData]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.initializeApp]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.mergeData]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.openConnectionLog]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.renderList]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.scheduleUpdate]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.sendSubscription]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.setupTimeframeEventListener]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.setupTimeframeSelector]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.startWebSocket]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateAnalysisBlocks]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateConnectionStatus]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateMetrics]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateSymbolsList]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard.updateUI]] (method: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard]] (class: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|MarketObserverDashboard]] (class: defines_method)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|activityRenderer]] (function: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|formatPct]] (function: belongs_to)
+- [[web-interface/web-interface/web/html/MarketObserver.html.md|gainerLoserRenderer]] (function: belongs_to)
+<!-- SYNC:END -->

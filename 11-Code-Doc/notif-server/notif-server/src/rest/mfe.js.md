@@ -1,0 +1,60 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.apeAttribute(va]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.apeHTML(va]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.connectedCallback]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dAlertingConfig() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dAll() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dEvents() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dNotifiers() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dStatus() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dSupportedTypes() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dTestNotification(le]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.eteProvider(pl]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.ingifyValue(va]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.mitAddProvider(ta]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.mitEditConfig(pl]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.oadSenders() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.playAlertingConfig() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.playNotifiers() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.playStatus() ]] (method: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.renderSkeleton]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[notif-server/notif-server/cmd/notif-server/main.go.md|main.go]] (imports)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.apeAttribute(va]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.apeHTML(va]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.connectedCallback]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dAlertingConfig() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dAll() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dEvents() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dNotifiers() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dStatus() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dSupportedTypes() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.dTestNotification(le]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.eteProvider(pl]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.ingifyValue(va]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.mitAddProvider(ta]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.mitEditConfig(pl]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.oadSenders() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.playAlertingConfig() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.playNotifiers() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.playStatus() ]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.renderSkeleton]] (method: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE]] (class: belongs_to)
+- [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE]] (class: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|ggerEdit = ]] (function: belongs_to)
+<!-- SYNC:END -->

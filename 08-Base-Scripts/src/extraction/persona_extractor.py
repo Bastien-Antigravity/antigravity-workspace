@@ -247,12 +247,13 @@ def main():
 
     prevent_double_start("persona_extractor")
 
-    script_dir_abs = os.path.dirname(os.path.abspath(__file__))
-    workspace_root = os.path.abspath(os.path.join(script_dir_abs, "..", ".."))
-    output_dir = os.path.join(script_dir_abs, "..", "07-Core-KMS", "quick-overview", "ast-patterns")
+    from lib.orchestration_lib import resolve_vault_and_workspace
+    vault_root, workspace_root = resolve_vault_and_workspace(__file__)
+    
+    output_dir = os.path.join(str(vault_root), "07-Core-KMS", "quick-overview", "ast-patterns")
     output_dir = os.path.abspath(output_dir)
 
-    extract_personas(workspace_root, output_dir, args.daemon)
+    extract_personas(str(workspace_root), output_dir, args.daemon)
 
 
 if __name__ == '__main__':

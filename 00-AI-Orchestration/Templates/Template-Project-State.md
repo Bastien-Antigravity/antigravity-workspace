@@ -1,15 +1,16 @@
 ---
-microservice: {{title}}
-type: session-state
+microservice: ecosystem-core
+type: template
 status: active
 last-updated: {{date}}
 tags:
-  - '#tech/TO-DO'
-  - '#tier/TO-DO'
-  - '#zone/TO-DO'
-  - '#service/{{title}}'
-  - '#type/task'
-  - '#state/active'
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
+- '#type/task'
+- "#tech/TO-DO"
+- "#tier/TO-DO"
 ---
 
 # 🧠 {{title}} - AI Session & TODO State

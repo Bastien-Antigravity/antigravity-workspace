@@ -1,15 +1,16 @@
---- 
-microservice: {{microservice}}
-type: idea-pitch
-status: pending
+---
+microservice: ecosystem-core
+type: template
+status: active
 role: orchestrator
 tags:
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
+- '#type/idea-pitch'
 - "#tech/TO-DO"
 - "#tier/TO-DO"
-- "#zone/TO-DO"
-- #service/{{microservice}}
-- '#type/idea-pitch'
-- '#state/pending'
 ---
 # Idea Pitch: [Feature/Bug Name]
 

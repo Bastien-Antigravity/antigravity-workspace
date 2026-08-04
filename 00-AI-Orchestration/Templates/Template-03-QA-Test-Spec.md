@@ -1,15 +1,16 @@
---- 
-microservice: {{microservice}}
-type: qa-test-spec
-status: draft
+---
+microservice: ecosystem-core
+type: template
+status: active
 role: qa
 tags:
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
+- '#type/qa-test-spec'
 - "#tech/TO-DO"
 - "#tier/TO-DO"
-- "#zone/TO-DO"
-- #service/{{microservice}}
-- '#state/draft'
-- '#type/qa-test-spec'
 ---
 # BDD Test Specification: [Feature/Bug Name]
 

@@ -25,6 +25,7 @@ This index aggregates the operational hubs for the service fleet.
 - [[Notif-Server-Hub]]
 - [[Ontime-Scheduler-Hub]]
 - [[Orderbook-Aggregator-Hub]]
+- [[RAG-Engine-Hub]]
 - [[Safe-Socket-Hub]]
 - [[Sandbox-Testing-Hub]]
 - [[Technical-Analysis-Hub]]

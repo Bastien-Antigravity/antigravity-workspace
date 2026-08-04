@@ -7,6 +7,7 @@ tags:
 - '#type/protocol'
 - '#state/active'
 - '#zone/3-fleet'
+- '#ai/ignore'
 ---
 # 📜 Microservice Logging Standard
 

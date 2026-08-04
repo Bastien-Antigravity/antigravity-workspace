@@ -1,0 +1,61 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.Descriptor]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetAttachment]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetLevel]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetMessage]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetTags]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.ProtoMessage]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.ProtoReflect]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.Reset]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.String]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.Descriptor]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.GetSuccess]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.ProtoMessage]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.ProtoReflect]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.Reset]] (method: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.String]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[notif-server/notif-server/src/core/notifier.go.md|notifier.go]] (calls)
+- [[notif-server/notif-server/src/core/notifier.go.md|notifier.go]] (imports)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.Descriptor]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetAttachment]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetLevel]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetMessage]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.GetTags]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.ProtoMessage]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.ProtoReflect]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.Reset]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest.String]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest]] (struct: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifRequest]] (struct: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.Descriptor]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.GetSuccess]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.ProtoMessage]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.ProtoReflect]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.Reset]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse.String]] (method: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse]] (struct: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|NotifResponse]] (struct: defines_method)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|_]] (constant: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|file_proto_notif_service_proto_init]] (function: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|file_proto_notif_service_proto_rawDescGZIP]] (function: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|file_proto_notif_service_proto_rawDesc]] (constant: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|init]] (function: belongs_to)
+- [[notif-server/notif-server/src/schemas/protobuf/notif_service.pb.go.md|x]] (struct: belongs_to)
+- [[notif-server/notif-server/src/server/server.go.md|server.go]] (imports)
+<!-- SYNC:END -->

@@ -1,0 +1,63 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/main.py.md|COMMANDS_MAP]] (constant: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/main.py.md|main.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/bootstrap/__init__.py.md|__init__.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/switch_mode.py.md|MODES]] (constant: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/switch_mode.py.md|apply_mode_protocol]] (function: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/switch_mode.py.md|switch_mode.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/switch_mode.py.md|switch_mode.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/interfaces/__init__.py.md|__init__.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/interfaces/command.py.md|Command]] (class: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|DualLayerMemoryStore]] (class: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|PostgresMemoryStore]] (class: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|RAGMemoryStore]] (class: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|ShortTermMemory]] (class: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|add]] (function: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|memory.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|retrieve]] (function: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/pg_pool.py.md|get_pg_pool]] (function: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/pg_pool.py.md|pg_pool.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/pg_pool.py.md|resolve_schema_name]] (function: calls)
+
+### 🔌 Consumers (Inbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/clients/discord_client.py.md|discord_client.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/clients/discord_client.py.md|discord_client.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|CommandController]] (class: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|__init__]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|_setup_memory]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|_task]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|db_insert]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|db_query]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|execute]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|get_active_mode]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|get_chat_history]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|get_mode_details]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|get_status]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|list_commands]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|main]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|process_message]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|publish_user_message]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|run_subcommand]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|run_subcommand_async]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/controller.py.md|switch_mode]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/grpc_control/service.py.md|service.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/rest/rest_handler.py.md|rest_handler.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/telegram/manager.py.md|manager.py]] (calls)
+<!-- SYNC:END -->

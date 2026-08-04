@@ -781,22 +781,30 @@ class BaseScriptsMFE extends HTMLElement {
         const avatar = avatars[msg.sender] || '🤖';
         
         const bubble = document.createElement('div');
-        bubble.className = `chat-bubble ${msg.sender}`;
+        bubble.className = `chat-bubble ${msg.sender || 'system'}`;
         
         let toolCallsHtml = '';
-        if (msg.tool_calls && msg.tool_calls.length > 0) {
-            msg.tool_calls.forEach((tool, index) => {
+        let toolCalls = msg.tool_calls;
+        if (typeof toolCalls === 'string') {
+            try {
+                toolCalls = JSON.parse(toolCalls);
+            } catch (e) {
+                toolCalls = [];
+            }
+        }
+        if (Array.isArray(toolCalls) && toolCalls.length > 0) {
+            toolCalls.forEach((tool, index) => {
                 const toolArgs = JSON.stringify(tool.args || {});
                 toolCallsHtml += `
                     <div class="chat-tools">
                         <div class="chat-tool-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
-                            <span>🛠️ Tool: ${tool.name}</span>
+                            <span>🛠️ Tool: ${tool.name || 'Action'}</span>
                             <span style="font-size: 10px;">[Toggle Output]</span>
                         </div>
                         <div class="chat-tool-body" style="display: none;">
                             <strong>Arguments:</strong> ${toolArgs}
                             <hr style="border-color: #333; margin: 8px 0;" />
-                            <strong>Result:</strong><br />${tool.result}
+                            <strong>Result:</strong><br />${tool.result || ''}
                         </div>
                     </div>
                 `;
@@ -806,8 +814,8 @@ class BaseScriptsMFE extends HTMLElement {
         bubble.innerHTML = `
             <span class="chat-avatar">${avatar}</span>
             <div class="chat-content">
-                <div class="chat-sender">${msg.sender}</div>
-                <div class="chat-text">${msg.content}</div>
+                <div class="chat-sender">${msg.sender || 'system'}</div>
+                <div class="chat-text">${msg.content || ''}</div>
                 ${toolCallsHtml}
             </div>
         `;

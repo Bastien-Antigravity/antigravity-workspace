@@ -1,0 +1,51 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[flexible-logger/flexible-logger/src/models/notif_message.go.md|notif_message.go]] (imports)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetFilename]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetFunctionName]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetHostname]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetLevel]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetLineNumber]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetLoggerName]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetMessage_]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetModule]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetPathName]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetProcessId]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetProcessName]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetServiceName]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetStackTrace]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetThreadId]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetThreadName]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|LoggerMsg.SetTimestamp]] (method: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|NewRootLoggerMsg]] (function: calls)
+- [[flexible-logger/flexible-logger/src/schemas/capnp/logger/logger.go.md|logger.go]] (imports)
+- [[flexible-logger/flexible-logger/src/serializers/capn_serializer.go.md|CapnpSerializer.Serialize]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[flexible-logger/flexible-logger/src/profiles/audit.go.md|audit.go]] (calls)
+- [[flexible-logger/flexible-logger/src/profiles/cloud_native.go.md|cloud_native.go]] (calls)
+- [[flexible-logger/flexible-logger/src/profiles/high_perf.go.md|high_perf.go]] (calls)
+- [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|no_lock.go]] (calls)
+- [[flexible-logger/flexible-logger/src/profiles/notif_logger.go.md|notif_logger.go]] (calls)
+- [[flexible-logger/flexible-logger/src/profiles/standard.go.md|standard.go]] (calls)
+- [[flexible-logger/flexible-logger/src/serializers/capn_serializer.go.md|CapnpSerializer.Serialize]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/serializers/capn_serializer.go.md|CapnpSerializer]] (struct: belongs_to)
+- [[flexible-logger/flexible-logger/src/serializers/capn_serializer.go.md|CapnpSerializer]] (struct: defines_method)
+- [[flexible-logger/flexible-logger/src/serializers/capn_serializer.go.md|NewCapnpSerializer]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/serializers/capn_serializer.go.md|mapLevel]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/serializers/serializer_test.go.md|serializer_test.go]] (calls)
+- [[flexible-logger/flexible-logger/src/serializers/serializer_test.go.md|serializer_test.go]] (same_package)
+<!-- SYNC:END -->

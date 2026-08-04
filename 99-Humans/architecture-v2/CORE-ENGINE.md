@@ -17,7 +17,7 @@ Direct Python integration with AI models, bypassing fragile CLI subprocesses:
 *   **DeepSeek SDK**: OpenAI-compatible adapter for DeepSeek API.
 
 ### 3. Formalized Workflows
-*   **Linear Automation**: Defined in `00-AI-Orchestration/workflows/*.yaml`.
+*   **Linear Automation**: Defined in `00-AI-Orchestration/Workflows/*.yaml`.
 *   **Stateful Graphs**: Powered by **LangGraph** in `src/core/graph_workflow.py` for cyclical, self-correcting logic.
 
 ## 🛡️ Security & Rights

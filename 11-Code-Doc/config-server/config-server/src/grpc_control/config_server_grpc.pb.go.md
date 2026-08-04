@@ -1,0 +1,70 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.GetConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.GetStatus]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.ListConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.PersistConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.ReloadConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.SetConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.mustEmbedUnimplementedConfigControlServiceServer]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.testEmbeddedByValue]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.GetConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.GetStatus]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.ListConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.PersistConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.ReloadConfig]] (method: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.SetConfig]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlServiceClient]] (interface: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlServiceServer]] (interface: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlService_GetConfig_FullMethodName]] (constant: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlService_GetStatus_FullMethodName]] (constant: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlService_ListConfig_FullMethodName]] (constant: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlService_PersistConfig_FullMethodName]] (constant: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlService_ReloadConfig_FullMethodName]] (constant: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|ConfigControlService_SetConfig_FullMethodName]] (constant: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|NewConfigControlServiceClient]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|RegisterConfigControlServiceServer]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.GetConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.GetStatus]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.ListConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.PersistConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.ReloadConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.SetConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.mustEmbedUnimplementedConfigControlServiceServer]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer.testEmbeddedByValue]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer]] (struct: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnimplementedConfigControlServiceServer]] (struct: defines_method)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|UnsafeConfigControlServiceServer]] (interface: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|_ConfigControlService_GetConfig_Handler]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|_ConfigControlService_GetStatus_Handler]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|_ConfigControlService_ListConfig_Handler]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|_ConfigControlService_PersistConfig_Handler]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|_ConfigControlService_ReloadConfig_Handler]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|_ConfigControlService_SetConfig_Handler]] (function: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|_]] (constant: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.GetConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.GetStatus]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.ListConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.PersistConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.ReloadConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient.SetConfig]] (method: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient]] (struct: belongs_to)
+- [[config-server/config-server/src/grpc_control/config_server_grpc.pb.go.md|configControlServiceClient]] (struct: defines_method)
+- [[config-server/config-server/src/grpc_control/grpc_service.go.md|grpc_service.go]] (calls)
+- [[config-server/config-server/src/grpc_control/grpc_service.go.md|grpc_service.go]] (same_package)
+<!-- SYNC:END -->

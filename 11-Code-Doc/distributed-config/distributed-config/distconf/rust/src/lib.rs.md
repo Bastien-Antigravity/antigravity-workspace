@@ -1,0 +1,67 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfError.fmt]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.decrypt]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.drop]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.free_string]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.get]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.get_address]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.get_last_error_static]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.new]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.on_live_conf_update]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.on_registry_update]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.raise_last_error]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.set]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.share_config]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.sync]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.validate_mandatory_services]] (method: defines_method)
+- [[distributed-config/distributed-config/src/utils/logger.go.md|noOpLogger.Error]] (method: calls)
+
+### 🔌 Consumers (Inbound)
+- [[distributed-config/distributed-config/distconf/rust/build.rs.md|build.rs]] (calls)
+- [[distributed-config/distributed-config/distconf/rust/examples/basic_usage.rs.md|basic_usage.rs]] (calls)
+- [[distributed-config/distributed-config/distconf/rust/examples/ffi_validation.rs.md|ffi_validation.rs]] (calls)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_ERR_DECRYPTION_FAILED]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_ERR_GENERIC]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_ERR_INVALID_HANDLE]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_ERR_INVALID_INPUT]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_ERR_KEY_NOT_FOUND]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_ERR_NETWORK_FAILURE]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_ERR_VALIDATION_FAILED]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DISTCONF_SUCCESS]] (constant: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfError.fmt]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfError]] (struct: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfError]] (struct: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.decrypt]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.drop]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.free_string]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.get]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.get_address]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.get_last_error_static]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.new]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.on_live_conf_update]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.on_registry_update]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.raise_last_error]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.set]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.share_config]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.sync]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig.validate_mandatory_services]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig]] (struct: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|DistConfig]] (struct: defines_method)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|get_lib_path]] (function: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|test_get_set]] (function: belongs_to)
+- [[distributed-config/distributed-config/distconf/rust/src/lib.rs.md|test_lifecycle]] (function: belongs_to)
+<!-- SYNC:END -->

@@ -1,0 +1,49 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[safe-socket/safe-socket/src/interfaces/transport.go.md|transport.go]] (imports)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetAddress]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetConnectTimeout]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetName]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetProtocol]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetTransport]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetAddress]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetConnectTimeout]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetName]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetProtocol]] (method: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetTransport]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[safe-socket/safe-socket/cmd/test/deadline_test.go.md|deadline_test.go]] (calls)
+- [[safe-socket/safe-socket/cmd/test/deadline_test.go.md|deadline_test.go]] (imports)
+- [[safe-socket/safe-socket/src/factory/socket_factory.go.md|socket_factory.go]] (calls)
+- [[safe-socket/safe-socket/src/factory/socket_factory.go.md|socket_factory.go]] (imports)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|NewTcpHelloServerProfile]] (function: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|NewTcpServerProfile]] (function: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetAddress]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetConnectTimeout]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetName]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetProtocol]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile.GetTransport]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile]] (struct: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpHelloServerProfile]] (struct: defines_method)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetAddress]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetConnectTimeout]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetName]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetProtocol]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile.GetTransport]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile]] (struct: belongs_to)
+- [[safe-socket/safe-socket/src/profiles/tcp_server_profile.go.md|TcpServerProfile]] (struct: defines_method)
+<!-- SYNC:END -->

@@ -1,0 +1,76 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Close]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Decrypt]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_FreeString]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetAddress]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetCapability]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetFullConfig]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetGRPCAddress]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetLastError]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Get]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_New]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_OnLiveConfUpdate]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_OnRegistryUpdate]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Set]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_ShareConfig]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Sync]] (function: calls)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_ValidateMandatoryServices]] (function: calls)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Decrypt]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.DistConfig]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetAddress]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetCapability]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetFullConfig]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetGRPCAddress]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetLastError]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetRegistryMutex]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetRegistry]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Get]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.OnLiveConfUpdate]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.OnRegistryUpdate]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Set]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.ShareConfig]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.StaticCallbackBridge]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.StaticRegistryBridge]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Sync]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.ValidateMandatoryServices]] (method: defines_method)
+- [[distributed-config/distributed-config/distconf/libdistconf/libdistconf.h.md|libdistconf.h]] (imports)
+
+### 🔌 Consumers (Inbound)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DISTCONF_HPP]] (macro: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Decrypt]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.DistConfig]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetAddress]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetCapability]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetFullConfig]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetGRPCAddress]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetLastError]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetRegistryMutex]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.GetRegistry]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Get]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.OnLiveConfUpdate]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.OnRegistryUpdate]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Set]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.ShareConfig]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.StaticCallbackBridge]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.StaticRegistryBridge]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.Sync]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig.ValidateMandatoryServices]] (method: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig]] (class: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig]] (class: defines_method)
+- [[distributed-config/distributed-config/distconf/cpp/examples/basic_usage.cpp.md|basic_usage.cpp]] (calls)
+- [[distributed-config/distributed-config/distconf/cpp/examples/basic_usage.cpp.md|basic_usage.cpp]] (imports)
+<!-- SYNC:END -->

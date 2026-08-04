@@ -5,4 +5,5 @@ from .auditor import Auditor
 from .extractor import Extractor
 from .sync import SyncService
 from .memory_store import MemoryStore
+from .interfaces import SquadEventBus, LocalEventBus, DualSquadEventBus, EventDeduplicator
 

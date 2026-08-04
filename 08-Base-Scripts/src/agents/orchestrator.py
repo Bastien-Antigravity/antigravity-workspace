@@ -2,7 +2,7 @@
 # coding:utf-8
 
 from typing import Any
-from src.agents.interfaces import SquadEventBus
+from src.interfaces import SquadEventBus
 from src.agents.base_agent import BaseAgent
 
 class OrchestratorAgent(BaseAgent):

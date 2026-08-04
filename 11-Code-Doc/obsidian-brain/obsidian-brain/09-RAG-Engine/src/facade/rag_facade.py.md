@@ -1,0 +1,85 @@
+--- 
+microservice: obsidian-brain
+
+source: obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py
+workspace: obsidian-brain
+type: code-mirror
+status: auto-generated
+last_sync: 2026-07-04T17:25:55.511267
+---
+
+# Mirror: rag_facade.py
+
+## 📝 Description
+Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py`.
+
+## 🏗️ Architectural Context
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/joint_audit_purger.py.md|GLOBAL_EXCLUDES]] (constant: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/core/constants.py.md|constants.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/core/constants.py.md|is_path_excluded]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|check_alignment]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|clear]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|get_all]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|get_linked_docs]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|get_parent]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|multi_tenant_proxy.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|reset_registry]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/multi_tenant_proxy.py.md|reset_store]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/alignment.py.md|alignment.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/enricher.py.md|enrich_pending]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/enricher.py.md|enricher.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/enricher.py.md|start_background_loop]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/enricher.py.md|stop_background_loop]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/indexing_pipeline.py.md|build_full_index]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/indexing_pipeline.py.md|indexing_pipeline.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/indexing_pipeline.py.md|process_file]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/parent_store.py.md|parent_store.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/query_engine.py.md|query_engine.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/query_expander.py.md|expand_query]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/query_expander.py.md|query_expander.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/vector_store.py.md|vector_store.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/watcher.py.md|start]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/watcher.py.md|stop]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/interfaces/watcher.py.md|watcher.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/models/request.py.md|MQueryRequest]] (class: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/models/request.py.md|request.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/models/result.py.md|result.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/enricher/llm_enricher.py.md|load_pending_from_store]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/enricher/llm_enricher.py.md|set_stores]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/indexing_pipeline/standard.py.md|_batch_flusher_loop]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/indexing_pipeline/standard.py.md|_load_inventory_and_map_notes]] (function: calls)
+
+### 🔌 Consumers (Inbound)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/main.py.md|main.py]] (calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/core/runners.py.md|runners.py]] (calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/core/server.py.md|server.py]] (calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/__init__.py.md|__init__.py]] (calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/__init__.py.md|__init__.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/__init__.py.md|__init__.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|RAGFacade]] (class: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|__init__]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|_hydrate_chunk]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|analyzer]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|build_index]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|enrich_now]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|enrich_pending_records]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|get_brain_stats]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|get_web_root]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|index_directory]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|index_file]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|query]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|reset_index]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|sem_process]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|start_enricher_loop]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|start_watcher]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|stop_enricher_loop]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|stop_watcher]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|sync_docs]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|workspaces_root]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|tools.py]] (calls)
+<!-- SYNC:END -->
+
+## 🔍 Implementation Details
+(Add manual notes here)

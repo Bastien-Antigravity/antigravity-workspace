@@ -112,6 +112,38 @@ class SquadRESTHandler:
 
             return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+        @router.get("/api/v1/squad/chat/stream/{session_id}")
+        async def stream_chat_messages(session_id: str):
+            async def event_generator():
+                queue = asyncio.Queue()
+                
+                async def msg_cb(payload):
+                    if payload.get("session_id") == session_id:
+                        await queue.put(payload)
+                
+                event_bus = getattr(self.controller, "event_bus", None)
+                if event_bus:
+                    import inspect
+                    res = event_bus.subscribe("antigravity.squad.chat", callback=msg_cb)
+                    if inspect.isawaitable(res):
+                        await res
+                else:
+                    from src.interfaces import LocalEventBus
+                    LocalEventBus.subscribe("antigravity.squad.chat", msg_cb)
+                
+                try:
+                    while True:
+                        msg_payload = await queue.get()
+                        yield f"data: {json.dumps(msg_payload)}\n\n"
+                except asyncio.CancelledError:
+                    pass
+                except Exception as e:
+                    yield f"data: {json.dumps({'error': str(e)})}\n\n"
+                finally:
+                    pass
+                        
+            return StreamingResponse(event_generator(), media_type="text/event-stream")
+
         @router.get("/api/v1/squad/chat/{session_id}")
         async def get_chat_history(session_id: str):
             history = await self.controller.get_chat_history(session_id)
@@ -130,34 +162,5 @@ class SquadRESTHandler:
             
             await self.controller.publish_user_message(session_id, message)
             return {"success": True, "message": "Message published successfully"}
-
-        @router.get("/api/v1/squad/chat/stream/{session_id}")
-        async def stream_chat_messages(session_id: str):
-            async def event_generator():
-                queue = asyncio.Queue()
-                
-                async def msg_cb(payload):
-                    if payload.get("session_id") == session_id:
-                        await queue.put(payload)
-                
-                event_bus = getattr(self.controller, "event_bus", None)
-                if event_bus:
-                    await event_bus.subscribe("antigravity.squad.chat", callback=msg_cb)
-                else:
-                    from src.agents.interfaces import LocalEventBus
-                    LocalEventBus.subscribe("antigravity.squad.chat", msg_cb)
-                
-                try:
-                    while True:
-                        msg_payload = await queue.get()
-                        yield f"data: {json.dumps(msg_payload)}\n\n"
-                except asyncio.CancelledError:
-                    pass
-                except Exception as e:
-                    yield f"data: {json.dumps({'error': str(e)})}\n\n"
-                finally:
-                    pass
-                        
-            return StreamingResponse(event_generator(), media_type="text/event-stream")
 
         app.include_router(router)

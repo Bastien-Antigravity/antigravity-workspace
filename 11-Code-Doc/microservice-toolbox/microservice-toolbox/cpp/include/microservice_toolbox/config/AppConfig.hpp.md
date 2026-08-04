@@ -1,0 +1,76 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.AppConfig]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.ApplyCLIOverrides]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.DecryptSecret]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetArgs]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetCommon]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetGRPCListenAddr]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetListenAddr]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetLocalJSON]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetLocal]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetProfile]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetRawConfig]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetServiceName]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.LoadLocalOverrides]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.OnLiveConfUpdate]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.OnRegistryUpdate]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.SetLogger]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.ShareConfig]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.SyncFromBridge]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.UnmarshalLocal]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/CommandLine.hpp.md|CommandLine.hpp]] (imports)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConf.hpp]] (imports)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConf.hpp]] (same_package)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConfig.ApplyFileOverride]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConfig.Decrypt]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConfig.GetAddress]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConfig.GetFullConfig]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConfig.GetGRPCAddress]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/DistConf.hpp.md|DistConfig.GetLastError]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/utils/Logger.hpp.md|Logger.hpp]] (imports)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/utils/Logger.hpp.md|NoOpLogger.Error]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/utils/Logger.hpp.md|NoOpLogger.Info]] (method: calls)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/utils/Logger.hpp.md|NoOpLogger.Warning]] (method: calls)
+
+### 🔌 Consumers (Inbound)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.AppConfig]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.ApplyCLIOverrides]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.DecryptSecret]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetArgs]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetCommon]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetGRPCListenAddr]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetListenAddr]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetLocalJSON]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetLocal]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetProfile]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetRawConfig]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.GetServiceName]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.LoadLocalOverrides]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.OnLiveConfUpdate]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.OnRegistryUpdate]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.SetLogger]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.ShareConfig]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.SyncFromBridge]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig.UnmarshalLocal]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig]] (class: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|AppConfig]] (class: defines_method)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|LoadConfigWithLogger]] (function: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|LoadConfig]] (function: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|MICROSERVICE_TOOLBOX_APP_CONFIG_HPP]] (macro: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (calls)
+- [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (imports)
+<!-- SYNC:END -->

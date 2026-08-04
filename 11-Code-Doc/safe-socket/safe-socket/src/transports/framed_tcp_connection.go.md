@@ -1,0 +1,75 @@
+---
+microservice: obsidian-brain
+type: note
+status: active
+tags:
+- '#service/obsidian-brain'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.Close]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.LocalAddr]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.ReadMessage]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.Read]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.RemoteAddr]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetIdleTimeout]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetKeepAlive]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetNoDelay]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetReadBuffer]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetReadDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetWriteBuffer]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetWriteDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.Write]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.refreshReadDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.refreshWriteDeadline]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[safe-socket/safe-socket/src/facade/heartbeat_restart_test.go.md|heartbeat_restart_test.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/forever_test.go.md|forever_test.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/forever_test.go.md|forever_test.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_client.go.md|framed_tcp_client.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_client.go.md|framed_tcp_client.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.Close]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.LocalAddr]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.ReadMessage]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.Read]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.RemoteAddr]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetIdleTimeout]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetKeepAlive]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetNoDelay]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetReadBuffer]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetReadDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetWriteBuffer]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.SetWriteDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.Write]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.refreshReadDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket.refreshWriteDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket]] (struct: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|FramedTCPSocket]] (struct: defines_method)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|MaxPayloadSize]] (constant: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_connection.go.md|NewFramedTCPSocket]] (function: belongs_to)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_server.go.md|framed_tcp_server.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_server.go.md|framed_tcp_server.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/heartbeat_test.go.md|heartbeat_test.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/heartbeat_test.go.md|heartbeat_test.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/oom_test.go.md|oom_test.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/oom_test.go.md|oom_test.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/shm_client.go.md|shm_client.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/shm_client.go.md|shm_client.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/shm_server.go.md|shm_server.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/shm_server.go.md|shm_server.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/udp_client.go.md|udp_client.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/udp_client.go.md|udp_client.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/udp_server.go.md|udp_server.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/udp_server.go.md|udp_server.go]] (same_package)
+- [[safe-socket/safe-socket/src/transports/zombie_test.go.md|zombie_test.go]] (calls)
+- [[safe-socket/safe-socket/src/transports/zombie_test.go.md|zombie_test.go]] (same_package)
+<!-- SYNC:END -->

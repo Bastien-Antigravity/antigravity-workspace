@@ -40,7 +40,7 @@ The vault serves four primary functions.
 
 2. **AI governance**
 
-   Files such as `00-AI-Orchestration/AI-Init.md`, `00-AI-Orchestration/AI-Project-DNA.md`, and `00-AI-Orchestration/MODE-MANUAL.md` define how AI agents should initialize, what constraints they must respect, and which workflow mode is active.
+   Files such as `00-AI-Orchestration/AI-Init.md`, `00-AI-Orchestration/AI-Project-DNA.md`, and `00-AI-Orchestration/Config/MODE-MANUAL.md` define how AI agents should initialize, what constraints they must respect, and which workflow mode is active.
 
 3. **Fleet command**
 
@@ -76,7 +76,7 @@ The vault is built around a few core concepts.
 
 ### 1. Modes
 
-The active mode is stored in `00-AI-Orchestration/MODE-MANUAL.md`. At the time of this analysis, the active mode is:
+The active mode is stored in `00-AI-Orchestration/Config/MODE-MANUAL.md`. At the time of this analysis, the active mode is:
 
 ```yaml
 active_mode: 4
@@ -144,7 +144,7 @@ This is the main launcher for the AI squad environment. It:
 
 This script changes the operating protocol by updating:
 
-- `00-AI-Orchestration/MODE-MANUAL.md`;
+- `00-AI-Orchestration/Config/MODE-MANUAL.md`;
 - `00-AI-Orchestration/AI-Session-State.md`;
 - root `AI-Session-State.md`.
 
@@ -254,7 +254,7 @@ Those items were not modified by this analysis.
 For a human operator:
 
 1. Start with `README.md`, `User-Manual.md`, and `Ecosystem-Map-MOC.md`.
-2. Check the active mode in `00-AI-Orchestration/MODE-MANUAL.md`.
+2. Check the active mode in `00-AI-Orchestration/Config/MODE-MANUAL.md`.
 3. Read `AI-Session-State.md` before continuing previous work.
 4. Use `99-Humans` for simplified dashboards and explanations.
 5. Use `08-Base-Scripts/start_squad.py` when launching the intended AI squad workflow.

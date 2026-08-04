@@ -1,0 +1,76 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/bootstrap/__init__.py.md|__init__.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/server.py.md|write]] (function: calls)
+
+### 🔌 Consumers (Inbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/brain_health_audit.py.md|brain_health_audit.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/brain_health_audit.py.md|brain_health_audit.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/check_coherence.py.md|check_coherence.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/check_coherence.py.md|check_coherence.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/preflight_check.py.md|preflight_check.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/preflight_check.py.md|preflight_check.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/bootstrap/__init__.py.md|__init__.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/agent_dispatcher.py.md|agent_dispatcher.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/agent_dispatcher.py.md|agent_dispatcher.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/mission_help.py.md|mission_help.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/mission_help.py.md|mission_help.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/switch_mode.py.md|switch_mode.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/switch_mode.py.md|switch_mode.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/extraction/persona_extractor.py.md|persona_extractor.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/extraction/persona_extractor.py.md|persona_extractor.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/close_mission.py.md|close_mission.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/close_mission.py.md|close_mission.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/convert_agents.py.md|convert_agents.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/convert_agents.py.md|convert_agents.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|fix_feats.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|fix_feats.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fleet_commander.py.md|fleet_commander.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fleet_commander.py.md|fleet_commander.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fleet_init_update.py.md|fleet_init_update.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fleet_init_update.py.md|fleet_init_update.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/map_feats.py.md|map_feats.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/map_feats.py.md|map_feats.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|C_BOLD]] (constant: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|C_CYAN]] (constant: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|C_DIM]] (constant: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|C_GREEN]] (constant: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|C_RED]] (constant: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|C_RESET]] (constant: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|C_YELLOW]] (constant: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|FallbackConfig]] (class: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|__init__]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|get_active_mode]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|get_config]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|get_fleet_repositories]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|get_grpc_listen_addr]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|get_logger]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|resolve_vault_and_workspace]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|set_logger]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|setup_terminal]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lifecycle/init_new_brain.py.md|init_new_brain.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lifecycle/init_new_brain.py.md|init_new_brain.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lifecycle/install_git_hooks.py.md|install_git_hooks.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lifecycle/install_git_hooks.py.md|install_git_hooks.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/knowledge_compressor.py.md|knowledge_compressor.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/knowledge_compressor.py.md|knowledge_compressor.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/maintenance_skill.py.md|maintenance_skill.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/maintenance_skill.py.md|maintenance_skill.py]] (imports)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/main.py.md|main.py]] (calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/bootstrap/__init__.py.md|__init__.py]] (calls)
+<!-- SYNC:END -->

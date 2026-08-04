@@ -1,0 +1,71 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[flexible-logger/flexible-logger/src/engine/log_engine.go.md|LogEngine.Debug]] (method: calls)
+- [[flexible-logger/flexible-logger/src/engine/log_engine.go.md|LogEngine.Error]] (method: calls)
+- [[flexible-logger/flexible-logger/src/engine/log_engine.go.md|LogEngine.Info]] (method: calls)
+- [[flexible-logger/flexible-logger/src/engine/log_engine.go.md|log_engine.go]] (same_package)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.Close]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.GetLastMsg]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.GetNotifyCount]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.IsClosed]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.Notify]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.Close]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.GetLastEntry]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.GetWriteCount]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.IsClosed]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.Write]] (method: defines_method)
+- [[flexible-logger/flexible-logger/src/models/notif_message.go.md|notif_message.go]] (imports)
+
+### 🔌 Consumers (Inbound)
+- [[flexible-logger/flexible-logger/src/engine/log_engine.go.md|log_engine.go]] (calls)
+- [[flexible-logger/flexible-logger/src/engine/log_engine.go.md|log_engine.go]] (same_package)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|BenchmarkLogEngine_NoSampling]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.Close]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.GetLastMsg]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.GetNotifyCount]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.IsClosed]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier.Notify]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier]] (struct: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockNotifier]] (struct: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.Close]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.GetLastEntry]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.GetWriteCount]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.IsClosed]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink.Write]] (method: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink]] (struct: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|MockSink]] (struct: defines_method)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|TestLogEngine_Close]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|TestLogEngine_ConcurrentStress]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|TestLogEngine_ErrorCollectsCallerEvenWhenDisabled]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|TestLogEngine_Levels]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|TestLogEngine_MetadataFallback]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|TestLogEngine_NotifierError_DoesNotBlockSink]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/engine/log_engine_test.go.md|TestLogEngine_Sampling]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/factory/factory_test.go.md|factory_test.go]] (imports)
+- [[flexible-logger/flexible-logger/src/factory/logger_factory.go.md|logger_factory.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/audit.go.md|audit.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/cloud_native.go.md|cloud_native.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/devel.go.md|devel.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/high_perf.go.md|high_perf.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/minimal.go.md|minimal.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|no_lock.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/notif_logger.go.md|notif_logger.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/profiles_test.go.md|profiles_test.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/standard.go.md|standard.go]] (imports)
+<!-- SYNC:END -->
+es_test.go.md|profiles_test.go]] (imports)
+- [[flexible-logger/flexible-logger/src/profiles/standard.go.md|standard.go]] (imports)
+<!-- SYNC:END -->

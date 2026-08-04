@@ -1,14 +1,15 @@
---- 
-microservice: {{microservice}}
-type: task
+---
+microservice: ecosystem-core
+type: template
 status: active
 tags:
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
+- '#type/task'
 - "#tech/TO-DO"
 - "#tier/TO-DO"
-- "#zone/TO-DO"
-- #service/{{microservice}}
-- '#type/task'
-- '#state/active'
 ---
 
 # ⚡ Fast-Track Task: [Short Name]

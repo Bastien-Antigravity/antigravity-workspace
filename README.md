@@ -7,6 +7,7 @@ tags:
 - '#type/documentation'
 - '#state/active'
 - '#zone/3-fleet'
+- '#ai/ignore'
 ---
 # Bastien-Antigravity: Obsidian Brain 🌌
 
@@ -22,13 +23,13 @@ This Brain is an **Operational Engine**. Use the following scripts to govern the
 - **`pip install -r requirements.txt`**: Installs vault-level launcher/client dependencies. `start_squad.py` checks and installs missing packages automatically.
 - **`python3 08-Base-Scripts/switch_mode.py`**: Quick-switch between **Spec-First**, **Labs**, and **Fleet** protocols.
 - **Configuring the Active Client**:
-  * **Via Frontmatter**: Define `active_client: claude` (or `gemini`/`codex`/`deepseek`) inside **[[00-AI-Orchestration/MODE-MANUAL]]**'s YAML header.
+  * **Via Frontmatter**: Define `active_client: antigravity` (or `gemini`/`claude`/`codex`/`deepseek`) inside **[[00-AI-Orchestration/Config/MODE-MANUAL]]**'s YAML header.
   * **Via Environment Variable**: Override or boot directly using:
     ```bash
-    ACTIVE_CLIENT=deepseek python3 08-Base-Scripts/start_squad.py
+    ACTIVE_CLIENT=antigravity python3 08-Base-Scripts/start_squad.py
     ```
   * **Compatibility**: `ACTIVE_CLI` still works as an alias for older commands.
-  * **Fallback System**: If your chosen CLI is not available, the squad launcher automatically sweeps through fallbacks (`gemini`, `claude`, `codex`, `deepseek`) to launch the first available engine. DeepSeek is API-backed through `08-Base-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
+  * **Fallback System**: If your chosen CLI is not available, the squad launcher automatically sweeps through fallbacks (`antigravity`, `gemini`, `claude`, `codex`, `deepseek`) to launch the first available engine. DeepSeek is API-backed through `08-Base-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
   * **DeepSeek API Setup**: Prefer shell environment variables:
     ```bash
     export DEEPSEEK_API_KEY="sk-..."
@@ -47,7 +48,7 @@ Before interacting with the AI Squad, human operators should read the structural
 - **[[99-Humans/Testing-Playbook|🧪 Testing Playbook]]** — How we ensure quality across Knowledge, Behavior, and Code.
 - **[[User-Manual|📖 User Manual]]** — High-level onboarding and usage guide.
 - **[[Ecosystem-Map-MOC|🔗 Ecosystem Map (MOC)]]** — The central navigation hub for the vault.
-- **[[00-AI-Orchestration/MODE-MANUAL|🕹️ Mode Manual]]** — Detailed protocol rules.
+- **[[00-AI-Orchestration/Config/MODE-MANUAL|🕹️ Mode Manual]]** — Detailed protocol rules.
 
 ---
 
@@ -84,7 +85,7 @@ This Brain is designed to be used in three distinct ways, depending on your need
 
 ### 1. 🛡️ Mode-Based Execution (Global Protocols)
 Best for enforcing repo-wide "Rules of Engagement." 
-- **Usage**: Update the `active_mode` in **[[00-AI-Orchestration/MODE-MANUAL]]**.
+- **Usage**: Update the `active_mode` in **[[00-AI-Orchestration/Config/MODE-MANUAL]]**.
 - **Impact**: Sets the global protocol (e.g., **Spec-First** requires BDD specs before code).
 
 ### 2. 🧠 The AI Squad (Custom Subagent Prompts)
@@ -117,4 +118,4 @@ To guarantee optimal token efficiency during AI squad sessions, the repository f
 ---
 
 > [!CAUTION]
-> Never implement code without verifying the current **Active Protocol** in the [[00-AI-Orchestration/MODE-MANUAL]].
+> Never implement code without verifying the current **Active Protocol** in the [[00-AI-Orchestration/Config/MODE-MANUAL]].

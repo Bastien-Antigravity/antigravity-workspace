@@ -7,6 +7,7 @@ tags:
 - '#type/service-hub'
 - '#state/active'
 - '#zone/3-fleet'
+- '#ai/ignore'
 ---
 # 🌐 Service Hub: Microservice-Toolbox
 

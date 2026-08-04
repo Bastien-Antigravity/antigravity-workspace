@@ -77,7 +77,7 @@ Ensures that files containing sensitive human or local configs (`#ai/ignore`) do
 
 ## 🕹️ 4. Mode-Based Execution & Context Isolation
 
-The `active_mode` variable in `00-AI-Orchestration/MODE-MANUAL.md` controls the system state. Changing the mode dynamically updates the entire vault behavior.
+The `active_mode` variable in `00-AI-Orchestration/Config/MODE-MANUAL.md` controls the system state. Changing the mode dynamically updates the entire vault behavior.
 
 - **Mode 1: Spec-First**: Reading markdown is disabled. Strictly maps BDD files (Zone 1).
 - **Mode 2: Free-Labs**: Full read/write for code & markdown. Fluid zone.

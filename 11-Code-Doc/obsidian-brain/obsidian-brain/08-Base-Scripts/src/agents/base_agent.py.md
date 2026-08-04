@@ -1,0 +1,95 @@
+---
+source: obsidian-brain/08-Base-Scripts/src/agents/base_agent.py
+workspace: obsidian-brain
+type: code-mirror
+status: auto-generated
+last_sync: 2026-07-12 19:14:58.438823
+microservice: 08-Base-Scripts
+tags:
+- '#service/08-Base-Scripts'
+- '#type/code-mirror'
+- '#state/auto-generated'
+- '#zone/3-fleet'
+---
+
+# Mirror: base_agent.py
+
+## 📝 Description
+Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/agents/base_agent.py`.
+
+## 🏗️ Architectural Context
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/interfaces/__init__.py.md|__init__.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|RAGMemoryStore]] (class: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|memory.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|retrieve]] (function: calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|walk]] (function: calls)
+
+### 🔌 Consumers (Inbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/architect.py.md|architect.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/architect.py.md|architect.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/architect.py.md|architect.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|BaseAgent]] (class: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|__init__]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|_fetch_history]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|_fold_generic_code]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|_fold_python_code]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|_load_system_prompt]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|_run_mock_think_and_respond]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|_save_log]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|db_insert]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|db_query]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|execute_shell_command]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|execute_tool]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|msg_cb]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|on_chat_message]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|query_rag_engine]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|read_workspace_file]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|start]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|stop]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|think_and_respond]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|write_workspace_file]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/codeindexer.py.md|codeindexer.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/codeindexer.py.md|codeindexer.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/codeindexer.py.md|codeindexer.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/developer.py.md|developer.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/developer.py.md|developer.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/developer.py.md|developer.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/docindexer.py.md|docindexer.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/docindexer.py.md|docindexer.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/docindexer.py.md|docindexer.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/docmaintainer.py.md|docmaintainer.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/docmaintainer.py.md|docmaintainer.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/docmaintainer.py.md|docmaintainer.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/fleetarchitect.py.md|fleetarchitect.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/fleetarchitect.py.md|fleetarchitect.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/fleetarchitect.py.md|fleetarchitect.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/fleetcommander.py.md|fleetcommander.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/fleetcommander.py.md|fleetcommander.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/fleetcommander.py.md|fleetcommander.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/oracle.py.md|oracle.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/oracle.py.md|oracle.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/oracle.py.md|oracle.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/orchestrator.py.md|orchestrator.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/orchestrator.py.md|orchestrator.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/orchestrator.py.md|orchestrator.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/patternsentinel.py.md|patternsentinel.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/patternsentinel.py.md|patternsentinel.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/patternsentinel.py.md|patternsentinel.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/prototyper.py.md|prototyper.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/prototyper.py.md|prototyper.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/prototyper.py.md|prototyper.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/purger.py.md|purger.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/purger.py.md|purger.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/purger.py.md|purger.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/qa.py.md|qa.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/qa.py.md|qa.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/qa.py.md|qa.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/sentinel.py.md|sentinel.py]] (calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/sentinel.py.md|sentinel.py]] (imports)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/sentinel.py.md|sentinel.py]] (same_package)
+<!-- SYNC:END -->
+
+## 🔍 Implementation Details
+(Add manual notes here)

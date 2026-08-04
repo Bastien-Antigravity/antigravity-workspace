@@ -6,7 +6,7 @@ import sys
 import json
 import asyncio
 from typing import Dict, Any, List, Optional
-from src.agents.interfaces import SquadEventBus
+from src.interfaces import SquadEventBus
 from google import genai
 from google.genai import types
 
@@ -20,12 +20,13 @@ def query_rag_engine(query: str) -> str:
     """
     return ""
 
-def read_workspace_file(path: str) -> str:
+def read_workspace_file(path: str, fold_bodies: bool = True) -> str:
     """
     Reads the contents of a file in the workspace directory.
     
     Args:
         path: Relative path to the file from workspace root (e.g. 'src/core/controller.py').
+        fold_bodies: Whether to collapse large function and class bodies to save tokens (default True).
     """
     return ""
 
@@ -47,6 +48,64 @@ def execute_shell_command(command: str) -> str:
         command: The command line string to run.
     """
     return ""
+def _fold_python_code(content: str) -> str:
+    """Folds python function/class bodies to show only signatures and docstrings."""
+    import ast
+    try:
+        tree = ast.parse(content)
+        lines = content.splitlines()
+        folded_intervals = []
+        
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                start = node.lineno
+                end = node.end_lineno
+                if end and end - start > 5:
+                    sig_line = lines[start - 1]
+                    indent = len(sig_line) - len(sig_line.lstrip())
+                    folded_intervals.append((start + 1, end, indent + 4))
+                    
+        folded_intervals.sort(key=lambda x: x[0], reverse=True)
+        for f_start, f_end, f_indent in folded_intervals:
+            indent_str = " " * f_indent
+            lines[f_start - 1 : f_end] = [f"{indent_str}# ... folded ..."]
+            
+        return "\n".join(lines)
+    except Exception:
+        return content
+
+
+def _fold_generic_code(content: str) -> str:
+    """Folds braced language function bodies (JS/TS/Go/Rust/C++)."""
+    lines = content.splitlines()
+    folded_lines = []
+    brace_count = 0
+    in_fold = False
+    fold_start_indent = 0
+    
+    for line in lines:
+        stripped = line.strip()
+        if in_fold:
+            brace_count += stripped.count('{')
+            brace_count -= stripped.count('}')
+            if brace_count <= 0:
+                in_fold = False
+                indent = " " * fold_start_indent
+                folded_lines.append(f"{indent}}} // ... folded ...")
+            continue
+            
+        if '{' in line and any(keyword in line for keyword in ("function", "class", "impl", "fn", "struct", "interface", "public", "private")):
+            brace_count = line.count('{') - line.count('}')
+            if brace_count > 0:
+                in_fold = True
+                fold_start_indent = len(line) - len(line.lstrip())
+                folded_lines.append(line.split('{')[0] + "{")
+                folded_lines.append(" " * (fold_start_indent + 4) + "// ... folded ...")
+                continue
+                
+        folded_lines.append(line)
+        
+    return "\n".join(folded_lines)
 
 
 class BaseAgent:
@@ -64,19 +123,39 @@ class BaseAgent:
         self.loop = None
         self.running = False
         
-        # Load LLM configuration strictly from environment variables (no RAG config checks)
+        # Load LLM configuration from environment variables or configuration profile
         self.api_key = os.environ.get("GEMINI_API_KEY")
-        self.model_name = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
+        self.model_name = os.environ.get("GEMINI_MODEL")
+        
+        if self.config and hasattr(self.config, "data") and isinstance(self.config.data, dict):
+            cap = self.config.data.get("capabilities", {}).get("base_scripts", {})
+            if not self.api_key:
+                raw_key = cap.get("gemini_api_key")
+                if raw_key:
+                    try:
+                        self.api_key = self.config.decrypt_secret(raw_key)
+                    except Exception as e:
+                        self.logger.error(f"Agent {self.role_name}: Failed to decrypt gemini_api_key from config: {e}")
+            if not self.model_name:
+                self.model_name = cap.get("gemini_model")
+                
+        if not self.model_name:
+            self.model_name = "gemini-3.5-flash"
         
         # Load system instruction
         self.system_instruction = self._load_system_prompt()
         
         # Instantiate Google GenAI Client strictly if explicit API Key is present
         self.client = None
-        if self.api_key:
+        if hasattr(self.config, "data") and isinstance(self.config.data, dict) and self.config.data.get("genai_client"):
+            self.client = self.config.data["genai_client"]
+            self.logger.info(f"Agent {self.role_name}: Re-using shared Gemini Client from config.")
+        elif self.api_key:
             try:
                 self.client = genai.Client(api_key=self.api_key)
                 self.logger.info(f"Agent {self.role_name}: Initialised Gemini Client using GEMINI_API_KEY.")
+                if hasattr(self.config, "data") and isinstance(self.config.data, dict):
+                    self.config.data["genai_client"] = self.client
             except Exception as e:
                 self.logger.error(f"Agent {self.role_name}: Failed to initialise Gemini Client: {e}")
         else:
@@ -108,8 +187,8 @@ class BaseAgent:
             except Exception as e:
                 self.logger.error(f"Agent {self.role_name} failed to handle incoming message: {e}")
         
-        await self.event_bus.subscribe("antigravity.squad.chat", callback=msg_cb)
-        self.logger.info(f"Agent {self.role_name} listening on event_bus channel 'antigravity.squad.chat'")
+        await self.event_bus.subscribe("antigravity.squad.chat", callback=msg_cb, role=self.role_name)
+        self.logger.info(f"Agent {self.role_name} listening on event_bus channels for role '{self.role_name}'")
 
     async def stop(self):
         """Clean shut down."""
@@ -220,11 +299,11 @@ class BaseAgent:
                 contents.append(current_response.candidates[0].content)
                 contents.append(types.Content(role="user", parts=user_parts))
                 
-                # Re-query the model with the execution results
+                # Re-query the model with the execution results using the complete configuration parameters
                 current_response = self.client.models.generate_content(
                     model=self.model_name,
                     contents=contents,
-                    config=types.GenerateContentConfig(system_instruction=self.system_instruction)
+                    config=types.GenerateContentConfig(**config_params)
                 )
                 answer_text = current_response.text or ""
             else:
@@ -246,6 +325,17 @@ class BaseAgent:
                 await self.event_bus.publish("antigravity.squad.chat", payload_data)
         except Exception as e:
             self.logger.error(f"Agent {self.role_name} failed during LLM generation loop: {e}")
+            err_msg = f"⚠️ [System Alert]: Agent '{self.role_name}' failed during generation loop: {e}"
+            payload_data = {
+                "sender": self.role_name,
+                "session_id": session_id,
+                "content": err_msg,
+                "tool_calls": []
+            }
+            try:
+                await self.event_bus.publish("antigravity.squad.chat", payload_data)
+            except Exception as publish_err:
+                self.logger.error(f"Failed to publish error alert for {self.role_name}: {publish_err}")
 
     async def execute_tool(self, name: str, args: Dict[str, Any]) -> str:
         """Dynamic tool execution handler."""
@@ -272,6 +362,7 @@ class BaseAgent:
 
         elif name == "read_workspace_file":
             path_arg = args.get("path", "")
+            fold_bodies_arg = args.get("fold_bodies", True)
             from pathlib import Path
             workspace_root = Path(__file__).resolve().parent.parent.parent.parent.parent
             file_path = (workspace_root / path_arg).resolve()
@@ -283,7 +374,14 @@ class BaseAgent:
                 return f"Error: Access denied. Path {path_arg} is outside the workspace root."
                 
             try:
-                return file_path.read_text(encoding="utf-8")
+                content = file_path.read_text(encoding="utf-8")
+                if fold_bodies_arg:
+                    ext = file_path.suffix.lower().lstrip('.')
+                    if ext == "py":
+                        content = _fold_python_code(content)
+                    elif ext in ("js", "ts", "go", "rs", "cpp", "h", "hpp", "cc"):
+                        content = _fold_generic_code(content)
+                return content
             except Exception as e:
                 return f"Error reading file {path_arg}: {e}"
 
@@ -316,9 +414,21 @@ class BaseAgent:
                 "scp", "ssh", "sftp", "ftp", "/etc/", "/var/", "mv ", "dd ",
                 "mkfs", "tftp"
             ]
-            for kw in blocked_keywords:
-                if kw in cmd_arg.lower():
-                    return f"Error: Command execution blocked for safety. Keyword '{kw}' is prohibited."
+            
+            # Normalise command strings to prevent evasion techniques (e.g. quotes or escaped chars)
+            cleaned_cmd = cmd_arg.lower().replace("'", "").replace('"', "").replace("\\", "")
+            
+            # Split commands by common operators to check sub-commands separately
+            import re
+            cmd_parts = re.split(r'[;&|`\n\r]', cleaned_cmd)
+            for part in cmd_parts:
+                part_strip = part.strip()
+                for kw in blocked_keywords:
+                    kw_clean = kw.strip()
+                    if part_strip == kw_clean or part_strip.startswith(kw_clean + " ") or part_strip.startswith(kw_clean + "\t"):
+                        return f"Error: Command execution blocked for safety. Keyword '{kw_clean}' is prohibited."
+                    if kw in part:
+                        return f"Error: Command execution blocked for safety. Keyword '{kw}' is prohibited."
             
             import subprocess
             from pathlib import Path
@@ -391,14 +501,15 @@ class BaseAgent:
             try:
                 with conn.cursor() as cursor:
                     cursor.execute('SET search_path TO "08-Base-Scripts", public')
+                    # Apply chronological sliding window: fetch last 15 messages and reverse order
                     cursor.execute(
-                        "SELECT sender, content, tool_calls FROM squad_chat_logs WHERE session_id = %s ORDER BY created_at ASC",
+                        "SELECT sender, content, tool_calls FROM squad_chat_logs WHERE session_id = %s ORDER BY created_at DESC LIMIT 15",
                         (session_id,)
                     )
                     rows = cursor.fetchall()
                     return [
                         {"sender": r[0], "content": r[1], "tool_calls": r[2]}
-                        for r in rows
+                        for r in reversed(rows)
                     ]
             except Exception as e:
                 self.logger.error(f"Failed to query squad_chat_logs: {e}")

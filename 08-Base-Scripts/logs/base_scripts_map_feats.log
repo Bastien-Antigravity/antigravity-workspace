@@ -1,0 +1,6 @@
+2026-07-09T22:28:49.050860000Z    iMac.local   base_scripts_map_feats INFO       loader.py            set_logger                483    AppConfig : Logger updated successfully [metadata: mod=microservice_toolbox.config.loader]
+2026-07-09T22:28:49.090799000Z    iMac.local   base_scripts_map_feats INFO       map_feats.py         execute                   76     📋 Microservice to Behavior Spec mapping: [metadata: mod=src.fleet.map_feats]
+2026-07-12T23:02:13.955888000Z    iMac.local   base_scripts_map_feats INFO       loader.py            set_logger                483    AppConfig : Logger updated successfully [metadata: mod=microservice_toolbox.config.loader]
+2026-07-12T23:02:14.032097000Z    iMac.local   base_scripts_map_feats INFO       pg_pool.py           get_pg_pool               68     SharedPool : Connecting to 127.0.0.1:5432 (database=obsidiandb) [metadata: mod=lib.pg_pool]
+2026-07-12T23:02:14.154030000Z    iMac.local   base_scripts_map_feats INFO       memory.py            _init_db                  109    PostgresMemoryStore : Initialised database schema '08-Base-Scripts' [metadata: mod=lib.memory]
+2026-07-12T23:02:14.188748000Z    iMac.local   base_scripts_map_feats INFO       map_feats.py         execute                   82     📋 Microservice to Behavior Spec mapping: [metadata: mod=src.fleet.map_feats]

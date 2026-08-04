@@ -1,0 +1,52 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[distributed-config/distributed-config/distconf/libdistconf/libdistconf.h.md|call_config_update_cb]] (function: calls)
+- [[distributed-config/distributed-config/src/cgo_bridge/errors.c.md|set_last_error]] (function: calls)
+- [[distributed-config/distributed-config/src/cgo_bridge/initialize.go.md|Close]] (function: calls)
+- [[distributed-config/distributed-config/src/cgo_bridge/initialize.go.md|New]] (function: calls)
+- [[distributed-config/distributed-config/src/cgo_bridge/initialize.go.md|initialize.go]] (imports)
+- [[distributed-config/distributed-config/src/cgo_bridge/validation.go.md|IsValid]] (function: calls)
+- [[distributed-config/distributed-config/src/utils/logger.go.md|noOpLogger.Error]] (method: calls)
+
+### 🔌 Consumers (Inbound)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_ApplyFileOverride]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Close]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Decrypt]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_FreeString]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetAddress]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetCapability]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetFullConfig]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetGRPCAddress]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetGRPCMgmtAddress]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetLastErrorCode]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetLastError]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_GetRESTAddress]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Get]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_IsValid]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_New]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_OnLiveConfUpdate]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_OnRegistryUpdate]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Set]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_ShareConfig]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Sync]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_ValidateMandatoryServices]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|main]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|mapErrorCode]] (function: belongs_to)
+- [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|setLastError]] (function: belongs_to)
+- [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConf.hpp]] (calls)
+- [[distributed-config/distributed-config/distconf/python/distconf/__init__.py.md|__init__.py]] (calls)
+- [[distributed-config/distributed-config/distconf/python/ffi_validation.py.md|ffi_validation.py]] (calls)
+<!-- SYNC:END -->

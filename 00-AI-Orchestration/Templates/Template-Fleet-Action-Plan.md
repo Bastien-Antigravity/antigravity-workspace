@@ -1,14 +1,15 @@
 ---
-microservice: {{microservice}}
-type: fleet-op
+microservice: ecosystem-core
+type: template
 status: active
 tags:
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
+- '#type/fleet-op'
 - "#tech/TO-DO"
 - "#tier/TO-DO"
-- "#zone/TO-DO"
-- #service/{{microservice}}
-- '#type/fleet-op'
-- '#state/active'
 ---
 
 # Fleet Action Plan: [Name]
@@ -18,7 +19,7 @@ type: fleet-action-plan
 status: draft
 date: YYYY-MM-DD
 scope: [list of target repositories]
-mode: "[[00-AI-Orchestration/MODE-MANUAL]]"
+mode: "[[00-AI-Orchestration/Config/MODE-MANUAL]]"
 ---
 
 ## 🎯 Objective

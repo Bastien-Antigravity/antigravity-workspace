@@ -50,24 +50,13 @@ This script configures the MCP "Filesystem Bridge" and prepares the subagents.
     # Run using the default Antigravity CLI:
     # Run using the default Antigravity CLI:
     python3 obsidian-brain/08-Base-Scripts/start_squad.py
-    
-    # Or override and start directly using another client (antigravity/gemini/claude/codex/deepseek):
-    ACTIVE_CLIENT=deepseek python3 obsidian-brain/08-Base-Scripts/start_squad.py
 ```
 
 The supported client adapters are centralized in `08-Base-Scripts/clients/registry.py`.
-Antigravity, Gemini, Claude, and Codex are native CLI clients. DeepSeek is an API-backed client implemented in `08-Base-Scripts/clients/API/deepseek_client.py` and requires `DEEPSEEK_API_KEY`.
-See [[99-Humans/AI-Client-Startup-Guide]] for per-client startup commands.
+Antigravity, Gemini, and Codex are the primary native CLI clients supported by this launcher.
+See [[AI-Client-Startup-Guide]] for per-client startup commands.
 
-Preferred DeepSeek setup uses shell environment variables:
-
-```bash
-export DEEPSEEK_API_KEY="sk-..."
-export DEEPSEEK_BASE_URL="https://api.deepseek.com"
-export DEEPSEEK_MODEL="deepseek-chat"
-```
-
-`DEEPSEEK_BASE_URL` and `DEEPSEEK_MODEL` are optional. The adapter also supports local `.env` files as a development fallback, but shell variables are the preferred method.
+Install required Python dependencies into the active vault virtual environment before launching the squad.
 
 If you see `STATE LOG : MISSING`, the client did not necessarily fail. That message comes from the mission sign-off gate and means there are uncommitted Markdown changes without a matching `AI-Session-State.md` update.
 

@@ -1,11 +1,11 @@
 ---
-microservice: obsidian-brain
-type: governance
+microservice: ecosystem-core
+type: configuration
 status: active
 tags:
-- '#zone/3-fleet'
-- '#service/obsidian-brain'
-- '#type/governance'
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/configuration'
 - '#state/active'
 ---
 # Knowledge Organization Strategy for Bastien-Antigravity

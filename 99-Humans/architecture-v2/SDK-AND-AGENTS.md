@@ -10,7 +10,7 @@ The **09-RAG-Engine** is connected via the **Model Context Protocol (MCP)**.
 *   **Firewall Isolation**: Based on the active Mode (1-4), the `MCPManager` dynamically restricts which folders are visible to the agent, providing a first layer of hardware-level isolation.
 
 ## 🎯 Creating Workflows
-You can automate complex tasks by creating YAML files in `00-AI-Orchestration/workflows/`.
+You can automate complex tasks by creating YAML files in `00-AI-Orchestration/Workflows/`.
 
 ### Example `audit-and-fix.yaml`:
 ```yaml

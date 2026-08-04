@@ -1,0 +1,4 @@
+2026-07-10T15:21:51.831641000Z    iMac.local   base_scripts_run_evolu INFO       loader.py            set_logger                483    AppConfig : Logger updated successfully [metadata: mod=microservice_toolbox.config.loader]
+2026-07-10T15:21:51.833656000Z    iMac.local   base_scripts_run_evolu WARNING    pg_pool.py           get_pg_pool               46     SharedPool : psycopg2-binary is not installed in the active environment. [metadata: mod=lib.pg_pool]
+2026-07-10T15:22:14.868083000Z    iMac.local   base_scripts_run_evolu INFO       loader.py            set_logger                483    AppConfig : Logger updated successfully [metadata: mod=microservice_toolbox.config.loader]
+2026-07-10T15:22:14.897057000Z    iMac.local   base_scripts_run_evolu WARNING    pg_pool.py           get_pg_pool               46     SharedPool : psycopg2-binary is not installed in the active environment. [metadata: mod=lib.pg_pool]

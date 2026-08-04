@@ -1,0 +1,50 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.All() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.Configs() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.Events() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.Status() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.adBaseline() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.connectedCallback]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.istState() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.itConfig(sec]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.layConfigs() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.layStatus() {]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.ngifyValue(val]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.peAttribute(val]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.peHTML(val]] (method: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.renderSkeleton]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[config-server/config-server/cmd/config-server/main.go.md|main.go]] (imports)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.All() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.Configs() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.Events() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.Status() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.adBaseline() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.connectedCallback]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.istState() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.itConfig(sec]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.layConfigs() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.layStatus() {]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.ngifyValue(val]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.peAttribute(val]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.peHTML(val]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE.renderSkeleton]] (method: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE]] (class: belongs_to)
+- [[config-server/config-server/src/rest/mfe.js.md|ConfigServerMFE]] (class: defines_method)
+- [[config-server/config-server/src/rest/mfe.js.md|gerEdit = (]] (function: belongs_to)
+<!-- SYNC:END -->

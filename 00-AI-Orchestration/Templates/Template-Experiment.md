@@ -1,14 +1,15 @@
 ---
-microservice: {{microservice}}
-type: experiment
-status: fluid
+microservice: ecosystem-core
+type: template
+status: active
 tags:
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
+- '#type/experiment'
 - "#tech/TO-DO"
 - "#tier/TO-DO"
-- "#zone/TO-DO"
-- #service/{{microservice}}
-- '#state/fluid'
-- '#type/experiment'
 ---
 
 # Experiment: [Name]

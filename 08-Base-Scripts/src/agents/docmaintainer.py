@@ -3,7 +3,7 @@
 
 from typing import Any
 from src.agents.base_agent import BaseAgent
-from src.agents.interfaces import SquadEventBus
+from src.interfaces import SquadEventBus
 
 class DocMaintainerAgent(BaseAgent):
     """

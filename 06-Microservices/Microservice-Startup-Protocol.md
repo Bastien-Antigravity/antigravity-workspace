@@ -7,12 +7,13 @@ tags:
 - '#type/protocol'
 - '#state/active'
 - '#zone/3-fleet'
+- '#ai/ignore'
 ---
 # 📜 Microservice Startup Protocol
 
 This protocol defines the standardized initialization sequence for all microservices in the Bastien Ecosystem. It ensures parity in configuration loading, argument handling, and logging across **Go, Rust, Python, and C++**.
 
-## 1. The Startup Sequence (The 4-Phase Truth)
+## 1. The Startup Sequence (The 5-Phase Truth)
 
 Every microservice MUST follow this sequence during the `main()` initialization phase, managed by the `microservice-toolbox`:
 
@@ -20,6 +21,7 @@ Every microservice MUST follow this sequence during the `main()` initialization 
 2.  **Phase 2: Local Overrides**: If in `standalone` or `test` profile, re-apply the local YAML file as a hard override to ensure developer-intent parity.
 3.  **Phase 3: CLI Arguments**: Apply command-line flags. **CLI always wins.**
 4.  **Phase 4: Remote Sync**: If the bridge is active, synchronize with the global configuration state (Service Discovery).
+5.  **Phase 5: OpenMFE Auto-Registration (If UI Present)**: Sibling services providing visual frontends must execute a non-blocking background task to register their custom element Web Component and static scripts to the MFE registry in `web-interface` (see [[OpenMFE-Integration-Protocol]]).
 
 ### 1.1 Level 3 Hybrid Logic (Standalone vs. Connected)
 For Level 3 services (Analysis/Observation), an additional logic gate is required during Phase 2:

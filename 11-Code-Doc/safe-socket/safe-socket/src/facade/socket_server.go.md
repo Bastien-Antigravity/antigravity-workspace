@@ -1,0 +1,78 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|NewEnvelopedConnection]] (function: calls)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|enveloped_connection.go]] (same_package)
+- [[safe-socket/safe-socket/src/facade/handshake_connection.go.md|NewHandshakeConnection]] (function: calls)
+- [[safe-socket/safe-socket/src/facade/handshake_connection.go.md|handshake_connection.go]] (same_package)
+- [[safe-socket/safe-socket/src/facade/heartbeat_connection.go.md|NewHeartbeatConnection]] (function: calls)
+- [[safe-socket/safe-socket/src/facade/heartbeat_connection.go.md|heartbeat_connection.go]] (same_package)
+- [[safe-socket/safe-socket/src/facade/reliable_connection.go.md|NewReliableConnection]] (function: calls)
+- [[safe-socket/safe-socket/src/facade/reliable_connection.go.md|reliable_connection.go]] (same_package)
+- [[safe-socket/safe-socket/src/facade/shutdown_test.go.md|mockProfile.GetAddress]] (method: calls)
+- [[safe-socket/safe-socket/src/facade/shutdown_test.go.md|mockProfile.GetConnectTimeout]] (method: calls)
+- [[safe-socket/safe-socket/src/facade/shutdown_test.go.md|mockProfile.GetProtocol]] (method: calls)
+- [[safe-socket/safe-socket/src/facade/shutdown_test.go.md|mockProfile.GetTransport]] (method: calls)
+- [[safe-socket/safe-socket/src/facade/shutdown_test.go.md|shutdown_test.go]] (same_package)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Accept]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Close]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.GetAddr]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Listen]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Open]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Read]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Receive]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Send]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetIdleTimeout]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetLogger]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetReadDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetWriteDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Write]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|trackingConnection.Close]] (method: defines_method)
+- [[safe-socket/safe-socket/src/interfaces/transport.go.md|transport.go]] (imports)
+- [[safe-socket/safe-socket/src/models/socket_config.go.md|socket_config.go]] (imports)
+- [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|HelloProtocol.WaitInitiation]] (method: calls)
+- [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|NewHelloProtocol]] (function: calls)
+- [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|hello_protocol.go]] (imports)
+- [[safe-socket/safe-socket/src/transports/framed_tcp_server.go.md|ListenTLS]] (function: calls)
+- [[safe-socket/safe-socket/src/transports/shm_client.go.md|shm_client.go]] (imports)
+- [[safe-socket/safe-socket/src/transports/shm_server.go.md|ListenShm]] (function: calls)
+- [[safe-socket/safe-socket/src/transports/udp_server.go.md|ListenUDP]] (function: calls)
+
+### 🔌 Consumers (Inbound)
+- [[safe-socket/safe-socket/src/facade/shutdown_test.go.md|shutdown_test.go]] (calls)
+- [[safe-socket/safe-socket/src/facade/shutdown_test.go.md|shutdown_test.go]] (same_package)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|NewSocketServer]] (function: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Accept]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Close]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.GetAddr]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Listen]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Open]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Read]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Receive]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Send]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetIdleTimeout]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetLogger]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetReadDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.SetWriteDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer.Write]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer]] (struct: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|SocketServer]] (struct: defines_method)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|trackingConnection.Close]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|trackingConnection]] (struct: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|trackingConnection]] (struct: defines_method)
+- [[safe-socket/safe-socket/src/factory/socket_factory.go.md|socket_factory.go]] (calls)
+<!-- SYNC:END -->

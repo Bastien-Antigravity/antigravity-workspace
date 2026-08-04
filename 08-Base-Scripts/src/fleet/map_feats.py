@@ -37,9 +37,13 @@ def extract_microservice(file_path: str) -> str:
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
-            match = re.search(r'microservice:\s*(.*)', content)
-            if match:
-                return match.group(1).strip()
+        if content.startswith("---"):
+            parts = content.split("---", 2)
+            if len(parts) >= 3:
+                frontmatter = parts[1]
+                match = re.search(r'^microservice:\s*(.*)', frontmatter, re.MULTILINE)
+                if match:
+                    return match.group(1).strip().strip("'\"")
     except Exception as e:
         logger.error(f"Error reading {file_path}: {e}")
     return None
@@ -71,6 +75,8 @@ class MapFeatsCommand(Command):
                         if ms not in mapping:
                             mapping[ms] = []
                         mapping[ms].append(file.replace(".md", ""))
+                    else:
+                        logger.warning(f"File {file} has no microservice frontmatter defined.")
         
         # Print report
         logger.info("📋 Microservice to Behavior Spec mapping:")

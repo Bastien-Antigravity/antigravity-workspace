@@ -159,20 +159,34 @@ class CommandController(Command):
         """Returns a list of available subcommands and their descriptions."""
         from main import COMMANDS_MAP
         descriptions = {
-            "start-squad": "Launches the persistent background agent daemon and web service",
-            "convert-agents": "Standardises raw XML markdown schemas into agent-friendly skills",
-            "ensure-frontmatter": "Applies frontmatter, creation timestamps, and formatting checks",
-            "fleet-commander": "Checks git branch-protection constraints and manages fleet repos",
-            "install-git-hooks": "Installs commit hooks to validate note formatting and check drift",
-            "preflight-check": "Runs comprehensive pre-flight verification checks",
-            "check-coherence": "Performs quick syntax audits of codebase workspace configurations",
-            "switch-mode": "Updates AI Session States and toggles active squad modes",
-            "persona-extractor": "Extracts polyglot codebase context in background",
-            "joint-audit-purger": "Locally wipes invalid and out-of-date strategic Nexus files",
+            "start-squad": "Launches the persistent background agent daemon and WebSocket/REST API web services to orchestrate the AI squad.",
+            "convert-agents": "Compiles raw markdown persona templates from the KMS/Nexus vaults into standardized Gemini skills definitions.",
+            "ensure-frontmatter": "Enforces structure on vault notes by validating and injecting missing metadata and YAML frontmatter.",
+            "fleet-commander": "Audits compliance across the fleet microservices, auto-formats BDD notes, and runs standardized Git branch pushes.",
+            "install-git-hooks": "Registers Git commit hooks to automatically validate file syntax, frontmatter alignment, and verify code coherence.",
+            "preflight-check": "Executes pre-session verification checks (submodules, mode alignment, inventory, specs) and runs auto-repairs.",
+            "check-coherence": "Performs syntactic audits of codebase configurations, workspace files, and JSON/YAML files to verify consistency.",
+            "switch-mode": "Toggles the global active squad orchestration mode and updates session states across all manuals.",
+            "persona-extractor": "Parses codebase repositories to extract structural AST elements and generate telemetry context cards.",
+            "joint-audit-purger": "Conducts garbage collection, purging stale Nexus plans, invalid draft cards, and out-of-date strategic files.",
+            "agent-dispatcher": "Triggers individual agent executions and routes targeted communication events across NATS queues.",
+            "brain-health-audit": "Runs a comprehensive health check on vault notes to detect metadata drift, dangling links, or structure violations.",
+            "fleet-init-update": "Generates and propagates standard AI-Init.md instructions across all registered repositories in the fleet.",
+            "hardening-yaml": "Crawls the entire Obsidian vault and enforces zone-specific YAML tags based on folder taxonomy rules.",
+            "init-new-brain": "Initializes a pristine Obsidian workspace vault containing standard structural folders and governance templates.",
+            "maintenance-skill": "Triggers routine squad index checks, compacts local databases, and audits system metadata files.",
+            "close-mission": "Performs the final end-of-session sign-off audits and synchronizes changed notes across fleet repositories.",
+            "knowledge-compressor": "Processes telemetry files and compiles dense codebase summaries to hydrate the AI RAG context window.",
+            "mission-help": "Displays detailed usage help, subcommand documentation, and structural layout requirements.",
+            "scaffold-new-brain": "Scaffolds empty template notes, system manuals, and mode manuals for new orchestration nodes.",
+            "unlock-vault": "Decrypts secure configuration properties and hydrates local environmental files using the KMS key ring.",
+            "map-feats": "Crawls BDD specifications to map microservices to their behavioral feature files and displays the coverage map.",
+            "fix-feats": "Standardizes BDD spec files by injecting missing domain tags, normalizing folder locations, and adding parent hub links.",
+            "controller": "Invokes command router execution, handling direct subprocess spawning and command outputs."
         }
         return [
             {"name": cmd, "description": descriptions.get(cmd, "Custom subcommand")}
-            for cmd in COMMANDS_MAP.keys()
+            for cmd in sorted(COMMANDS_MAP.keys())
         ]
 
     async def run_subcommand_async(self, cmd_name: str, args: List[str]) -> tuple[bool, str]:
@@ -238,61 +252,84 @@ class CommandController(Command):
     # -----------------------------------------------------------------------------------------------
 
     async def get_chat_history(self, session_id: str) -> List[Dict[str, Any]]:
-        """Retrieves squad chat logs from Postgres."""
+        """Retrieves squad chat logs from Postgres or in-memory memory store as fallback."""
         import json
-        if not self.pool:
+        if self.pool:
+            loop = asyncio.get_running_loop()
+            def db_query():
+                conn = self.pool.getconn()
+                try:
+                    with conn.cursor() as cursor:
+                        cursor.execute('SET search_path TO "08-Base-Scripts", public')
+                        cursor.execute(
+                            "SELECT sender, content, tool_calls, created_at FROM squad_chat_logs WHERE session_id = %s ORDER BY created_at ASC",
+                            (session_id,)
+                        )
+                        rows = cursor.fetchall()
+                        return [
+                            {
+                                "sender": r[0],
+                                "content": r[1],
+                                "tool_calls": r[2] if isinstance(r[2], list) else (json.loads(r[2]) if r[2] else []),
+                                "created_at": r[3].isoformat() if r[3] else ""
+                            }
+                            for r in rows
+                        ]
+                except Exception as e:
+                    self.logger.error(f"Failed to query squad_chat_logs: {e}")
+                    return []
+                finally:
+                    self.pool.putconn(conn)
+            db_results = await loop.run_in_executor(None, db_query)
+            if db_results:
+                return db_results
+
+        # In-memory fallback from self.memory
+        try:
+            turns = self.memory.retrieve("", session_id=session_id, limit=50)
+            history = []
+            for t in turns:
+                if t.get("role") in ["system"]:
+                    continue
+                history.append({
+                    "sender": t.get("sender", t.get("role", "user")),
+                    "content": t.get("content", ""),
+                    "tool_calls": t.get("tool_calls", []),
+                    "created_at": ""
+                })
+            return history
+        except Exception as e:
+            self.logger.warning(f"Failed to retrieve memory fallback: {e}")
             return []
-        loop = asyncio.get_running_loop()
-        def db_query():
-            conn = self.pool.getconn()
-            try:
-                with conn.cursor() as cursor:
-                    cursor.execute('SET search_path TO "08-Base-Scripts", public')
-                    cursor.execute(
-                        "SELECT sender, content, tool_calls, created_at FROM squad_chat_logs WHERE session_id = %s ORDER BY created_at ASC",
-                        (session_id,)
-                    )
-                    rows = cursor.fetchall()
-                    return [
-                        {
-                            "sender": r[0],
-                            "content": r[1],
-                            "tool_calls": r[2] if isinstance(r[2], list) else (json.loads(r[2]) if r[2] else []),
-                            "created_at": r[3].isoformat() if r[3] else ""
-                        }
-                        for r in rows
-                    ]
-            except Exception as e:
-                self.logger.error(f"Failed to query squad_chat_logs: {e}")
-                return []
-            finally:
-                self.pool.putconn(conn)
-        return await loop.run_in_executor(None, db_query)
 
     async def publish_user_message(self, session_id: str, message: str) -> None:
-        """Saves a user message and publishes it to NATS room to trigger agents."""
-        if not self.pool:
-            return
-            
-        loop = asyncio.get_running_loop()
-        # 1. Save user turn to PostgreSQL
-        def db_insert():
-            conn = self.pool.getconn()
-            try:
-                with conn.cursor() as cursor:
-                    cursor.execute('SET search_path TO "08-Base-Scripts", public')
-                    cursor.execute(
-                        "INSERT INTO squad_chat_logs (session_id, sender, content, tool_calls) VALUES (%s, %s, %s, %s)",
-                        (session_id, "user", message, "[]")
-                    )
-                conn.commit()
-            except Exception as e:
-                self.logger.error(f"Failed to insert user squad_chat_log: {e}")
-            finally:
-                self.pool.putconn(conn)
-        await loop.run_in_executor(None, db_insert)
+        """Saves a user message and publishes it to EventBus to trigger agents."""
+        # 1. Save to in-memory memory store
+        try:
+            self.memory.add({"role": "user", "sender": "user", "content": message}, session_id=session_id)
+        except Exception as e:
+            self.logger.warning(f"Failed to add message to memory store: {e}")
 
-        # 2. Publish to SquadEventBus
+        # 2. Save user turn to PostgreSQL if pool exists
+        if self.pool:
+            loop = asyncio.get_running_loop()
+            def db_insert():
+                conn = self.pool.getconn()
+                try:
+                    with conn.cursor() as cursor:
+                        cursor.execute('SET search_path TO "08-Base-Scripts", public')
+                        cursor.execute(
+                            "INSERT INTO squad_chat_logs (session_id, sender, content, tool_calls) VALUES (%s, %s, %s, %s)",
+                            (session_id, "user", message, "[]")
+                        )
+                    conn.commit()
+                except Exception as e:
+                    self.logger.error(f"Failed to insert user squad_chat_log: {e}")
+                finally:
+                    self.pool.putconn(conn)
+            await loop.run_in_executor(None, db_insert)
+
+        # 3. Publish to SquadEventBus or LocalEventBus
         try:
             payload_data = {
                 "sender": "user",
@@ -302,7 +339,8 @@ class CommandController(Command):
             if hasattr(self, "event_bus") and self.event_bus:
                 await self.event_bus.publish("antigravity.squad.chat", payload_data)
             else:
-                self.logger.warning("CommandController: event_bus not initialized on controller.")
+                from src.interfaces import LocalEventBus
+                LocalEventBus.publish("antigravity.squad.chat", payload_data)
         except Exception as e:
             self.logger.error(f"Failed to publish user message: {e}")
 

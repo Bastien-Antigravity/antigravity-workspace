@@ -1,15 +1,16 @@
---- 
-microservice: {{microservice}}
-type: task-plan
-status: pending
+---
+microservice: ecosystem-core
+type: template
+status: active
 role: orchestrator
 tags:
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
+- '#type/task-plan'
 - "#tech/TO-DO"
 - "#tier/TO-DO"
-- "#zone/TO-DO"
-- #service/{{microservice}}
-- '#type/task-plan'
-- '#state/pending'
 ---
 # Master Plan: [Feature/Bug Name]
 

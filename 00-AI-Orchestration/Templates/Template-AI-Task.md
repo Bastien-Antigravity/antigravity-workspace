@@ -1,15 +1,19 @@
 ---
-feature: null
-priority: medium
+microservice: ecosystem-core
+type: template
 status: active
 tags:
-- "#tech/TO-DO"
-- "#tier/TO-DO"
-- "#zone/TO-DO"
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
+- '#type/template'
+- '#state/active'
 - '#type/task'
 - '#state/draft'
+- "#tech/TO-DO"
+- "#tier/TO-DO"
+feature: null
+priority: medium
 title: '{{title}}'
-type: task
 ---
 
 # 📝 AI Task: {{title}}

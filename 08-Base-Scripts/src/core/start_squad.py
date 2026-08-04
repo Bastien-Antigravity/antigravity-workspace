@@ -892,11 +892,22 @@ def start_engine() -> None:
     # ---------------------------------------------------------------
 
     # Initialize global hybrid Event Bus
-    from src.agents.interfaces import DualSquadEventBus
+    from src.interfaces import DualSquadEventBus
+    from microservice_toolbox.messaging.config import NatsConfig
     nats_cap = config.data.get("capabilities", {}).get("nats", {})
     nats_servers = nats_cap.get("servers", ["nats://127.0.0.1:4222"])
-    nats_url = nats_servers[0] if nats_servers else "nats://127.0.0.1:4222"
-    event_bus = DualSquadEventBus(nats_url=nats_url, logger=logger)
+    client_id = nats_cap.get("client_id", "python_agent_squad")
+    subject_prefix = nats_cap.get("subject_prefix", "antigravity")
+    
+    nats_cfg = NatsConfig(
+        servers=nats_servers,
+        client_id=client_id,
+        subject_prefix=subject_prefix,
+        connect_timeout=0.5,
+        reconnect_wait=1.0,
+        max_reconnects=1
+    )
+    event_bus = DualSquadEventBus(nats_cfg=nats_cfg, logger=logger)
     loop.run_until_complete(event_bus.connect())
     
     # Store event_bus reference on controller for REST usage

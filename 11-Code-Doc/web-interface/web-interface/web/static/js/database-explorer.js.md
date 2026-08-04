@@ -1,0 +1,60 @@
+---
+microservice: obsidian-brain
+type: note
+status: active
+tags:
+- '#service/obsidian-brain'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[web-interface/web-interface/web/static/js/base.js.md|base.js]] (same_package)
+- [[web-interface/web-interface/web/static/js/base.js.md|w3_OpenClose]] (function: calls)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayColumns]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayDatabases]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayResults]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displaySchemas]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayTables]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.formatDisplayValue]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.init]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadColumns]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadDatabases]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadSchemas]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadTableData]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadTables]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.runQuery]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.selectDatabase]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.selectSchema]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.selectTable]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.setupEventListeners]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.switchTab]] (method: defines_method)
+- [[web-interface/web-interface/web/static/js/gridstack-all.js.md|_.disabled]] (method: calls)
+- [[web-interface/web-interface/web/static/js/gridstack-all.js.md|gridstack-all.js]] (same_package)
+
+### 🔌 Consumers (Inbound)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayColumns]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayDatabases]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayResults]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displaySchemas]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.displayTables]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.formatDisplayValue]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.init]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadColumns]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadDatabases]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadSchemas]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadTableData]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.loadTables]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.runQuery]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.selectDatabase]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.selectSchema]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.selectTable]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.setupEventListeners]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer.switchTab]] (method: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer]] (class: belongs_to)
+- [[web-interface/web-interface/web/static/js/database-explorer.js.md|DatabaseExplorer]] (class: defines_method)
+<!-- SYNC:END -->

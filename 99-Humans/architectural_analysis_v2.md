@@ -271,7 +271,7 @@ To achieve complete decoupling, a detailed audit of code files reveals several *
 - **Vulnerability**: Script launchers depend on `00-AI-Orchestration` to track modes and states.
 - **References**:
   - `close_mission.py` (Line 43) and `start_squad.py` (Line 502) hardcode the mode configuration location:
-    `00-AI-Orchestration/MODE-MANUAL.md`
+    `00-AI-Orchestration/Config/MODE-MANUAL.md`
   - `knowledge-compressor.py` (Lines 26, 27) hardcodes logs and strategic patterns inside:
     `00-AI-Orchestration/Knowledge-Strategy.md` and `00-AI-Orchestration/logs/distillations/`
 - **Decoupling Fix**:

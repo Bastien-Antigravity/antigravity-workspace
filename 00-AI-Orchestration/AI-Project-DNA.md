@@ -1,12 +1,12 @@
 ---
-microservice: obsidian-brain
+microservice: ecosystem-core
 type: governance
 status: active
 tags:
 - '#type/governance'
 - '#state/active'
-- '#zone/3-fleet'
-- '#service/obsidian-brain'
+- '#zone/0-orchestration'
+- '#service/ecosystem-core'
 ---
 # 🧬 Project DNA: obsidian-brain
 
@@ -50,10 +50,19 @@ tags:
     - Specialize in AST-based code analysis, chunking, and code dependency index management.
 - **PatternSentinel**:
     - Audit changes to enforce strict governance protocols, decoupling, and coding style standards.
+- **MatryoshkaScripter**:
+    - Specialize in creating self-contained, single-file Python tools (Matryoshka pattern) that embed their own dependencies.
+
+## 📦 Engineering Standards
+- **Matryoshka Python Scripts**: All Python tools and utilities meant for cross-environment execution must follow the "Matryoshka" pattern—single, self-contained files that include their own dependencies and can be executed without external installation or virtual environments.
+    - **Self-containment**: The script must include its own code plus all third-party libraries it depends on, bundled into ONE file.
+    - **Auto-callable**: Executable directly (`python script.py`) without prior `pip install`.
+    - **No external files**: No separate `requirements.txt` or external modules required.
+    - **PEP 723**: Use inline script metadata for modern Python environments to declare dependencies.
+    - **Interpretable**: Scripts must remain as readable Python code (not binary executables).
 
 ## 🚦 Lifecycle & Versioning
 - **Primary Branch**: `develop`
 - **Protected Branches**: `main`
 - **Versioning Strategy**: N/A (Continuous updates).
 - **Version Source of Truth**: `VERSION.txt` (Set to `1.0.0` for tracking).
-

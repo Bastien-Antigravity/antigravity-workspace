@@ -1,0 +1,58 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.AddProvider]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.GetAlertingConfig]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.GetStatus]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.GetSupportedTypes]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.ListNotifiers]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.ReloadConfig]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.RemoveProvider]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.SendTestNotification]] (method: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.SetAlertingConfig]] (method: defines_method)
+- [[notif-server/notif-server/src/core/notifier.go.md|Notifier.GetActiveNotifiers]] (method: calls)
+- [[notif-server/notif-server/src/core/notifier.go.md|Notifier.GetConfig]] (method: calls)
+- [[notif-server/notif-server/src/core/notifier.go.md|Notifier.Reload]] (method: calls)
+- [[notif-server/notif-server/src/core/notifier.go.md|notifier.go]] (same_package)
+- [[notif-server/notif-server/src/core/notifier_test.go.md|mockSender.GetLogLevel]] (method: calls)
+- [[notif-server/notif-server/src/core/notifier_test.go.md|notifier_test.go]] (same_package)
+
+### 🔌 Consumers (Inbound)
+- [[notif-server/notif-server/cmd/notif-server/main.go.md|main.go]] (calls)
+- [[notif-server/notif-server/cmd/notif-server/main.go.md|main.go]] (imports)
+- [[notif-server/notif-server/cmd/test/integration_test.go.md|integration_test.go]] (imports)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.AddProvider]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.GetAlertingConfig]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.GetStatus]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.GetSupportedTypes]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.ListNotifiers]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.ReloadConfig]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.RemoveProvider]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.SendTestNotification]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller.SetAlertingConfig]] (method: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller]] (struct: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|Controller]] (struct: defines_method)
+- [[notif-server/notif-server/src/core/controller.go.md|NewController]] (function: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|NotifController]] (interface: belongs_to)
+- [[notif-server/notif-server/src/core/controller.go.md|NotifierInfo]] (struct: belongs_to)
+- [[notif-server/notif-server/src/grpc_control/grpc_service.go.md|grpc_service.go]] (imports)
+- [[notif-server/notif-server/src/grpc_control/service.go.md|service.go]] (imports)
+- [[notif-server/notif-server/src/rest/rest_handler.go.md|rest_handler.go]] (calls)
+- [[notif-server/notif-server/src/rest/rest_handler.go.md|rest_handler.go]] (imports)
+- [[notif-server/notif-server/src/server/server.go.md|server.go]] (imports)
+- [[notif-server/notif-server/src/server/server_test.go.md|server_test.go]] (imports)
+- [[notif-server/notif-server/src/server/timeout_test.go.md|timeout_test.go]] (imports)
+- [[notif-server/notif-server/src/telegram/manager.go.md|manager.go]] (imports)
+<!-- SYNC:END -->

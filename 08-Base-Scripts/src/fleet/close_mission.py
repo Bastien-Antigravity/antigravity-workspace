@@ -45,28 +45,9 @@ def get_current_branch(repo_path: Path) -> str:
     except Exception:
         return ""
 
-import argparse
-
-def parse_args():
-    parser = argparse.ArgumentParser(description="Close Mission (Governance Gate)")
-    parser.add_argument("-y", "--yes", "--non-interactive", action="store_true", help="Auto-approve steps and run non-interactively")
-    return parser.parse_known_args()[0]
-
-args = parse_args()
-
 def confirm_step(prompt: str) -> bool:
-    if getattr(args, "yes", False):
-        print(f"   ❓ {prompt} [y/N]: y (auto-approved)")
-        return True
-    if not sys.stdin.isatty():
-        print(f"   ❓ {prompt} [y/N]: N (non-interactive default)")
-        return False
-    try:
-        choice = input(f"   ❓ {prompt} [y/N]: ").strip().lower()
-        return choice == 'y'
-    except EOFError:
-        print(f"   ❓ {prompt} [y/N]: N (EOF fallback)")
-        return False
+    choice = input(f"   ❓ {prompt} [y/N]: ").strip().lower()
+    return choice == 'y'
 
 def main():
     print("\n" + "═"*60)

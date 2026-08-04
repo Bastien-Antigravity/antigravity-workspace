@@ -1,0 +1,52 @@
+---
+microservice: obsidian-brain
+type: note
+status: active
+tags:
+- '#service/obsidian-brain'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.Close]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.LocalAddr]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.ReadMessage]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.Read]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.RemoteAddr]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetIdleTimeout]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetReadDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetWriteDeadline]] (method: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.Write]] (method: defines_method)
+- [[safe-socket/safe-socket/src/interfaces/transport.go.md|transport.go]] (imports)
+- [[safe-socket/safe-socket/src/models/socket_config.go.md|socket_config.go]] (imports)
+- [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|HelloProtocol.Decapsulate]] (method: calls)
+- [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|HelloProtocol.Encapsulate]] (method: calls)
+- [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|NewHelloProtocol]] (function: calls)
+- [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|hello_protocol.go]] (imports)
+- [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|messages.capnp.go]] (imports)
+
+### 🔌 Consumers (Inbound)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.Close]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.LocalAddr]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.ReadMessage]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.Read]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.RemoteAddr]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetIdleTimeout]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetReadDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.SetWriteDeadline]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection.Write]] (method: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection]] (struct: belongs_to)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|EnvelopedConnection]] (struct: defines_method)
+- [[safe-socket/safe-socket/src/facade/enveloped_connection.go.md|NewEnvelopedConnection]] (function: belongs_to)
+- [[safe-socket/safe-socket/src/facade/socket_client.go.md|socket_client.go]] (calls)
+- [[safe-socket/safe-socket/src/facade/socket_client.go.md|socket_client.go]] (same_package)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|socket_server.go]] (calls)
+- [[safe-socket/safe-socket/src/facade/socket_server.go.md|socket_server.go]] (same_package)
+<!-- SYNC:END -->

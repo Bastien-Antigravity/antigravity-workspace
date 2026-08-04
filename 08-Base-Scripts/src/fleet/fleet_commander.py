@@ -13,7 +13,7 @@ import os
 import sys
 from pathlib import Path
 from lib.bootstrap import ensure_virtualenv, prepend_venv_bin, ensure_import_paths
-from lib.orchestration_lib import setup_terminal, get_logger
+from lib.orchestration_lib import setup_terminal, get_logger, resolve_vault_and_workspace
 
 script_dir = Path(__file__).resolve().parent
 vault_root = ensure_virtualenv(str(script_dir))
@@ -54,8 +54,13 @@ class FleetCommander:
         self.engine = Sovereignty(workspace_root=Path(self.base_path))
         self.excluded_repos = set()
         
-        self.vault_name = os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.inventory_path = osPathJoin(self.base_path, self.vault_name, "05-Fleet-Operation/00-Repo-Control/inventory.json")
+        vault_root, workspace_root = resolve_vault_and_workspace(__file__)
+        self.vault_root = vault_root
+        self.workspace_root = workspace_root
+        
+        self.inventory_path = osPathJoin(str(self.vault_root), "05-Fleet-Operation", "00-Repo-Control", "inventory.json")
+        if not osPathExists(self.inventory_path):
+            self.inventory_path = osPathJoin(str(self.workspace_root), "fleet-operation-brain", "00-Repo-Control", "inventory.json")
         
         self.repo_name_to_path = {}
         all_repos = self._load_inventory()
@@ -196,11 +201,15 @@ class FleetCommander:
         
         # Automatically trigger deployment logs & action plans housekeeping
         try:
-            log_archiver = osPathJoin(self.base_path, self.vault_name, "05-Fleet-Operation/02-Deployment-Logs/archive.py")
+            log_archiver = osPathJoin(str(self.vault_root), "05-Fleet-Operation", "02-Deployment-Logs", "archive.py")
+            if not osPathExists(log_archiver):
+                log_archiver = osPathJoin(str(self.workspace_root), "fleet-operation-brain", "02-Deployment-Logs", "archive.py")
             if osPathExists(log_archiver):
                 self._run_command(f"python3 {log_archiver}", self.base_path)
                 
-            plan_archiver = osPathJoin(self.base_path, self.vault_name, "05-Fleet-Operation/01-Fleet-Action-Plans/archive.py")
+            plan_archiver = osPathJoin(str(self.vault_root), "05-Fleet-Operation", "01-Fleet-Action-Plans", "archive.py")
+            if not osPathExists(plan_archiver):
+                plan_archiver = osPathJoin(str(self.workspace_root), "fleet-operation-brain", "01-Fleet-Action-Plans", "archive.py")
             if osPathExists(plan_archiver):
                 self._run_command(f"python3 {plan_archiver}", self.base_path)
         except Exception:
@@ -336,9 +345,8 @@ def main():
     parser.add_argument("--tag", "-t", type=str, help="Attach a Git tag to the commit and push it")
     args = parser.parse_args()
 
-    # Base path is parent of obsidian-brain
-    script_dir: str = osPathDirname(osPathAbspath(__file__))
-    base_dir: str = osPathAbspath(osPathJoin(script_dir, "..", ".."))
+    vault_root, workspace_root = resolve_vault_and_workspace(__file__)
+    base_dir: str = str(workspace_root)
     
     commander = FleetCommander(base_dir, dry_run=args.dry_run, target_repo=args.repo, is_fleet=args.fleet, commit_msg=args.message, tag=args.tag)
     commander.execute_fleet_push()

@@ -1,0 +1,95 @@
+---
+source: microservice-toolbox/go/pkg/logger/logger.go
+workspace: microservice-toolbox
+type: code-mirror
+status: auto-generated
+last_sync: 2026-07-11 13:21:53.813800
+microservice: 08-Base-Scripts
+tags:
+- '#service/08-Base-Scripts'
+- '#type/code-mirror'
+- '#state/auto-generated'
+- '#zone/3-fleet'
+---
+
+# Mirror: logger.go
+
+## 📝 Description
+Automatically generated mirror for `microservice-toolbox/go/pkg/logger/logger.go`.
+
+## 🏗️ Architectural Context
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.AddMetadata]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Critical]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Debug]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Error]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Info]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Logon]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Logout]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Report]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Schedule]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Stream]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Trade]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Warning]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.AddMetadata]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Critical]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Debug]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Error]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Info]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Logon]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Logout]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Report]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Schedule]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Stream]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Trade]] (method: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Warning]] (method: defines_method)
+
+### 🔌 Consumers (Inbound)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/config/loader.go.md|loader.go]] (calls)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/config/loader.go.md|loader.go]] (imports)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/config/loader_test.go.md|loader_test.go]] (imports)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/conn_manager/manager.go.md|manager.go]] (calls)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/conn_manager/manager.go.md|manager.go]] (imports)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/lifecycle/manager.go.md|manager.go]] (calls)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/lifecycle/manager.go.md|manager.go]] (imports)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|EnsureSafeLogger]] (function: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.AddMetadata]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Critical]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Debug]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Error]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Info]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Logon]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Logout]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Report]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Schedule]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Stream]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Trade]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.Warning]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger]] (struct: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger]] (struct: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|Logger]] (interface: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.AddMetadata]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Critical]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Debug]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Error]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Info]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Logon]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Logout]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Report]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Schedule]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Stream]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Trade]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger.Warning]] (method: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger]] (struct: belongs_to)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|noOpLogger]] (struct: defines_method)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/messaging/connector.go.md|connector.go]] (calls)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/messaging/connector.go.md|connector.go]] (imports)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/network/grpc_server.go.md|grpc_server.go]] (calls)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/network/grpc_server.go.md|grpc_server.go]] (imports)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/teleremote/client.go.md|client.go]] (calls)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/teleremote/client.go.md|client.go]] (imports)
+<!-- SYNC:END -->
+
+## 🔍 Implementation Details
+(Add manual notes here)

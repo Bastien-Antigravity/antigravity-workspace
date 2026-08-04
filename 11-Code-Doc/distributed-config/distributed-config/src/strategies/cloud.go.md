@@ -1,0 +1,54 @@
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- [[distributed-config/distributed-config/src/core/config.go.md|Config.Apply]] (method: calls)
+- [[distributed-config/distributed-config/src/core/config.go.md|Config.GetCapability]] (method: calls)
+- [[distributed-config/distributed-config/src/core/config.go.md|Config.PreviewSet]] (method: calls)
+- [[distributed-config/distributed-config/src/core/config.go.md|Config.ValidateMandatoryServices]] (method: calls)
+- [[distributed-config/distributed-config/src/core/config.go.md|config.go]] (imports)
+- [[distributed-config/distributed-config/src/loader/env_loader.go.md|LoadCommonFromEnv]] (function: calls)
+- [[distributed-config/distributed-config/src/loader/loader.go.md|LoadConfigFromFileSafe]] (function: calls)
+- [[distributed-config/distributed-config/src/loader/loader.go.md|LoadYAML]] (function: calls)
+- [[distributed-config/distributed-config/src/loader/validator.go.md|CheckProductionIPs]] (function: calls)
+- [[distributed-config/distributed-config/src/loader/validator.go.md|validator.go]] (imports)
+- [[distributed-config/distributed-config/src/network/backoff_test.go.md|backoff_test.go]] (imports)
+- [[distributed-config/distributed-config/src/network/client.go.md|Client.GetConfig]] (method: calls)
+- [[distributed-config/distributed-config/src/network/client.go.md|Client.UpdateConfigMap]] (method: calls)
+- [[distributed-config/distributed-config/src/network/client.go.md|Client.UpdateConfig]] (method: calls)
+- [[distributed-config/distributed-config/src/network/client.go.md|Client.Watch]] (method: calls)
+- [[distributed-config/distributed-config/src/network/client.go.md|NewClient]] (function: calls)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Close]] (method: defines_method)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.GetHandler]] (method: defines_method)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Load]] (method: defines_method)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Name]] (method: defines_method)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Set]] (method: defines_method)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Sync]] (method: defines_method)
+- [[distributed-config/distributed-config/src/utils/logger.go.md|noOpLogger.Error]] (method: calls)
+- [[distributed-config/distributed-config/src/utils/logger.go.md|noOpLogger.Info]] (method: calls)
+
+### 🔌 Consumers (Inbound)
+- [[distributed-config/distributed-config/src/factory/config_factory.go.md|config_factory.go]] (imports)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Close]] (method: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.GetHandler]] (method: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Load]] (method: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Name]] (method: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Set]] (method: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy.Sync]] (method: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy]] (struct: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|CloudStrategy]] (struct: defines_method)
+- [[distributed-config/distributed-config/src/strategies/cloud.go.md|ConfigServerCap]] (struct: belongs_to)
+- [[distributed-config/distributed-config/src/strategies/strategies_test.go.md|strategies_test.go]] (calls)
+- [[distributed-config/distributed-config/src/strategies/strategies_test.go.md|strategies_test.go]] (same_package)
+<!-- SYNC:END -->

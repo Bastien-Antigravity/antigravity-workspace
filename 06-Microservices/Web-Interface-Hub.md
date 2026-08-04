@@ -7,10 +7,11 @@ tags:
 - '#type/service-hub'
 - '#state/active'
 - '#zone/3-fleet'
+- '#ai/ignore'
 ---
 # 🌐 Service Hub: Web-Interface
 
-*Unified Fleet Dashboard: Vue.js / Tailwind Frontend.*
+*Unified Fleet Dashboard: Go Templates / Vanilla ES6 / HSL CSS Frontend with custom Bastien UI Library.*
 
 ## 🔗 Knowledge Map
 - **Code Repository**: [📂 web-interface](https://github.com/Bastien-Antigravity/web-interface)

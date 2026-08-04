@@ -7,6 +7,7 @@ tags:
 - '#type/service-hub'
 - '#state/skeleton'
 - '#zone/3-fleet'
+- '#ai/ignore'
 ---
 # 📊 Service Hub: Technical-Analysis
 

@@ -1,0 +1,80 @@
+{
+  "processes": [
+    {
+      "name": "Preflight",
+      "trigger_condition": "start_squad.py start",
+      "health_check_command": "Preflight-Check.py",
+      "auto_repair_action": "Auto-run git submodule update, prompt mode sync",
+      "alerting_mechanism": "Terminal output, abort block in Mode 3",
+      "associated_file": "08-Base-Scripts/src/auditing/preflight_check.py"
+    },
+    {
+      "name": "Sentinel Audit",
+      "trigger_condition": "File close / Sign-off",
+      "health_check_command": "Brain-Health-Audit.py",
+      "auto_repair_action": "Sovereignty YAML & link auto-fixer",
+      "alerting_mechanism": "Terminal error report, blocking sign-off",
+      "associated_file": "08-Base-Scripts/src/auditing/brain_health_audit.py"
+    },
+    {
+      "name": "Skill Compiler",
+      "trigger_condition": "start_squad.py & file watch",
+      "health_check_command": "convert_agents.py check",
+      "auto_repair_action": "Re-run convert_agents.py",
+      "alerting_mechanism": "Auto-recompile log, terminal warning",
+      "associated_file": "08-Base-Scripts/src/fleet/convert_agents.py"
+    },
+    {
+      "name": "RAG Indexer",
+      "trigger_condition": "File edit (daemon)",
+      "health_check_command": "watcher.py process check",
+      "auto_repair_action": "Restart watcher process",
+      "alerting_mechanism": "CLI warning on query tools",
+      "associated_file": "09-RAG-Engine/main.py"
+    }
+  ],
+  "agents": [
+    {
+      "name": "DocMaintainer",
+      "trigger_condition": "Mission sign-off",
+      "health_check_command": "Sovereignty quick-overview check",
+      "auto_repair_action": "Scaffold missing quick-overview/ folder",
+      "alerting_mechanism": "Audit failure report on sign-off",
+      "associated_file": "08-Base-Scripts/src/lib/sovereignty.py"
+    },
+    {
+      "name": "Oracle",
+      "trigger_condition": "Session start",
+      "health_check_command": "Chronos prompt audit",
+      "auto_repair_action": "Self-check active session memory",
+      "alerting_mechanism": "Injected initial prompt context block",
+      "associated_file": "07-Core-KMS/Role-Prompts/00-Oracle/Prompt-Chronos-Oracle.md"
+    }
+  ],
+  "concepts": [
+    {
+      "name": "Isolation firewall",
+      "trigger_condition": "File read / RAG ingest",
+      "health_check_command": "Sovereignty .aiignore check",
+      "auto_repair_action": "Add missing ignore files",
+      "alerting_mechanism": "ACM permission denied warning",
+      "associated_file": "08-Base-Scripts/src/lib/sovereignty.py"
+    },
+    {
+      "name": "Modes (1-4)",
+      "trigger_condition": "Squad launch",
+      "health_check_command": "Mode consistency check",
+      "auto_repair_action": "Re-write MODE-MANUAL.md",
+      "alerting_mechanism": "Block startup / warn user",
+      "associated_file": "00-AI-Orchestration/Config/MODE-MANUAL.md"
+    },
+    {
+      "name": "Orchestration Library",
+      "trigger_condition": "Imported by scripts",
+      "health_check_command": "Preflight-Check.py",
+      "auto_repair_action": "Verify file presence",
+      "alerting_mechanism": "ImportError / Startup Block",
+      "associated_file": "08-Base-Scripts/src/lib/orchestration_lib.py"
+    }
+  ]
+}
