@@ -66,9 +66,14 @@ class FleetCommander:
         all_repos = self._load_inventory()
         
         if target_repo:
-            resolved_path = self.repo_name_to_path.get(target_repo, target_repo)
-            self.repos = [resolved_path]
-            self.single_mode = True
+            if target_repo.lower() in ["active", "active-workspaces", "workspaces"]:
+                active_names = self._resolve_active_workspaces()
+                self.repos = [p for name, p in self.repo_name_to_path.items() if name in active_names or Path(p).name in active_names]
+                self.single_mode = False
+            else:
+                resolved_path = self.repo_name_to_path.get(target_repo, target_repo)
+                self.repos = [resolved_path]
+                self.single_mode = True
         elif is_fleet:
             self.repos = all_repos
             self.single_mode = False
@@ -109,6 +114,45 @@ class FleetCommander:
         except Exception as e:
             self._log(f"Failed to load inventory: {e}", "error")
             return []
+
+    def _resolve_active_workspaces(self) -> set:
+        workspace_root = Path(self.workspace_root)
+        active = set()
+
+        # 1. Environment Variable
+        env_var = os.environ.get("ACTIVE_WORKSPACES") or os.environ.get("WORKSPACE_PATHS")
+        if env_var:
+            for item in env_var.split(","):
+                if item.strip():
+                    active.add(Path(item.strip()).name)
+            if active:
+                return active
+
+        # 2. .code-workspace JSON scan
+        import json
+        for ws_file in workspace_root.glob("*.code-workspace"):
+            try:
+                with open(ws_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for folder in data.get("folders", []):
+                        p = folder.get("path")
+                        if p:
+                            active.add(Path(p).name)
+            except Exception:
+                pass
+
+        if active:
+            return active
+
+        # 3. Fallback: Sibling directories containing .git
+        try:
+            for item in workspace_root.iterdir():
+                if item.is_dir() and (item / ".git").exists():
+                    active.add(item.name)
+        except Exception:
+            pass
+
+        return active
 
     # -----------------------------------------------------------------------------------------------
 

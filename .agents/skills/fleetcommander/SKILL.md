@@ -28,7 +28,7 @@ You must NOT use manual `git` commands (like `git pull`, `git push`, `git tag`).
 Instead, you are equipped with **Executable AI Skills**: `fleet-manager.py` and `fleet-commander.py`.
 
 **1. For Infrastructure & Sync Operations (fleet-manager.py):**
-Run `python fleet-operation-brain/00-Repo-Control/fleet-manager.py <command>` for all tasks.
+Run `python3 05-Fleet-Operation/00-Repo-Control/fleet-manager.py <command>` for all tasks.
 Available Commands:
 - `discover`: Scans the workspace to update `inventory.json` with local paths.
 - `status`: Check fleet cleanliness and ahead/behind status.
@@ -41,7 +41,7 @@ Available Commands:
 - `refresh [--dry-run] [--inventory]`: Nuclear option. Wipes local folders and re-clones from GitHub (or inventory).
 
 **2. For Git Push & Compliance Audits (fleet-commander.py):**
-Run `python3 08-Base-Scripts/fleet-commander.py [--repo <name> | --fleet] -m "<message>" --dry-run` to push changes.
+Run `python3 08-Base-Scripts/main.py fleet-commander [--repo <name> | --fleet] -m "<message>" --dry-run` to push changes.
 - **Fleet-Wide Push**: Supplying `--fleet` pushes to all repositories.
 - **Single-Repo Push**: Supplying `--repo <repo_name>` targets a single repository.
 - **Compliance Enforcement**: The script automatically audits `AI-*` files, `quick-overview/`, and `[FLEET-ARCHITECT]` GitHub actions. If the audit fails, the push is blocked. Always resolve these errors first!

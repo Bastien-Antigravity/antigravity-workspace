@@ -23,7 +23,7 @@ This Brain is an **Operational Engine**. Use the following scripts to govern the
 - **`pip install -r requirements.txt`**: Installs vault-level launcher/client dependencies. `start_squad.py` checks and installs missing packages automatically.
 - **`python3 08-Base-Scripts/switch_mode.py`**: Quick-switch between **Spec-First**, **Labs**, and **Fleet** protocols.
 - **Configuring the Active Client**:
-  * **Via Frontmatter**: Define `active_client: antigravity` (or `gemini`/`claude`/`codex`/`deepseek`) inside **[[00-AI-Orchestration/Config/MODE-MANUAL]]**'s YAML header.
+  * **Via Frontmatter**: Define `active_client: antigravity` (or `gemini`/`claude`/`codex`/`deepseek`) inside ****'s YAML header.
   * **Via Environment Variable**: Override or boot directly using:
     ```bash
     ACTIVE_CLIENT=antigravity python3 08-Base-Scripts/start_squad.py
@@ -36,19 +36,19 @@ This Brain is an **Operational Engine**. Use the following scripts to govern the
     export DEEPSEEK_BASE_URL="https://api.deepseek.com"
     export DEEPSEEK_MODEL="deepseek-chat"
     ```
-    `DEEPSEEK_BASE_URL` and `DEEPSEEK_MODEL` are optional. See [[99-Humans/AI-Client-Startup-Guide]].
+    `DEEPSEEK_BASE_URL` and `DEEPSEEK_MODEL` are optional. See .
 
 ---
 
 ## 👤 Human Onboarding
 Before interacting with the AI Squad, human operators should read the structural guides:
-- **[[99-Humans/Architecture-Overview|🗺️ Global Architecture Overview]]** — Start here to understand the 4-Tier & 3-Zone system.
-- **[[99-Humans/AI-Client-Startup-Guide|🤖 AI Client Startup Guide]]** — How to start Gemini, Claude, Codex, or DeepSeek.
-- **[[99-Humans/General-Misc|🧠 Philosophy & Operator's Guide]]** — Purpose, concepts, mental models, and optimization tips.
-- **[[99-Humans/Testing-Playbook|🧪 Testing Playbook]]** — How we ensure quality across Knowledge, Behavior, and Code.
-- **[[User-Manual|📖 User Manual]]** — High-level onboarding and usage guide.
-- **[[Ecosystem-Map-MOC|🔗 Ecosystem Map (MOC)]]** — The central navigation hub for the vault.
-- **[[00-AI-Orchestration/Config/MODE-MANUAL|🕹️ Mode Manual]]** — Detailed protocol rules.
+- **** — Start here to understand the 4-Tier & 3-Zone system.
+- **** — How to start Gemini, Claude, Codex, or DeepSeek.
+- **** — Purpose, concepts, mental models, and optimization tips.
+- **** — How we ensure quality across Knowledge, Behavior, and Code.
+- **** — High-level onboarding and usage guide.
+- **** — The central navigation hub for the vault.
+- **** — Detailed protocol rules.
 
 ---
 
@@ -64,7 +64,7 @@ To prevent "Mode Leakage," the vault is organized into three distinct operationa
 ## 🛠️ How it Works (5D Paradigm)
 The documentation here relies on a hybrid system:
 1. **Shallow Folders (PARA/Diátaxis):** We separate generic workflows (`07-Core-KMS`) from specific rules (`03-Tech-Stack`).
-2. **Strategic MOCs:** Navigation is driven by **Maps of Content**. Start every session at the **[[Ecosystem-Map-MOC]]**.
+2. **Strategic MOCs:** Navigation is driven by **Maps of Content**. Start every session at the ****.
 3. **Live Dashboards:** Uses Obsidian Dataview to dynamically track Tasks and Bugs across the fleet.
 4. **Visual Topologies:** Infinite 2D boards (Obsidian Canvas) for infrastructure mapping.
 5. **Bidirectional Links:** A Zettelkasten-style graph of architectural decisions.
@@ -73,8 +73,8 @@ The documentation here relies on a hybrid system:
 
 ## 🧑‍💻 Human Mode (Developer Guide)
 1. **Install Obsidian:** Download the app.
-2. **Configure:** Follow **[[03-Tech-Stack/03-Project-Coding/Documentation-Requirements|Documentation Standards]]**.
-3. **Start at the MOC:** Open **[[Ecosystem-Map-MOC]]**. This is your entry point.
+2. **Configure:** Follow ****.
+3. **Start at the MOC:** Open ****. This is your entry point.
 4. **Authoring:** Keep files atomic. Use `Links` to connect concepts.
 
 ---
@@ -85,7 +85,7 @@ This Brain is designed to be used in three distinct ways, depending on your need
 
 ### 1. 🛡️ Mode-Based Execution (Global Protocols)
 Best for enforcing repo-wide "Rules of Engagement." 
-- **Usage**: Update the `active_mode` in **[[00-AI-Orchestration/Config/MODE-MANUAL]]**.
+- **Usage**: Update the `active_mode` in ****.
 - **Impact**: Sets the global protocol (e.g., **Spec-First** requires BDD specs before code).
 
 ### 2. 🧠 The AI Squad (Custom Subagent Prompts)
@@ -104,13 +104,13 @@ Best for general brainstorming, repo exploration, or "Free-Form" work.
 Regardless of how you interact with the AI, every session MUST be initialized correctly to maintain context reliability across your repositories.
 
 1. **Start the Engine**: Run `./08-Base-Scripts/start_squad.py` from the vault root.
-2. **Restore State**: At the start of every session, you MUST instruct the AI to read the **[[00-AI-Orchestration/AI-Init]]** file and restore the **[[00-AI-Orchestration/AI-Session-State]]**. 
-3. **Save State**: Before closing a session, ensure the AI has updated the **[[00-AI-Orchestration/AI-Session-State]]** with a summary of progress. This acts as our "Hard State" context block.
+2. **Restore State**: At the start of every session, you MUST instruct the AI to read the **** file and restore the ****. 
+3. **Save State**: Before closing a session, ensure the AI has updated the **** with a summary of progress. This acts as our "Hard State" context block.
 
 ---
 
 ## 🧠 The Semantic Search Engine (RAG-mcp)
-To guarantee optimal token efficiency during AI squad sessions, the repository features an integrated Model Context Protocol (MCP) server: **[[09-RAG-Engine/README|🔌 09 - RAG Engine]]**.
+To guarantee optimal token efficiency during AI squad sessions, the repository features an integrated Model Context Protocol (MCP) server: ****.
 * **Offline Embeddings**: Uses a local vector database index via ChromaDB and `all-MiniLM-L6-v2` SentenceTransformers to perform sub-paragraph level queries.
 * **Auto-Watcher**: Silently starts a background thread-safe file watcher directly inside the FastMCP server process with a `0.5s` quiet-window debounce to capture note updates instantly without SQLite lock contentions.
 * **Custom Tools**: Exposes `query_brain`, `get_brain_stats`, and semantic graph lookups via `find_similar_files`.
@@ -118,4 +118,4 @@ To guarantee optimal token efficiency during AI squad sessions, the repository f
 ---
 
 > [!CAUTION]
-> Never implement code without verifying the current **Active Protocol** in the [[00-AI-Orchestration/Config/MODE-MANUAL]].
+> Never implement code without verifying the current **Active Protocol** in the .
