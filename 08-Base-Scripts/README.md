@@ -7,6 +7,7 @@ tags:
 - '#type/automation'
 - '#state/active'
 - '#zone/3-fleet'
+- '#ai/ignore'
 ---
 # 🕹️ Bastien-Antigravity: Base Scripts
 

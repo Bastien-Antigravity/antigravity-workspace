@@ -13,6 +13,7 @@ tags:
 
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
+- [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/errors.py.md|MaxRetriesReachedError]] (class: calls)
 - [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/errors.py.md|WriteFailedError]] (class: calls)
 - [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/errors.py.md|errors.py]] (imports)
 - [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/errors.py.md|errors.py]] (same_package)
