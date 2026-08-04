@@ -14,5 +14,3 @@
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/query_expander/llm_expander.py.md|llm_expander.py]] (calls)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/query_expander/llm_expander.py.md|llm_expander.py]] (imports)
 <!-- SYNC:END -->
-lm_expander.py.md|llm_expander.py]] (imports)
-<!-- SYNC:END -->

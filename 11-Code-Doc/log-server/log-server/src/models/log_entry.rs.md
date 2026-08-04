@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -31,12 +22,3 @@ tags:
 - [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (calls)
 - [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (imports)
 <!-- SYNC:END -->
-models/log_packet.rs.md|log_packet.rs]] (same_package)
-- [[log-server/log-server/src/servers/grpc_server.rs.md|grpc_server.rs]] (calls)
-- [[log-server/log-server/src/servers/grpc_server.rs.md|grpc_server.rs]] (imports)
-- [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (calls)
-- [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (imports)
-<!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

@@ -1,19 +1,7 @@
---- 
-microservice: obsidian-brain
 
-source: obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04T17:25:55.511267
----
-
-# Mirror: rag_facade.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/joint_audit_purger.py.md|GLOBAL_EXCLUDES]] (constant: calls)
@@ -80,6 +68,3 @@ Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/facade/rag_
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/rag_facade.py.md|workspaces_root]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|tools.py]] (calls)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

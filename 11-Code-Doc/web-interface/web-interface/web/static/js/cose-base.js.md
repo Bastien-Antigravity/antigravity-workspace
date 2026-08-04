@@ -1,23 +1,7 @@
----
-source: web-interface/web/static/js/cose-base.js
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.494656
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: cose-base.js
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/static/js/cose-base.js`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/html/CV.html.md|transform]] (function: calls)
@@ -64,6 +48,3 @@ Automatically generated mirror for `web-interface/web/static/js/cose-base.js`.
 - [[web-interface/web-interface/web/static/js/cytoscape-cose-bilkent.js.md|cytoscape-cose-bilkent.js]] (calls)
 - [[web-interface/web-interface/web/static/js/cytoscape-cose-bilkent.js.md|cytoscape-cose-bilkent.js]] (same_package)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

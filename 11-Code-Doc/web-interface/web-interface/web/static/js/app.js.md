@@ -1,23 +1,7 @@
----
-source: web-interface/web/static/js/app.js
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.504012
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: app.js
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/static/js/app.js`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/static/js/ChartManager.js.md|ChartManager.clear]] (method: calls)
@@ -50,6 +34,3 @@ Automatically generated mirror for `web-interface/web/static/js/app.js`.
 - [[web-interface/web-interface/web/static/js/app.js.md|initiateConnection]] (function: belongs_to)
 - [[web-interface/web-interface/web/static/js/app.js.md|logEvent]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

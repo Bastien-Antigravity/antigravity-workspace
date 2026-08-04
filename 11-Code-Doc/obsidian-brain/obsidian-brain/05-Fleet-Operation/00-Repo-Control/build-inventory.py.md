@@ -34,4 +34,6 @@ tags:
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/build-inventory.py.md|resolve_vault_and_workspace]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/build-inventory.py.md|setup_terminal]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/build-inventory.py.md|warning]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|fleet-manager.py]] (calls)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|fleet-manager.py]] (same_package)
 <!-- SYNC:END -->

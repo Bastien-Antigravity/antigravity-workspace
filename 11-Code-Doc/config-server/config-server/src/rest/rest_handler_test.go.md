@@ -1,13 +1,4 @@
----
-microservice: obsidian-brain
-type: note
-status: active
-tags:
-- '#service/obsidian-brain'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -92,5 +83,8 @@ tags:
 - [[config-server/config-server/src/server/connection.go.md|connection.go]] (calls)
 - [[config-server/config-server/src/server/controller.go.md|controller.go]] (calls)
 - [[config-server/config-server/src/server/server.go.md|server.go]] (calls)
+- [[config-server/config-server/src/store/persistence.go.md|persistence.go]] (calls)
+<!-- SYNC:END -->
+src/server/server.go.md|server.go]] (calls)
 - [[config-server/config-server/src/store/persistence.go.md|persistence.go]] (calls)
 <!-- SYNC:END -->

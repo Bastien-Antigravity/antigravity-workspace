@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -24,11 +15,3 @@ tags:
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (calls)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (imports)
 <!-- SYNC:END -->
-sidian-brain/obsidian-brain/08-Base-Scripts/src/agents/prototyper.py.md|PrototyperAgent]] (class: belongs_to)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/prototyper.py.md|__init__]] (function: belongs_to)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (calls)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (imports)
-<!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

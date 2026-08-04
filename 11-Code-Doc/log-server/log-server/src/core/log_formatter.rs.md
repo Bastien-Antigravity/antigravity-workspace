@@ -1,13 +1,4 @@
----
-microservice: obsidian-brain
-type: note
-status: active
-tags:
-- '#service/obsidian-brain'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -23,5 +14,8 @@ tags:
 - [[log-server/log-server/src/core/log_formatter.rs.md|test_format_log_message_with_metadata]] (function: belongs_to)
 - [[log-server/log-server/src/core/log_formatter.rs.md|test_truncation]] (function: belongs_to)
 - [[log-server/log-server/src/facade/log_writer.rs.md|log_writer.rs]] (calls)
+- [[log-server/log-server/src/facade/log_writer.rs.md|log_writer.rs]] (imports)
+<!-- SYNC:END -->
+/facade/log_writer.rs.md|log_writer.rs]] (calls)
 - [[log-server/log-server/src/facade/log_writer.rs.md|log_writer.rs]] (imports)
 <!-- SYNC:END -->

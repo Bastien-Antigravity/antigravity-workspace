@@ -1,23 +1,7 @@
----
-source: web-interface/web/html/TradedVolume.html
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.142384
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: TradedVolume.html
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/html/TradedVolume.html`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/static/js/gridstack-all.js.md|i.cloneNode]] (method: calls)
@@ -53,6 +37,3 @@ Automatically generated mirror for `web-interface/web/html/TradedVolume.html`.
 - [[web-interface/web-interface/web/html/TradedVolume.html.md|updateConnectionStatus]] (function: belongs_to)
 - [[web-interface/web-interface/web/html/TradedVolume.html.md|updateTitle]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

@@ -1,13 +1,4 @@
----
-microservice: obsidian-brain
-type: note
-status: active
-tags:
-- '#service/obsidian-brain'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -30,5 +21,8 @@ tags:
 - [[safe-socket/safe-socket/src/cgo_bridge/socket.go.md|Receive]] (function: belongs_to)
 - [[safe-socket/safe-socket/src/cgo_bridge/socket.go.md|Send]] (function: belongs_to)
 - [[safe-socket/safe-socket/src/cgo_bridge/socket.go.md|SetDeadline]] (function: belongs_to)
+- [[safe-socket/safe-socket/src/cgo_bridge/socket.go.md|SetIdleTimeout]] (function: belongs_to)
+<!-- SYNC:END -->
+eadline]] (function: belongs_to)
 - [[safe-socket/safe-socket/src/cgo_bridge/socket.go.md|SetIdleTimeout]] (function: belongs_to)
 <!-- SYNC:END -->

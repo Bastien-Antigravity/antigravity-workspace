@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -42,5 +33,8 @@ tags:
 - [[notif-server/notif-server/src/rest/rest_handler.go.md|rest_handler.go]] (calls)
 - [[notif-server/notif-server/src/rest/rest_handler.go.md|rest_handler.go]] (imports)
 - [[notif-server/notif-server/src/server/server.go.md|server.go]] (calls)
+- [[notif-server/notif-server/src/server/server.go.md|server.go]] (imports)
+<!-- SYNC:END -->
+tif-server/src/server/server.go.md|server.go]] (calls)
 - [[notif-server/notif-server/src/server/server.go.md|server.go]] (imports)
 <!-- SYNC:END -->

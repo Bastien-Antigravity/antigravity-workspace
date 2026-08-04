@@ -1,23 +1,7 @@
----
-source: web-interface/web/static/js/market-observer.js
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.454514
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: market-observer.js
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/static/js/market-observer.js`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/static/analyst/charts.js.md|volumeChart.volume]] (method: calls)
@@ -80,6 +64,3 @@ Automatically generated mirror for `web-interface/web/static/js/market-observer.
 - [[web-interface/web-interface/web/static/js/market-observer.js.md|gainerLoserRenderer]] (function: belongs_to)
 - [[web-interface/web-interface/web/static/js/market-observer.js.md|getComp]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

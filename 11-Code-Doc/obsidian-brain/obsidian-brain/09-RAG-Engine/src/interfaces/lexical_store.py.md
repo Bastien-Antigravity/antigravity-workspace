@@ -22,5 +22,3 @@
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/lexical_store/postgres.py.md|postgres.py]] (imports)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/query_engine/hybrid.py.md|hybrid.py]] (imports)
 <!-- SYNC:END -->
-ery_engine/hybrid.py.md|hybrid.py]] (imports)
-<!-- SYNC:END -->

@@ -1,23 +1,7 @@
----
-source: web-interface/web/static/js/parts/cose_part4.js
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.638508
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: cose_part4.js
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/static/js/parts/cose_part4.js`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/static/js/gridstack-all.js.md|y]] (class: calls)
@@ -46,6 +30,3 @@ Automatically generated mirror for `web-interface/web/static/js/parts/cose_part4
 - [[web-interface/web-interface/web/static/js/parts/cose_part4.js.md|_toConsumableArray]] (function: belongs_to)
 - [[web-interface/web-interface/web/static/js/parts/cose_part4.js.md|setUnion]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

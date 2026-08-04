@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -52,8 +43,5 @@ tags:
 - [[safe-socket/safe-socket/cmd/test/scenario_test.go.md|scenario_test.go]] (calls)
 - [[safe-socket/safe-socket/cmd/test/scenario_test.go.md|scenario_test.go]] (same_package)
 - [[safe-socket/safe-socket/cmd/test/stress_test.go.md|stress_test.go]] (calls)
-- [[safe-socket/safe-socket/cmd/test/stress_test.go.md|stress_test.go]] (same_package)
-<!-- SYNC:END -->
-tress_test.go.md|stress_test.go]] (calls)
 - [[safe-socket/safe-socket/cmd/test/stress_test.go.md|stress_test.go]] (same_package)
 <!-- SYNC:END -->

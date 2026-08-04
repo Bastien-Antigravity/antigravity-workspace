@@ -1,23 +1,7 @@
----
-source: microservice-toolbox/cpp/include/microservice_toolbox/conn_manager/NetworkManager.hpp
-workspace: microservice-toolbox
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:26.578507
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: NetworkManager.hpp
-
-## 📝 Description
-Automatically generated mirror for `microservice-toolbox/cpp/include/microservice_toolbox/conn_manager/NetworkManager.hpp`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/conn_manager/NetworkManager.hpp.md|NetworkManager.GetNextDelay]] (method: defines_method)
@@ -41,6 +25,3 @@ Automatically generated mirror for `microservice-toolbox/cpp/include/microservic
 - [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/conn_manager/NetworkManager.hpp.md|NetworkManager]] (class: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/conn_manager/NetworkManager.hpp.md|NetworkManager]] (class: defines_method)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

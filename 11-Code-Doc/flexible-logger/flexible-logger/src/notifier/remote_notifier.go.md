@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -41,8 +32,5 @@ tags:
 - [[flexible-logger/flexible-logger/src/profiles/cloud_native.go.md|cloud_native.go]] (calls)
 - [[flexible-logger/flexible-logger/src/profiles/high_perf.go.md|high_perf.go]] (calls)
 - [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|no_lock.go]] (calls)
-- [[flexible-logger/flexible-logger/src/profiles/standard.go.md|standard.go]] (calls)
-<!-- SYNC:END -->
-/profiles/no_lock.go.md|no_lock.go]] (calls)
 - [[flexible-logger/flexible-logger/src/profiles/standard.go.md|standard.go]] (calls)
 <!-- SYNC:END -->

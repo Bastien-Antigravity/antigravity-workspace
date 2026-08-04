@@ -1,23 +1,7 @@
----
-source: tele-remote/src/telegram/ui/menus_test.go
-workspace: tele-remote
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-17 17:02:03.252454
-microservice: 08-Base-Scripts
-tags:
-- '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: menus_test.go
-
-## 📝 Description
-Automatically generated mirror for `tele-remote/src/telegram/ui/menus_test.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[tele-remote/tele-remote/src/telegram/core/bot.go.md|NewBot]] (function: calls)
@@ -56,6 +40,3 @@ Automatically generated mirror for `tele-remote/src/telegram/ui/menus_test.go`.
 - [[tele-remote/tele-remote/src/telegram/ui/menus_test.go.md|mockTelegramServer]] (struct: defines_method)
 - [[tele-remote/tele-remote/src/telegram/ui/menus_test.go.md|newMockTelegramServer]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

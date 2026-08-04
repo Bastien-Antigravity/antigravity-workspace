@@ -1,23 +1,7 @@
----
-source: distributed-config/distconf/python/distconf/__init__.py
-workspace: distributed-config
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:23.010624
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: __init__.py
-
-## 📝 Description
-Automatically generated mirror for `distributed-config/distconf/python/distconf/__init__.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[distributed-config/distributed-config/cmd/libdistconf/main.go.md|DistConf_Close]] (function: calls)
@@ -71,6 +55,3 @@ Automatically generated mirror for `distributed-config/distconf/python/distconf/
 - [[distributed-config/distributed-config/distconf/python/examples/basic_usage.py.md|basic_usage.py]] (calls)
 - [[distributed-config/distributed-config/distconf/python/examples/basic_usage.py.md|basic_usage.py]] (imports)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

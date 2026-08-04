@@ -1,13 +1,4 @@
----
-microservice: obsidian-brain
-type: note
-status: active
-tags:
-- '#service/obsidian-brain'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -29,11 +20,3 @@ tags:
 - [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/manager.py.md|manager.py]] (imports)
 - [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/manager.py.md|manager.py]] (same_package)
 <!-- SYNC:END -->
-icroservice_toolbox/conn_manager/errors.py.md|WriteFailedError]] (class: belongs_to)
-- [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/manager.py.md|manager.py]] (calls)
-- [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/manager.py.md|manager.py]] (imports)
-- [[microservice-toolbox/microservice-toolbox/python/microservice_toolbox/conn_manager/manager.py.md|manager.py]] (same_package)
-<!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

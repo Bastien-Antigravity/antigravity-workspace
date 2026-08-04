@@ -1,9 +1,3 @@
----
-microservice: obsidian-brain
-type: note
-status: active
----
-
 
 
 ## 🏗️ Architectural Context
@@ -20,10 +14,3 @@ status: active
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/__init__.py.md|__init__.py]] (imports)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/llm/__init__.py.md|get_llm_client]] (function: belongs_to)
 <!-- SYNC:END -->
-ain/obsidian-brain/09-RAG-Engine/src/facade/__init__.py.md|__init__.py]] (calls)
-- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/facade/__init__.py.md|__init__.py]] (imports)
-- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/llm/__init__.py.md|get_llm_client]] (function: belongs_to)
-<!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

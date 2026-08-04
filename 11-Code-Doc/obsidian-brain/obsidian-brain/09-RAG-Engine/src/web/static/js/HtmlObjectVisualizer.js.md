@@ -1,19 +1,7 @@
---- 
-microservice: obsidian-brain
 
-source: obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04T17:25:55.927347
----
-
-# Mirror: HtmlObjectVisualizer.js
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/improved_transformer.py.md|transform]] (function: calls)
@@ -38,6 +26,10 @@ Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/web/static/
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|HtmlObjectVisualizer._transformDomToTree]] (method: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|HtmlObjectVisualizer.render]] (method: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|HtmlObjectVisualizer]] (class: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|HtmlObjectVisualizer]] (class: defines_method)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|walk]] (function: belongs_to)
+<!-- SYNC:END -->
+in/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|HtmlObjectVisualizer]] (class: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|HtmlObjectVisualizer]] (class: defines_method)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/HtmlObjectVisualizer.js.md|walk]] (function: belongs_to)
 <!-- SYNC:END -->

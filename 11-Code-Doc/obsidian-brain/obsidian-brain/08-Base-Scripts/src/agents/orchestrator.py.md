@@ -1,23 +1,7 @@
----
-source: obsidian-brain/08-Base-Scripts/src/agents/orchestrator.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-12 19:14:58.500539
-microservice: 08-Base-Scripts
-tags:
-- '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: orchestrator.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/agents/orchestrator.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/base_agent.py.md|BaseAgent]] (class: calls)
@@ -31,6 +15,3 @@ Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/agents/or
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (calls)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (imports)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

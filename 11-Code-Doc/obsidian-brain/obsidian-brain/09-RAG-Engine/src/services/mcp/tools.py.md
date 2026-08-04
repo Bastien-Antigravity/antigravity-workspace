@@ -1,19 +1,7 @@
---- 
-microservice: obsidian-brain
 
-source: obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-08T22:56:23.024117
----
-
-# Mirror: tools.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/joint_audit_purger.py.md|GLOBAL_EXCLUDES]] (constant: calls)
@@ -53,6 +41,7 @@ Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/mc
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|_query]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|_query_nodes_or_edges]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|_query_symbols]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|_run]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|_run_cmd]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|_scan_concepts]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|_scan_dir]] (function: belongs_to)
@@ -66,6 +55,7 @@ Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/mc
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|get_codebase_relations]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|get_file_dependencies]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|get_file_outline]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|get_fleet_status]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|get_session_context]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|get_subgraph]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|get_symbol_source]] (function: belongs_to)
@@ -84,9 +74,8 @@ Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/mc
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|search_symbols]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|sort_key]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|suggest_doc_rewrite]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|sync_fleet]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|validate_code_syntax]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|vault_sync]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|write_workspace_file]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

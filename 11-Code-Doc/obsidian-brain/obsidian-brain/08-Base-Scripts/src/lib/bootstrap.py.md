@@ -1,23 +1,7 @@
----
-source: obsidian-brain/08-Base-Scripts/src/lib/bootstrap.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-11 13:22:10.589612
-microservice: 08-Base-Scripts
-tags:
-- '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: bootstrap.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/lib/bootstrap.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - None detected
@@ -47,6 +31,3 @@ Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/lib/boots
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/knowledge_compressor.py.md|knowledge_compressor.py]] (imports)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/maintenance_skill.py.md|maintenance_skill.py]] (imports)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

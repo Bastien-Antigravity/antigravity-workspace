@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -275,5 +266,8 @@ tags:
 - [[log-server/log-server/src/protocols/capnp/logger_msg.rs.md|u16]] (struct: defines_method)
 - [[log-server/log-server/src/servers/grpc_server.rs.md|grpc_server.rs]] (calls)
 - [[log-server/log-server/src/servers/tcp_server.rs.md|tcp_server.rs]] (calls)
+- [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (calls)
+<!-- SYNC:END -->
+rc/servers/tcp_server.rs.md|tcp_server.rs]] (calls)
 - [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (calls)
 <!-- SYNC:END -->

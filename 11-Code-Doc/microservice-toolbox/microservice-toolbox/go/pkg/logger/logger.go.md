@@ -1,23 +1,7 @@
----
-source: microservice-toolbox/go/pkg/logger/logger.go
-workspace: microservice-toolbox
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-11 13:21:53.813800
-microservice: 08-Base-Scripts
-tags:
-- '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: logger.go
-
-## 📝 Description
-Automatically generated mirror for `microservice-toolbox/go/pkg/logger/logger.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/logger/logger.go.md|FmtLogger.AddMetadata]] (method: defines_method)
@@ -90,6 +74,4 @@ Automatically generated mirror for `microservice-toolbox/go/pkg/logger/logger.go
 - [[microservice-toolbox/microservice-toolbox/go/pkg/teleremote/client.go.md|client.go]] (calls)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/teleremote/client.go.md|client.go]] (imports)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)
+)

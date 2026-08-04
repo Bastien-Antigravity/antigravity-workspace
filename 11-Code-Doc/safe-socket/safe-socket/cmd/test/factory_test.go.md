@@ -1,23 +1,7 @@
----
-source: safe-socket/cmd/test/factory_test.go
-workspace: safe-socket
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:27.252410
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: factory_test.go
-
-## 📝 Description
-Automatically generated mirror for `safe-socket/cmd/test/factory_test.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[safe-socket/safe-socket/cmd/test/identity_test.go.md|MockTransport.Close]] (method: calls)
@@ -47,6 +31,3 @@ Automatically generated mirror for `safe-socket/cmd/test/factory_test.go`.
 - [[safe-socket/safe-socket/cmd/test/factory_test.go.md|TestUDP_Reliable]] (function: belongs_to)
 - [[safe-socket/safe-socket/cmd/test/factory_test.go.md|generateSelfSignedCert]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

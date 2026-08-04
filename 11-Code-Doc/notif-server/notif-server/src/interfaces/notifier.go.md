@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -20,5 +11,8 @@ tags:
 - [[notif-server/notif-server/src/core/notifier.go.md|notifier.go]] (imports)
 - [[notif-server/notif-server/src/interfaces/notifier.go.md|IConfigurableNotifier]] (interface: belongs_to)
 - [[notif-server/notif-server/src/interfaces/notifier.go.md|INotifier]] (interface: belongs_to)
+- [[notif-server/notif-server/src/server/timeout_test.go.md|timeout_test.go]] (imports)
+<!-- SYNC:END -->
+.go.md|INotifier]] (interface: belongs_to)
 - [[notif-server/notif-server/src/server/timeout_test.go.md|timeout_test.go]] (imports)
 <!-- SYNC:END -->

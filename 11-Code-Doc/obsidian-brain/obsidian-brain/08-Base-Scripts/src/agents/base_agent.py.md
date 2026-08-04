@@ -1,23 +1,7 @@
----
-source: obsidian-brain/08-Base-Scripts/src/agents/base_agent.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-12 19:14:58.438823
-microservice: 08-Base-Scripts
-tags:
-- '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: base_agent.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/agents/base_agent.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/interfaces/__init__.py.md|__init__.py]] (imports)
@@ -90,6 +74,3 @@ Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/agents/ba
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/sentinel.py.md|sentinel.py]] (imports)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/agents/sentinel.py.md|sentinel.py]] (same_package)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

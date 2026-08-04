@@ -13,6 +13,10 @@ tags:
 
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/build-inventory.py.md|MInventoryBuilder]] (class: calls)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/build-inventory.py.md|build-inventory.py]] (same_package)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/build-inventory.py.md|build]] (function: calls)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/orchestration_lib.py.md|set_logger]] (function: calls)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/server.py.md|write]] (function: calls)
 
 ### 🔌 Consumers (Inbound)
@@ -37,6 +41,7 @@ tags:
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_template]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_vault_sync]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_load_job_fragment]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_resolve_active_workspaces]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_resolve_inventory_paths]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|attach_repo]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|audit_repo]] (function: belongs_to)

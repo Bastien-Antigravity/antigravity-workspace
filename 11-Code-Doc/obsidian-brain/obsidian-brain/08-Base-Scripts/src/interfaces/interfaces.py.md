@@ -1,23 +1,7 @@
----
-source: obsidian-brain/08-Base-Scripts/src/interfaces/interfaces.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-17 17:01:48.833297
-microservice: 08-Base-Scripts
-tags:
-- '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: interfaces.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/interfaces/interfaces.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/interfaces/memory_store.py.md|add]] (function: calls)
@@ -39,6 +23,3 @@ Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/interface
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/interfaces/interfaces.py.md|publish]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/interfaces/interfaces.py.md|subscribe]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

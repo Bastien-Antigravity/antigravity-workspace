@@ -1,10 +1,15 @@
----
-source: web-interface/src/config/config.go
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:30.121425
-microservice: obsidian-brain
+
+
+## 🏗️ Architectural Context
+
+<!-- SYNC:START -->
+### 📦 Dependencies (Outbound)
+- None detected
+
+### 🔌 Consumers (Inbound)
+- None detected
+<!-- SYNC:END -->
+dian-brain
 tags:
 - '#service/obsidian-brain'
 - '#type/code-mirror'

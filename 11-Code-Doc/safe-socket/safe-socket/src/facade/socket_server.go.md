@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -74,5 +65,8 @@ tags:
 - [[safe-socket/safe-socket/src/facade/socket_server.go.md|trackingConnection.Close]] (method: belongs_to)
 - [[safe-socket/safe-socket/src/facade/socket_server.go.md|trackingConnection]] (struct: belongs_to)
 - [[safe-socket/safe-socket/src/facade/socket_server.go.md|trackingConnection]] (struct: defines_method)
+- [[safe-socket/safe-socket/src/factory/socket_factory.go.md|socket_factory.go]] (calls)
+<!-- SYNC:END -->
+kingConnection]] (struct: defines_method)
 - [[safe-socket/safe-socket/src/factory/socket_factory.go.md|socket_factory.go]] (calls)
 <!-- SYNC:END -->

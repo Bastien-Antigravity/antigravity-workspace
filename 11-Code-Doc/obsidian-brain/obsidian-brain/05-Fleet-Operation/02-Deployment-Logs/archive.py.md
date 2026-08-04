@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -26,5 +17,8 @@ tags:
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/02-Deployment-Logs/archive.py.md|critical]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/02-Deployment-Logs/archive.py.md|error]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/02-Deployment-Logs/archive.py.md|info]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/02-Deployment-Logs/archive.py.md|run_archive]] (function: belongs_to)
+<!-- SYNC:END -->
+ngs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/02-Deployment-Logs/archive.py.md|run_archive]] (function: belongs_to)
 <!-- SYNC:END -->

@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -22,8 +13,5 @@ tags:
 - [[tele-remote/tele-remote/src/publishers/grpc.go.md|grpc.go]] (imports)
 - [[tele-remote/tele-remote/src/subscribers/grpc.go.md|grpc.go]] (imports)
 - [[tele-remote/tele-remote/src/telegram/core/bot.go.md|bot.go]] (imports)
-- [[tele-remote/tele-remote/src/telegram/ui/menus.go.md|menus.go]] (imports)
-<!-- SYNC:END -->
-mote/src/telegram/core/bot.go.md|bot.go]] (imports)
 - [[tele-remote/tele-remote/src/telegram/ui/menus.go.md|menus.go]] (imports)
 <!-- SYNC:END -->

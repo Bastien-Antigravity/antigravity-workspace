@@ -1,23 +1,7 @@
----
-source: safe-socket/safe_socket.go
-workspace: safe-socket
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:27.139755
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: safe_socket.go
-
-## 📝 Description
-Automatically generated mirror for `safe-socket/safe_socket.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[safe-socket/safe-socket/src/facade/socket_client.go.md|socket_client.go]] (imports)
@@ -39,6 +23,3 @@ Automatically generated mirror for `safe-socket/safe_socket.go`.
 - [[safe-socket/safe-socket/safe_socket.go.md|TransportUDP]] (constant: belongs_to)
 - [[safe-socket/safe-socket/src/cgo_bridge/socket.go.md|socket.go]] (imports)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

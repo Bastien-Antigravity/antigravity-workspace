@@ -1,23 +1,7 @@
----
-source: web-interface/web/static/lib/components/atoms/MetricBadge.js
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.943850
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: MetricBadge.js
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/static/lib/components/atoms/MetricBadge.js`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/static/lib/components/atoms/MetricBadge.js.md|MetricBadge.mount]] (method: defines_method)
@@ -33,6 +17,3 @@ Automatically generated mirror for `web-interface/web/static/lib/components/atom
 - [[web-interface/web-interface/web/static/lib/components/atoms/MetricBadge.js.md|MetricBadge]] (class: belongs_to)
 - [[web-interface/web-interface/web/static/lib/components/atoms/MetricBadge.js.md|MetricBadge]] (class: defines_method)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

@@ -1,13 +1,4 @@
----
-microservice: obsidian-brain
-type: note
-status: active
-tags:
-- '#service/obsidian-brain'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -28,5 +19,8 @@ tags:
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|TAIndicatorsDashboard.renderPatterns]] (method: belongs_to)
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|TAIndicatorsDashboard]] (class: belongs_to)
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|TAIndicatorsDashboard]] (class: defines_method)
+- [[web-interface/web-interface/web/static/js/ta-indicators.js.md|onmessage]] (function: belongs_to)
+<!-- SYNC:END -->
+d]] (class: defines_method)
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|onmessage]] (function: belongs_to)
 <!-- SYNC:END -->

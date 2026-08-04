@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -36,6 +27,4 @@ tags:
 - [[microservice-toolbox/microservice-toolbox/go/pkg/teleremote/grpc_client/teleremote_grpc.pb.go.md|teleRemoteServiceClient.Connect]] (method: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/teleremote/grpc_client/teleremote_grpc.pb.go.md|teleRemoteServiceClient]] (struct: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/teleremote/grpc_client/teleremote_grpc.pb.go.md|teleRemoteServiceClient]] (struct: defines_method)
-<!-- SYNC:END -->
-box/microservice-toolbox/go/pkg/teleremote/grpc_client/teleremote_grpc.pb.go.md|teleRemoteServiceClient]] (struct: defines_method)
 <!-- SYNC:END -->

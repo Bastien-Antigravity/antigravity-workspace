@@ -1,19 +1,7 @@
---- 
-microservice: obsidian-brain
 
-source: obsidian-brain/09-RAG-Engine/src/services/code_engine/engine.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04T17:25:55.964441
----
-
-# Mirror: engine.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/code_engine/engine.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/maintenance/joint_audit_purger.py.md|GLOBAL_EXCLUDES]] (constant: calls)
@@ -65,6 +53,3 @@ Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/co
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/code_engine/parsers/rs_parser.py.md|rs_parser.py]] (calls)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/indexing_pipeline/standard.py.md|standard.py]] (imports)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

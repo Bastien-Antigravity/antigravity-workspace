@@ -1,23 +1,7 @@
----
-source: universal-logger/src/cgo_bridge/initialize.go
-workspace: universal-logger
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:28.877789
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: initialize.go
-
-## 📝 Description
-Automatically generated mirror for `universal-logger/src/cgo_bridge/initialize.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[universal-logger/universal-logger/src/bootstrap/unilog.go.md|Init]] (function: calls)
@@ -38,6 +22,3 @@ Automatically generated mirror for `universal-logger/src/cgo_bridge/initialize.g
 - [[universal-logger/universal-logger/unilog/python/unilog/facade.py.md|facade.py]] (calls)
 - [[universal-logger/universal-logger/unilog/rust/src/lib.rs.md|lib.rs]] (calls)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

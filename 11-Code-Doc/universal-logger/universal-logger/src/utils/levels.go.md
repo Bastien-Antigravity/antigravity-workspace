@@ -1,23 +1,7 @@
----
-source: universal-logger/src/utils/levels.go
-workspace: universal-logger
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.023911
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: levels.go
-
-## 📝 Description
-Automatically generated mirror for `universal-logger/src/utils/levels.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[universal-logger/universal-logger/src/interfaces/models.go.md|models.go]] (imports)
@@ -39,6 +23,3 @@ Automatically generated mirror for `universal-logger/src/utils/levels.go`.
 - [[universal-logger/universal-logger/src/utils/levels.go.md|LevelTrade]] (constant: belongs_to)
 - [[universal-logger/universal-logger/src/utils/levels.go.md|LevelWarning]] (constant: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

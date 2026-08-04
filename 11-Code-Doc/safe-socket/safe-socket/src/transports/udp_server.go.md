@@ -1,23 +1,7 @@
----
-source: safe-socket/src/transports/udp_server.go
-workspace: safe-socket
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:27.593028
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: udp_server.go
-
-## 📝 Description
-Automatically generated mirror for `safe-socket/src/transports/udp_server.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[safe-socket/safe-socket/src/interfaces/transport.go.md|transport.go]] (imports)
@@ -49,6 +33,3 @@ Automatically generated mirror for `safe-socket/src/transports/udp_server.go`.
 - [[safe-socket/safe-socket/src/transports/zombie_test.go.md|zombie_test.go]] (calls)
 - [[safe-socket/safe-socket/src/transports/zombie_test.go.md|zombie_test.go]] (same_package)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

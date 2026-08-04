@@ -1,13 +1,4 @@
----
-microservice: obsidian-brain
-type: note
-status: active
-tags:
-- '#service/obsidian-brain'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -28,12 +19,3 @@ tags:
 - [[tele-remote/tele-remote/src/telegram/routes/routes.go.md|routes.go]] (imports)
 - [[tele-remote/tele-remote/src/telegram/ui/menus.go.md|menus.go]] (imports)
 <!-- SYNC:END -->
-c/models/ui_types.go.md|ComponentMenu]] (struct: belongs_to)
-- [[tele-remote/tele-remote/src/store/persistence.go.md|persistence.go]] (imports)
-- [[tele-remote/tele-remote/src/telegram/core/bot.go.md|bot.go]] (imports)
-- [[tele-remote/tele-remote/src/telegram/routes/routes.go.md|routes.go]] (imports)
-- [[tele-remote/tele-remote/src/telegram/ui/menus.go.md|menus.go]] (imports)
-<!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

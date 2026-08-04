@@ -1,13 +1,4 @@
----
-microservice: obsidian-brain
-type: note
-status: active
-tags:
-- '#service/obsidian-brain'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -28,8 +19,5 @@ tags:
 - [[notif-server/notif-server/src/notifiers/gmail.go.md|GmailSender.dialAndSend]] (method: belongs_to)
 - [[notif-server/notif-server/src/notifiers/gmail.go.md|GmailSender]] (struct: belongs_to)
 - [[notif-server/notif-server/src/notifiers/gmail.go.md|GmailSender]] (struct: defines_method)
-- [[notif-server/notif-server/src/notifiers/gmail.go.md|NewGmailSender]] (function: belongs_to)
-<!-- SYNC:END -->
-ender]] (struct: defines_method)
 - [[notif-server/notif-server/src/notifiers/gmail.go.md|NewGmailSender]] (function: belongs_to)
 <!-- SYNC:END -->

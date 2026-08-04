@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -31,8 +22,5 @@ tags:
 - [[notif-server/notif-server/src/grpc_control/grpc_service.go.md|GRPCService.Stop]] (method: belongs_to)
 - [[notif-server/notif-server/src/grpc_control/grpc_service.go.md|GRPCService]] (struct: belongs_to)
 - [[notif-server/notif-server/src/grpc_control/grpc_service.go.md|GRPCService]] (struct: defines_method)
-- [[notif-server/notif-server/src/grpc_control/grpc_service.go.md|NewGRPCService]] (function: belongs_to)
-<!-- SYNC:END -->
-truct: defines_method)
 - [[notif-server/notif-server/src/grpc_control/grpc_service.go.md|NewGRPCService]] (function: belongs_to)
 <!-- SYNC:END -->

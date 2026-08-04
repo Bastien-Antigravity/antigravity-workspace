@@ -1,23 +1,7 @@
----
-source: safe-socket/src/schemas/messages.capnp.go
-workspace: safe-socket
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:27.828137
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: messages.capnp.go
-
-## 📝 Description
-Automatically generated mirror for `safe-socket/src/schemas/messages.capnp.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[safe-socket/safe-socket/src/cgo_bridge/initialize.go.md|Register]] (function: calls)
@@ -139,6 +123,3 @@ Automatically generated mirror for `safe-socket/src/schemas/messages.capnp.go`.
 - [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|RegisterSchema]] (function: belongs_to)
 - [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|schema_cf4762d38e91a0b1]] (constant: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

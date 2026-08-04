@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -37,8 +28,5 @@ tags:
 - [[flexible-logger/flexible-logger/src/sink/writer.go.md|WriterSink.Close]] (method: belongs_to)
 - [[flexible-logger/flexible-logger/src/sink/writer.go.md|WriterSink.Write]] (method: belongs_to)
 - [[flexible-logger/flexible-logger/src/sink/writer.go.md|WriterSink]] (struct: belongs_to)
-- [[flexible-logger/flexible-logger/src/sink/writer.go.md|WriterSink]] (struct: defines_method)
-<!-- SYNC:END -->
-|WriterSink]] (struct: belongs_to)
 - [[flexible-logger/flexible-logger/src/sink/writer.go.md|WriterSink]] (struct: defines_method)
 <!-- SYNC:END -->

@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -46,8 +37,5 @@ tags:
 - [[log-server/log-server/src/servers/grpc_server.rs.md|LogBridgeServiceImpl]] (struct: belongs_to)
 - [[log-server/log-server/src/servers/grpc_server.rs.md|LogBridgeServiceImpl]] (struct: defines_method)
 - [[log-server/log-server/src/servers/grpc_server.rs.md|LogEntry.from]] (method: belongs_to)
-- [[log-server/log-server/src/servers/grpc_server.rs.md|LogEntry]] (struct: defines_method)
-<!-- SYNC:END -->
-LogEntry.from]] (method: belongs_to)
 - [[log-server/log-server/src/servers/grpc_server.rs.md|LogEntry]] (struct: defines_method)
 <!-- SYNC:END -->

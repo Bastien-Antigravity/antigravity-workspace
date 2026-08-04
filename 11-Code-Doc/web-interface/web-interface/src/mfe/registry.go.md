@@ -1,23 +1,7 @@
----
-source: web-interface/src/mfe/registry.go
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:30.158620
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: registry.go
-
-## 📝 Description
-Automatically generated mirror for `web-interface/src/mfe/registry.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/src/mfe/registry.go.md|Registry.List]] (method: defines_method)
@@ -49,6 +33,3 @@ Automatically generated mirror for `web-interface/src/mfe/registry.go`.
 - [[web-interface/web-interface/src/mfe/registry_test.go.md|registry_test.go]] (calls)
 - [[web-interface/web-interface/src/mfe/registry_test.go.md|registry_test.go]] (same_package)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)
