@@ -13,3 +13,6 @@
 2026-08-04T12:24:43.998061000Z    iMac.local   base_scripts_persona_e INFO       loader.py            set_logger                483    AppConfig : Logger updated successfully [metadata: mod=microservice_toolbox.config.loader]
 2026-08-04T12:24:44.047632000Z    iMac.local   base_scripts_persona_e INFO       pg_pool.py           get_pg_pool               68     SharedPool : Connecting to 127.0.0.1:5432 (database=obsidiandb) [metadata: mod=lib.pg_pool]
 2026-08-04T12:24:44.536529000Z    iMac.local   base_scripts_persona_e INFO       memory.py            _init_db                  109    PostgresMemoryStore : Initialised database schema '08-Base-Scripts' [metadata: mod=lib.memory]
+2026-08-04T14:24:17.383594000Z    iMac.local   base_scripts_persona_e INFO       loader.py            set_logger                483    AppConfig : Logger updated successfully [metadata: mod=microservice_toolbox.config.loader]
+2026-08-04T14:24:17.625241000Z    iMac.local   base_scripts_persona_e INFO       pg_pool.py           get_pg_pool               68     SharedPool : Connecting to 127.0.0.1:5432 (database=obsidiandb) [metadata: mod=lib.pg_pool]
+2026-08-04T14:24:17.980767000Z    iMac.local   base_scripts_persona_e INFO       memory.py            _init_db                  109    PostgresMemoryStore : Initialised database schema '08-Base-Scripts' [metadata: mod=lib.memory]
