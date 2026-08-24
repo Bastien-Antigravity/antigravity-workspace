@@ -8,8 +8,8 @@ tags:
 - '#type/template'
 - '#state/active'
 - '#type/experiment'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 ---
 
 # Experiment: [Name]

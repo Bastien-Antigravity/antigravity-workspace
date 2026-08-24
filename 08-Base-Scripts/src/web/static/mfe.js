@@ -7,6 +7,14 @@ class BaseScriptsMFE extends HTMLElement {
         this.commands = [];
         this.eventSource = null;
         this.chatEventSource = null;
+
+        // Session & Delivery Tracking State
+        this.activeSessionId = localStorage.getItem('base_scripts_active_session') || 'squad_sync_session';
+        this.sessions = JSON.parse(localStorage.getItem('base_scripts_session_list') || '["squad_sync_session", "feature_dev_1", "qa_audit_1"]');
+        if (!this.sessions.includes(this.activeSessionId)) {
+            this.sessions.unshift(this.activeSessionId);
+        }
+        this.isProcessing = false;
     }
 
     async connectedCallback() {
@@ -19,9 +27,10 @@ class BaseScriptsMFE extends HTMLElement {
         await this.loadAll();
         this.setupEventListeners();
         
-        // Start streaming collaborative chat
-        this.loadChatHistory();
-        this.startChatStream();
+        // Start streaming collaborative chat for active session
+        this.renderSessionList();
+        await this.loadChatHistory(this.activeSessionId);
+        this.startChatStream(this.activeSessionId);
     }
 
     disconnectedCallback() {
@@ -95,9 +104,11 @@ class BaseScriptsMFE extends HTMLElement {
                 .squad-container {
                     font-family: var(--font-sans, 'Outfit', 'Inter', system-ui, sans-serif);
                     color: var(--color-text-primary, #eaeaea);
-                    max-width: 1200px;
+                    width: 100%;
+                    max-width: var(--content-max-width, 1400px);
                     margin: 0 auto;
-                    padding: 24px;
+                    padding: clamp(1.25rem, 2.5vh, 2.25rem) clamp(1.25rem, 3vw, 2.5rem) 3.5rem;
+                    box-sizing: border-box;
                 }
                 .squad-header {
                     display: flex;
@@ -357,16 +368,101 @@ class BaseScriptsMFE extends HTMLElement {
                 .terminal-line.failed { color: #ff3d00; font-weight: bold; }
                 .terminal-line.error { color: #ff3d00; font-weight: bold; }
 
-                /* Chat Styles */
+                /* Chat Layout with Session Drawer */
+                .chat-container-layout {
+                    display: grid;
+                    grid-template-columns: 240px 1fr;
+                    gap: 16px;
+                    height: 640px;
+                }
+                @media(max-width: 768px) {
+                    .chat-container-layout {
+                        grid-template-columns: 1fr;
+                        height: auto;
+                    }
+                }
+                .session-sidebar {
+                    background: var(--color-bg-surface, #1e1e1e);
+                    border: 1px solid var(--color-border-subtle, #2d2d2d);
+                    border-radius: 12px;
+                    padding: 14px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                }
+                .session-sidebar-title {
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    color: #888;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .new-session-btn {
+                    background: rgba(255, 75, 43, 0.15);
+                    border: 1px solid var(--color-accent-primary, #ff4b2b);
+                    color: #fff;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+                .new-session-btn:hover {
+                    background: rgba(255, 75, 43, 0.3);
+                }
+                .session-list {
+                    flex: 1;
+                    overflow-y: auto;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+                .session-item {
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    background: #141414;
+                    border: 1px solid #2a2a2a;
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    color: #ccc;
+                    cursor: pointer;
+                    word-break: break-all;
+                    transition: all 0.2s;
+                }
+                .session-item:hover {
+                    border-color: #ff4b2b;
+                    color: #fff;
+                }
+                .session-item.active {
+                    background: linear-gradient(135deg, rgba(255, 65, 108, 0.15) 0%, rgba(255, 75, 43, 0.15) 100%);
+                    border-color: #ff4b2b;
+                    color: #fff;
+                    font-weight: 600;
+                }
+
                 .chat-layout {
                     display: flex;
                     flex-direction: column;
-                    height: 600px;
+                    height: 100%;
                     background: var(--color-bg-surface, #1e1e1e);
                     border: 1px solid var(--color-border-subtle, #2d2d2d);
                     border-radius: 12px;
                     overflow: hidden;
                     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                }
+                .chat-header-bar {
+                    background: #141414;
+                    padding: 10px 16px;
+                    border-bottom: 1px solid #2a2a2a;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 0.85rem;
                 }
                 .chat-messages {
                     flex: 1;
@@ -385,24 +481,41 @@ class BaseScriptsMFE extends HTMLElement {
                     border: 1px solid var(--color-border-subtle, #2a2a2a);
                     max-width: 85%;
                     align-self: flex-start;
+                    position: relative;
                 }
                 .chat-bubble.user {
                     align-self: flex-end;
                     background-color: rgba(255, 75, 43, 0.08);
                     border-color: rgba(255, 75, 43, 0.25);
                 }
-                .chat-bubble.orchestrator {
-                    border-left: 3px solid #ff4b2b;
+                .chat-bubble.orchestrator { border-left: 3px solid #ff4b2b; }
+                .chat-bubble.developer { border-left: 3px solid #00e5ff; }
+                .chat-bubble.qa { border-left: 3px solid #4CAF50; }
+                .chat-bubble.architect { border-left: 3px solid #E040FB; }
+                .chat-bubble.thinking {
+                    border-left: 3px solid #FFC107;
+                    background-color: rgba(255, 193, 7, 0.08);
+                    animation: pulseThinking 1.5s infinite ease-in-out;
                 }
-                .chat-bubble.developer {
-                    border-left: 3px solid #00e5ff;
+                @keyframes pulseThinking {
+                    0% { opacity: 0.6; }
+                    50% { opacity: 1; }
+                    100% { opacity: 0.6; }
                 }
-                .chat-bubble.qa {
-                    border-left: 3px solid #4CAF50;
+
+                .chat-status-badge {
+                    display: inline-block;
+                    font-size: 0.7rem;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    margin-left: 8px;
+                    font-weight: 600;
+                    text-transform: uppercase;
                 }
-                .chat-bubble.architect {
-                    border-left: 3px solid #E040FB;
-                }
+                .chat-status-badge.sending { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+                .chat-status-badge.processing { background: rgba(0, 229, 255, 0.2); color: #00e5ff; }
+                .chat-status-badge.delivered { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
+
                 .chat-avatar {
                     font-size: 1.3rem;
                     display: flex;
@@ -413,9 +526,7 @@ class BaseScriptsMFE extends HTMLElement {
                     height: 36px;
                     border-radius: 50%;
                 }
-                .chat-content {
-                    flex: 1;
-                }
+                .chat-content { flex: 1; }
                 .chat-sender {
                     font-size: 0.75rem;
                     font-weight: 700;
@@ -423,16 +534,46 @@ class BaseScriptsMFE extends HTMLElement {
                     text-transform: uppercase;
                     letter-spacing: 0.5px;
                     margin-bottom: 4px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
                 }
                 .chat-text {
                     font-size: 0.9rem;
                     line-height: 1.5;
                     white-space: pre-wrap;
                 }
+
+                /* Quick Target Agent Chips */
+                .agent-chips-bar {
+                    display: flex;
+                    gap: 6px;
+                    padding: 8px 16px 0;
+                    background: #141414;
+                    overflow-x: auto;
+                }
+                .agent-chip {
+                    background: #222;
+                    border: 1px solid #333;
+                    color: #aaa;
+                    font-size: 0.75rem;
+                    padding: 4px 10px;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    white-space: nowrap;
+                    transition: all 0.2s;
+                }
+                .agent-chip:hover {
+                    background: #333;
+                    color: #fff;
+                    border-color: #ff4b2b;
+                }
+
                 .chat-input-area {
                     display: flex;
                     gap: 12px;
-                    padding: 16px;
+                    padding: 12px 16px 16px;
                     border-top: 1px solid var(--color-border-subtle, #2a2a2a);
                     background: #141414;
                 }
@@ -460,9 +601,7 @@ class BaseScriptsMFE extends HTMLElement {
                     cursor: pointer;
                     transition: opacity 0.2s;
                 }
-                .chat-send-btn:hover {
-                    opacity: 0.9;
-                }
+                .chat-send-btn:hover { opacity: 0.9; }
 
                 .chat-tools {
                     margin-top: 10px;
@@ -571,19 +710,45 @@ class BaseScriptsMFE extends HTMLElement {
 
                 <!-- Chat View -->
                 <div id="tab-chat" class="tab-content">
-                    <div class="chat-layout">
-                        <div id="chat-messages" class="chat-messages">
-                            <div class="chat-bubble system">
-                                <span class="chat-avatar">🤖</span>
-                                <div class="chat-content">
-                                    <div class="chat-sender">System</div>
-                                    <div class="chat-text">Welcome to the AI Squad Chat room. Type a goal below to begin collaborative execution.</div>
+                    <div class="chat-container-layout">
+                        <!-- Session Drawer Sidebar -->
+                        <div class="session-sidebar">
+                            <div class="session-sidebar-title">
+                                <span>💬 Sessions</span>
+                                <button id="new-session-btn" class="new-session-btn">➕ New</button>
+                            </div>
+                            <div id="session-list" class="session-list"></div>
+                        </div>
+
+                        <!-- Chat Layout -->
+                        <div class="chat-layout">
+                            <div class="chat-header-bar">
+                                <span id="current-session-label">Session: <strong>squad_sync_session</strong></span>
+                                <span id="chat-live-status" style="color: #4CAF50; font-size: 0.75rem;">● Live SSE Active</span>
+                            </div>
+
+                            <div id="chat-messages" class="chat-messages">
+                                <div class="chat-bubble system">
+                                    <span class="chat-avatar">🤖</span>
+                                    <div class="chat-content">
+                                        <div class="chat-sender">System</div>
+                                        <div class="chat-text">Welcome to the AI Squad Chat room. Type a goal below or target a specific agent (@orchestrator, @developer, @qa, @architect).</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="chat-input-area">
-                            <input type="text" id="chat-input-box" class="chat-input-box" placeholder="Ask the squad to implement, test, or review code..." />
-                            <button id="chat-send-btn" class="chat-send-btn">Send</button>
+
+                            <!-- Agent Target Quick Chips Bar -->
+                            <div class="agent-chips-bar">
+                                <span class="agent-chip" data-tag="@orchestrator ">🤖 @orchestrator</span>
+                                <span class="agent-chip" data-tag="@developer ">💻 @developer</span>
+                                <span class="agent-chip" data-tag="@qa ">🧪 @qa</span>
+                                <span class="agent-chip" data-tag="@architect ">📐 @architect</span>
+                            </div>
+
+                            <div class="chat-input-area">
+                                <input type="text" id="chat-input-box" class="chat-input-box" placeholder="Ask the squad or target @agent..." />
+                                <button id="chat-send-btn" class="chat-send-btn">Send</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -625,21 +790,79 @@ class BaseScriptsMFE extends HTMLElement {
             });
         });
 
+        // New Session button
+        const newSessionBtn = this.querySelector('#new-session-btn');
+        if (newSessionBtn) {
+            newSessionBtn.addEventListener('click', () => {
+                const sessionName = prompt("Enter new session name (e.g., feature_dev_2):", `session_${Date.now().toString().slice(-4)}`);
+                if (sessionName && sessionName.trim()) {
+                    const cleanName = sessionName.trim().replace(/\s+/g, '_');
+                    if (!this.sessions.includes(cleanName)) {
+                        this.sessions.push(cleanName);
+                        localStorage.setItem('base_scripts_session_list', JSON.stringify(this.sessions));
+                    }
+                    this.switchSession(cleanName);
+                }
+            });
+        }
+
+        // Quick Agent Chips
+        const chips = this.querySelectorAll('.agent-chip');
+        const chatInputBox = this.querySelector('#chat-input-box');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                if (chatInputBox) {
+                    const tag = chip.dataset.tag;
+                    if (!chatInputBox.value.includes(tag.trim())) {
+                        chatInputBox.value = tag + chatInputBox.value;
+                    }
+                    chatInputBox.focus();
+                }
+            });
+        });
+
         // Chat send interaction
         const chatSendBtn = this.querySelector('#chat-send-btn');
-        const chatInputBox = this.querySelector('#chat-input-box');
         if (chatSendBtn && chatInputBox) {
             const sendMsg = async () => {
                 const text = chatInputBox.value.trim();
                 if (!text) return;
                 chatInputBox.value = '';
-                await this.postChatMessage(text);
+                await this.handleUserSend(text);
             };
             chatSendBtn.addEventListener('click', sendMsg);
             chatInputBox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') sendMsg();
             });
         }
+    }
+
+    renderSessionList() {
+        const list = this.querySelector('#session-list');
+        if (!list) return;
+        list.innerHTML = '';
+        this.sessions.forEach(sessId => {
+            const item = document.createElement('div');
+            item.className = `session-item ${sessId === this.activeSessionId ? 'active' : ''}`;
+            item.textContent = sessId;
+            item.addEventListener('click', () => this.switchSession(sessId));
+            list.appendChild(item);
+        });
+        const label = this.querySelector('#current-session-label');
+        if (label) {
+            label.innerHTML = `Session: <strong>${this.activeSessionId}</strong>`;
+        }
+    }
+
+    async switchSession(sessionId) {
+        if (this.activeSessionId === sessionId) return;
+        this.activeSessionId = sessionId;
+        localStorage.setItem('base_scripts_active_session', sessionId);
+        this.renderSessionList();
+        
+        // Load history and reconnect SSE
+        await this.loadChatHistory(this.activeSessionId);
+        this.startChatStream(this.activeSessionId);
     }
 
     async switchMode(mode) {
@@ -709,23 +932,23 @@ class BaseScriptsMFE extends HTMLElement {
         body.scrollTop = body.scrollHeight;
     }
 
-    async loadChatHistory() {
+    async loadChatHistory(sessionId) {
         try {
-            const resp = await fetch(`${this.baseUrl}/api/v1/squad/chat/squad_sync_session`);
+            const resp = await fetch(`${this.baseUrl}/api/v1/squad/chat/${sessionId}`);
             if (resp.ok) {
                 const data = await resp.json();
-                if (data.success && data.history) {
-                    const chatMessages = this.querySelector('#chat-messages');
-                    if (chatMessages) {
-                        chatMessages.innerHTML = `
-                            <div class="chat-bubble system">
-                                <span class="chat-avatar">🤖</span>
-                                <div class="chat-content">
-                                    <div class="chat-sender">System</div>
-                                    <div class="chat-text">Welcome to the AI Squad Chat room. Type a goal below to begin collaborative execution.</div>
-                                </div>
+                const chatMessages = this.querySelector('#chat-messages');
+                if (chatMessages) {
+                    chatMessages.innerHTML = `
+                        <div class="chat-bubble system">
+                            <span class="chat-avatar">🤖</span>
+                            <div class="chat-content">
+                                <div class="chat-sender">System</div>
+                                <div class="chat-text">Session <strong>${sessionId}</strong> loaded. Ask the squad to implement, test, or review code.</div>
                             </div>
-                        `;
+                        </div>
+                    `;
+                    if (data.success && Array.isArray(data.history)) {
                         data.history.forEach(msg => this.appendChatMessage(msg));
                     }
                 }
@@ -735,34 +958,151 @@ class BaseScriptsMFE extends HTMLElement {
         }
     }
 
-    startChatStream() {
+    startChatStream(sessionId) {
         if (this.chatEventSource) {
             this.chatEventSource.close();
         }
         
-        this.chatEventSource = new EventSource(`${this.baseUrl}/api/v1/squad/chat/stream/squad_sync_session`);
+        this.chatEventSource = new EventSource(`${this.baseUrl}/api/v1/squad/chat/stream/${sessionId}`);
         this.chatEventSource.onmessage = (event) => {
             try {
                 const msg = JSON.parse(event.data);
+                this.removeThinkingIndicator();
+                this.updateLastUserBadge('delivered');
+                this.setProcessingState(false);
                 this.appendChatMessage(msg);
             } catch (e) {
                 console.error("Failed to parse SSE chat message:", e);
+                this.setProcessingState(false);
             }
+        };
+        this.chatEventSource.onerror = () => {
+            // Re-enable input if SSE drops or disconnects
+            this.setProcessingState(false);
         };
     }
 
-    async postChatMessage(message) {
+    async handleUserSend(text) {
+        const msgId = 'user_msg_' + Date.now();
+        // Lock UI send button & input box while task is being processed
+        this.setProcessingState(true);
+
+        // 1. Immediately render user bubble with 'Sending... 📤' status badge
+        this.appendChatMessage({
+            id: msgId,
+            sender: 'user',
+            content: text,
+            status: 'sending'
+        });
+
+        // 2. Post message to backend
         try {
-            const resp = await fetch(`${this.baseUrl}/api/v1/squad/chat/squad_sync_session`, {
+            const resp = await fetch(`${this.baseUrl}/api/v1/squad/chat/${this.activeSessionId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message })
+                body: JSON.stringify({ message: text })
             });
-            if (!resp.ok) {
-                console.error("Failed to post chat message");
+
+            if (resp.ok) {
+                // Update badge to 'Thinking 🧠' and show animated Agent Thinking Bar
+                this.updateUserBadge(msgId, 'processing');
+                this.showThinkingIndicator("Squad AI", "Analyzing workspace context & executing agent pipeline...");
+            } else {
+                this.updateUserBadge(msgId, 'error');
+                this.setProcessingState(false);
             }
         } catch (e) {
             console.error("Connection error posting chat message:", e);
+            this.updateUserBadge(msgId, 'error');
+            this.setProcessingState(false);
+        }
+    }
+
+    setProcessingState(isProcessing) {
+        this.isProcessing = isProcessing;
+        const sendBtn = this.querySelector('#chat-send-btn');
+        const inputBox = this.querySelector('#chat-input-box');
+        const statusLabel = this.querySelector('#chat-live-status');
+
+        if (sendBtn) {
+            sendBtn.disabled = isProcessing;
+            sendBtn.style.opacity = isProcessing ? '0.6' : '1';
+            sendBtn.style.cursor = isProcessing ? 'not-allowed' : 'pointer';
+            sendBtn.textContent = isProcessing ? 'Processing... ⏳' : 'Send';
+        }
+        if (inputBox) {
+            inputBox.disabled = isProcessing;
+            if (!isProcessing) {
+                inputBox.focus();
+            }
+        }
+        if (statusLabel) {
+            if (isProcessing) {
+                statusLabel.style.color = '#FFC107';
+                statusLabel.textContent = '⚡ Task Processing Active...';
+            } else {
+                statusLabel.style.color = '#4CAF50';
+                statusLabel.textContent = '● Live SSE Ready';
+            }
+        }
+    }
+
+    showThinkingIndicator(agentName = "Squad AI", stepText = "Analyzing prompt & generating turn...") {
+        this.removeThinkingIndicator();
+        const chatMessages = this.querySelector('#chat-messages');
+        if (!chatMessages) return;
+
+        const thinking = document.createElement('div');
+        thinking.id = 'agent-thinking-indicator';
+        thinking.className = 'chat-bubble thinking';
+        thinking.innerHTML = `
+            <span class="chat-avatar">🤖</span>
+            <div class="chat-content">
+                <div class="chat-sender">
+                    <span>${agentName}</span>
+                    <span class="chat-status-badge processing">Processing ⏳</span>
+                </div>
+                <div class="chat-text">
+                    <div style="font-weight: 600; color: #ffc107;">${stepText}</div>
+                    <div style="font-size: 0.75rem; color: #aaa; margin-top: 4px;">
+                        <i class="fa fa-spinner fa-spin"></i> Squad agents are parsing knowledge base, evaluating tools, and generating response...
+                    </div>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(thinking);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    removeThinkingIndicator() {
+        const thinking = this.querySelector('#agent-thinking-indicator');
+        if (thinking) {
+            thinking.remove();
+        }
+    }
+
+    updateUserBadge(msgId, status) {
+        const msgEl = this.querySelector(`#${msgId}`);
+        if (!msgEl) return;
+        const badgeEl = msgEl.querySelector('.chat-status-badge');
+        if (badgeEl) {
+            badgeEl.className = `chat-status-badge ${status}`;
+            if (status === 'sending') badgeEl.textContent = 'Sending 📤';
+            else if (status === 'processing') badgeEl.textContent = 'Thinking 🧠';
+            else if (status === 'delivered') badgeEl.textContent = 'Delivered ✅';
+            else if (status === 'error') badgeEl.textContent = 'Failed ❌';
+        }
+    }
+
+    updateLastUserBadge(status) {
+        const userBubbles = this.querySelectorAll('.chat-bubble.user');
+        if (userBubbles.length > 0) {
+            const lastUserBubble = userBubbles[userBubbles.length - 1];
+            const badgeEl = lastUserBubble.querySelector('.chat-status-badge');
+            if (badgeEl) {
+                badgeEl.className = `chat-status-badge ${status}`;
+                if (status === 'delivered') badgeEl.textContent = 'Delivered ✅';
+            }
         }
     }
 
@@ -770,19 +1110,35 @@ class BaseScriptsMFE extends HTMLElement {
         const chatMessages = this.querySelector('#chat-messages');
         if (!chatMessages) return;
         
+        // Prevent duplicate user messages if already rendered dynamically via handleUserSend
+        if (msg.sender === 'user' && msg.id && this.querySelector(`#${msg.id}`)) {
+            return;
+        }
+
         // Map avatars
         const avatars = {
             'user': '👤',
             'orchestrator': '🤖',
             'developer': '💻',
             'qa': '🧪',
-            'architect': '📐'
+            'architect': '📐',
+            'codeindexer': '🔍',
+            'docindexer': '📚',
+            'fleetcommander': '🛰️'
         };
         const avatar = avatars[msg.sender] || '🤖';
         
         const bubble = document.createElement('div');
+        if (msg.id) bubble.id = msg.id;
         bubble.className = `chat-bubble ${msg.sender || 'system'}`;
         
+        let statusBadgeHtml = '';
+        if (msg.sender === 'user') {
+            const st = msg.status || 'delivered';
+            const badgeLabel = st === 'sending' ? 'Sending 📤' : (st === 'processing' ? 'Thinking 🧠' : 'Delivered ✅');
+            statusBadgeHtml = `<span class="chat-status-badge ${st}">${badgeLabel}</span>`;
+        }
+
         let toolCallsHtml = '';
         let toolCalls = msg.tool_calls;
         if (typeof toolCalls === 'string') {
@@ -793,7 +1149,7 @@ class BaseScriptsMFE extends HTMLElement {
             }
         }
         if (Array.isArray(toolCalls) && toolCalls.length > 0) {
-            toolCalls.forEach((tool, index) => {
+            toolCalls.forEach((tool) => {
                 const toolArgs = JSON.stringify(tool.args || {});
                 toolCallsHtml += `
                     <div class="chat-tools">
@@ -814,7 +1170,10 @@ class BaseScriptsMFE extends HTMLElement {
         bubble.innerHTML = `
             <span class="chat-avatar">${avatar}</span>
             <div class="chat-content">
-                <div class="chat-sender">${msg.sender || 'system'}</div>
+                <div class="chat-sender">
+                    <span>${msg.sender || 'system'}</span>
+                    ${statusBadgeHtml}
+                </div>
                 <div class="chat-text">${msg.content || ''}</div>
                 ${toolCallsHtml}
             </div>
@@ -873,3 +1232,4 @@ class BaseScriptsMFE extends HTMLElement {
 }
 
 customElements.define('base-scripts-mfe', BaseScriptsMFE);
+

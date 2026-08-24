@@ -1,16 +1,12 @@
 ---
-microservice: ecosystem-core
-type: template
+microservice: 08-Base-Scripts
+type: note
 status: active
-last-updated: {{date}}
 tags:
-- '#zone/0-orchestration'
-- '#service/ecosystem-core'
-- '#type/template'
+- '#service/08-Base-Scripts'
+- '#type/note'
 - '#state/active'
-- '#type/task'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#zone/3-fleet'
 ---
 
 # 🧠 {{title}} - AI Session & TODO State

@@ -71,9 +71,6 @@ zzz_memo
 *.tmp
 temp/
 
-# Chroma DB
-.chroma_db*
-
 # --- Standard Ecosystem Protections ---
 *.log
 *.pyc

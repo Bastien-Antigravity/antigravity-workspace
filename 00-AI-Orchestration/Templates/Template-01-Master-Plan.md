@@ -9,8 +9,8 @@ tags:
 - '#type/template'
 - '#state/active'
 - '#type/task-plan'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 ---
 # Master Plan: [Feature/Bug Name]
 

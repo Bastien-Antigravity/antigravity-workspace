@@ -8,8 +8,8 @@ tags:
 - '#type/template'
 - '#state/active'
 - '#type/acceptance-criteria'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 title: Acceptance Criteria Template
 ---
 

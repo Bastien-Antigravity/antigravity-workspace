@@ -8,8 +8,8 @@ tags:
 - '#type/template'
 - '#state/active'
 - '#type/fleet-op'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 ---
 
 # Fleet Action Plan: [Name]

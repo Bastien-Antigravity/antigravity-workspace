@@ -9,8 +9,8 @@ tags:
 - '#state/active'
 - '#type/task'
 - '#state/draft'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 feature: null
 priority: medium
 title: '{{title}}'

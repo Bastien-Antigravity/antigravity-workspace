@@ -8,8 +8,8 @@ tags:
 - '#type/template'
 - '#state/active'
 - '#type/task'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 ---
 
 # ⚡ Fast-Track Task: [Short Name]

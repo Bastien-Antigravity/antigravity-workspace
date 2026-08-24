@@ -9,8 +9,8 @@ tags:
 - '#type/template'
 - '#state/active'
 - '#type/idea-pitch'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 ---
 # Idea Pitch: [Feature/Bug Name]
 

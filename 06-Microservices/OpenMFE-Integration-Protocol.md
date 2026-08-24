@@ -228,12 +228,34 @@ Instead, they must inherit the parent container's styles using **Bastien UI Desi
 - **Fonts**: `var(--font-sans)`, `var(--font-display)`, `var(--font-mono)`
 - **Sizing**: `var(--font-size-xs)`, `var(--font-size-sm)`, `var(--font-size-base)`, `var(--font-size-lg)`, `var(--font-size-xl)`, `var(--font-size-2xl)`
 
+#### Outer Container & Dynamic Responsive Header Spacing Contract:
+To prevent topbar header overlap and ensure fluid, responsive centering across all viewports (Mobile, Tablet, Desktop, Ultra-Wide) for microservices (`config-server`, `notif-server`, `watchdog-agent`, `obsidian-brain` RAG Engine, `squad-control`), every Web Component root container enforces fluid `clamp()` layout math:
+
+```css
+.mfe-container, .squad-container, .rag-mfe {
+    font-family: var(--font-sans, system-ui, sans-serif);
+    color: var(--color-text-primary, #e2e8f0);
+    width: 100%;
+    max-width: var(--content-max-width, 1400px);
+    margin: 0 auto;
+    padding: clamp(1.25rem, 2.5vh, 2.25rem) clamp(1.25rem, 3vw, 2.5rem) 3.5rem;
+    box-sizing: border-box;
+}
+```
+* **Dynamic Fluid Header Clearance**: `<main id="main" class="bastien-main">` provides `--header-spacing-fluid: calc(var(--topbar-height) + clamp(2.5rem, 5vh, 4.5rem))` (~88px to 120px depending on viewport height).
+* **Component Display**: Custom element tags (`<config-server-mfe>`, `<watchdog-agent-mfe>`, etc.) are assigned `display: block; width: 100%; box-sizing: border-box;`.
+
 #### Styling Example (Embedded CSS inside component template):
 Define the component's styles utilizing the variables, and provide safe fallback values for standalone rendering:
 ```css
 .mfe-container {
     font-family: var(--font-sans, system-ui, sans-serif);
     color: var(--color-text-primary, #333);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px 40px;
+    box-sizing: border-box;
 }
 .mfe-card {
     background: var(--color-bg-surface, #ffffff);

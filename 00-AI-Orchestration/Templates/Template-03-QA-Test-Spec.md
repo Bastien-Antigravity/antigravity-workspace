@@ -9,8 +9,8 @@ tags:
 - '#type/template'
 - '#state/active'
 - '#type/qa-test-spec'
-- "#tech/TO-DO"
-- "#tier/TO-DO"
+- '#tech/TO-DO'
+- '#tier/TO-DO'
 ---
 # BDD Test Specification: [Feature/Bug Name]
 

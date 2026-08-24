@@ -43,6 +43,7 @@
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/alignment/synchronizer.py.md|synchronizer.py]] (calls)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/fastmcp.py.md|fastmcp.py]] (calls)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/mcp/tools.py.md|tools.py]] (calls)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/seed/seed_service.py.md|seed_service.py]] (calls)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/server.py.md|InterceptHandler]] (class: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/server.py.md|SafeQueueWriter]] (class: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/server.py.md|_STATIC_DIR]] (constant: belongs_to)
