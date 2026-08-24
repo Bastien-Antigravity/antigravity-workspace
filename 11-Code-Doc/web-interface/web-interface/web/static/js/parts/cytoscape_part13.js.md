@@ -1,23 +1,16 @@
 ---
-source: web-interface/web/static/js/parts/cytoscape_part13.js
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.631022
-microservice: obsidian-brain
+microservice: 08-Base-Scripts
+type: note
+status: active
 tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: cytoscape_part13.js
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/static/js/parts/cytoscape_part13.js`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/html/BrainGraph.html.md|#cy (div)]] (element: calls)
@@ -49,6 +42,3 @@ Automatically generated mirror for `web-interface/web/static/js/parts/cytoscape_
 - [[web-interface/web-interface/web/static/js/parts/layout_part5.js.md|layout_part5.js]] (calls)
 - [[web-interface/web-interface/web/static/js/parts/layout_part5.js.md|layout_part5.js]] (same_package)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

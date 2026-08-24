@@ -30,3 +30,6 @@ tags:
 - [[distributed-config/distributed-config/src/core/config_test.go.md|iterations]] (constant: belongs_to)
 - [[distributed-config/distributed-config/src/core/config_test.go.md|workers]] (constant: belongs_to)
 <!-- SYNC:END -->
+ons]] (constant: belongs_to)
+- [[distributed-config/distributed-config/src/core/config_test.go.md|workers]] (constant: belongs_to)
+<!-- SYNC:END -->

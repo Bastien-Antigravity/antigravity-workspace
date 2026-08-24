@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -23,5 +32,8 @@
 - [[tele-remote/tele-remote/src/subscribers/grpc.go.md|GrpcSubscriber.StartListen]] (method: belongs_to)
 - [[tele-remote/tele-remote/src/subscribers/grpc.go.md|GrpcSubscriber]] (struct: belongs_to)
 - [[tele-remote/tele-remote/src/subscribers/grpc.go.md|GrpcSubscriber]] (struct: defines_method)
+- [[tele-remote/tele-remote/src/subscribers/grpc.go.md|NewGrpcSubscriber]] (function: belongs_to)
+<!-- SYNC:END -->
+riber]] (struct: defines_method)
 - [[tele-remote/tele-remote/src/subscribers/grpc.go.md|NewGrpcSubscriber]] (function: belongs_to)
 <!-- SYNC:END -->

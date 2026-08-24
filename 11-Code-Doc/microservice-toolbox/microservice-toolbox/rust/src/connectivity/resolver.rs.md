@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -29,5 +38,8 @@
 - [[microservice-toolbox/microservice-toolbox/rust/src/connectivity/resolver.rs.md|test_resolve_bind_addr_native]] (function: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/rust/src/connectivity/resolver.rs.md|test_resolve_full_bind_addr]] (function: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/rust/src/network/grpc_server.rs.md|grpc_server.rs]] (calls)
+- [[microservice-toolbox/microservice-toolbox/rust/src/network/grpc_server.rs.md|grpc_server.rs]] (imports)
+<!-- SYNC:END -->
+pc_server.rs]] (calls)
 - [[microservice-toolbox/microservice-toolbox/rust/src/network/grpc_server.rs.md|grpc_server.rs]] (imports)
 <!-- SYNC:END -->

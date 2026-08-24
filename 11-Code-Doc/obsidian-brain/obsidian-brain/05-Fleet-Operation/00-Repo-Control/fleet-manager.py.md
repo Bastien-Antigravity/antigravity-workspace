@@ -38,6 +38,7 @@ tags:
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_status]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_sync]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_tag]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_tag_reset]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_template]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_handle_vault_sync]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/05-Fleet-Operation/00-Repo-Control/fleet-manager.py.md|_load_job_fragment]] (function: belongs_to)

@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -50,8 +59,5 @@
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/start_squad.py.md|start_squad.py]] (same_package)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/grpc_control/service.py.md|service.py]] (calls)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/rest/rest_handler.py.md|rest_handler.py]] (calls)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/telegram/manager.py.md|manager.py]] (calls)
-<!-- SYNC:END -->
-.py.md|rest_handler.py]] (calls)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/telegram/manager.py.md|manager.py]] (calls)
 <!-- SYNC:END -->

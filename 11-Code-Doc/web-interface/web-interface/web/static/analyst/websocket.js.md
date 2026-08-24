@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -21,8 +30,5 @@
 - [[web-interface/web-interface/web/static/analyst/websocket.js.md|WebSocketClient.reconnect]] (method: belongs_to)
 - [[web-interface/web-interface/web/static/analyst/websocket.js.md|WebSocketClient.sendMessage]] (method: belongs_to)
 - [[web-interface/web-interface/web/static/analyst/websocket.js.md|WebSocketClient]] (class: belongs_to)
-- [[web-interface/web-interface/web/static/analyst/websocket.js.md|WebSocketClient]] (class: defines_method)
-<!-- SYNC:END -->
-] (class: belongs_to)
 - [[web-interface/web-interface/web/static/analyst/websocket.js.md|WebSocketClient]] (class: defines_method)
 <!-- SYNC:END -->

@@ -22,3 +22,6 @@ tags:
 - [[universal-logger/universal-logger/src/utils/logger_utils.go.md|LogWithMetadata]] (function: belongs_to)
 - [[universal-logger/universal-logger/src/utils/logger_utils.go.md|Log]] (function: belongs_to)
 <!-- SYNC:END -->
+hMetadata]] (function: belongs_to)
+- [[universal-logger/universal-logger/src/utils/logger_utils.go.md|Log]] (function: belongs_to)
+<!-- SYNC:END -->

@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -8,8 +17,6 @@
 - [[universal-logger/universal-logger/src/cgo_bridge/initialize.go.md|sanitizeFFIString]] (function: calls)
 - [[universal-logger/universal-logger/src/logger/logger_handler.go.md|UniLog.Close]] (method: calls)
 - [[universal-logger/universal-logger/src/logger/logger_handler.go.md|UniLog.Error]] (method: calls)
-- [[universal-logger/universal-logger/unilog/libunilog/libunilog.h.md|call_distconf_update_cb]] (function: calls)
-- [[universal-logger/universal-logger/unilog/libunilog/libunilog.h.md|set_last_error]] (function: calls)
 
 ### 🔌 Consumers (Inbound)
 - [[universal-logger/universal-logger/src/cgo_bridge/distconf_bridge.go.md|DistConf_ApplyFileOverride]] (function: belongs_to)

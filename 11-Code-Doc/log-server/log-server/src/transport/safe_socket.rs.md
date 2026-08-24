@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -28,8 +37,5 @@
 - [[log-server/log-server/src/transport/safe_socket.rs.md|SafeSocketWriter]] (struct: defines_method)
 - [[log-server/log-server/src/transport/safe_socket.rs.md|SafeSocket]] (struct: belongs_to)
 - [[log-server/log-server/src/transport/safe_socket.rs.md|SafeSocket]] (struct: defines_method)
-- [[log-server/log-server/src/transport/safe_socket.rs.md|test_heartbeat_skip]] (function: belongs_to)
-<!-- SYNC:END -->
-]] (struct: defines_method)
 - [[log-server/log-server/src/transport/safe_socket.rs.md|test_heartbeat_skip]] (function: belongs_to)
 <!-- SYNC:END -->

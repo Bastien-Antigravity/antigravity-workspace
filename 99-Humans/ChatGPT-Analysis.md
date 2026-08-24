@@ -158,7 +158,7 @@ It can also repair malformed frontmatter tags when run with `--fix`.
 
 ### `09-RAG-Engine`
 
-The RAG engine provides a local MCP server over stdio. It indexes the workspace into ChromaDB using local embeddings and exposes tools such as:
+The RAG engine provides a local MCP server over stdio. It indexes the workspace into PostgreSQL/pgvector using local embeddings and exposes tools such as:
 
 - `query_brain`;
 - `get_brain_stats`;
@@ -170,7 +170,7 @@ The RAG layer includes:
 - Markdown parsing;
 - YAML frontmatter flattening;
 - paragraph/window chunking;
-- ChromaDB vector storage;
+- pgvector vector storage;
 - a file watcher;
 - mode-aware exclusions;
 - an access matrix.

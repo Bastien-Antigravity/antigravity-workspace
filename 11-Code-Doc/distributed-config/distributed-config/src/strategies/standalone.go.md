@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -25,8 +34,5 @@
 - [[distributed-config/distributed-config/src/strategies/standalone.go.md|StandaloneStrategy.Set]] (method: belongs_to)
 - [[distributed-config/distributed-config/src/strategies/standalone.go.md|StandaloneStrategy.Sync]] (method: belongs_to)
 - [[distributed-config/distributed-config/src/strategies/standalone.go.md|StandaloneStrategy]] (struct: belongs_to)
-- [[distributed-config/distributed-config/src/strategies/standalone.go.md|StandaloneStrategy]] (struct: defines_method)
-<!-- SYNC:END -->
-elongs_to)
 - [[distributed-config/distributed-config/src/strategies/standalone.go.md|StandaloneStrategy]] (struct: defines_method)
 <!-- SYNC:END -->

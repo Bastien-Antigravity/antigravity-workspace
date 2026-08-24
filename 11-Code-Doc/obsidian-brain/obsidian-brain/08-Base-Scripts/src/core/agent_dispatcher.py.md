@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -23,11 +32,3 @@
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/agent_dispatcher.py.md|process_vault_tasks]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/agent_dispatcher.py.md|route_task_semantically]] (function: belongs_to)
 <!-- SYNC:END -->
-/core/agent_dispatcher.py.md|main]] (function: belongs_to)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/agent_dispatcher.py.md|parse_frontmatter]] (function: belongs_to)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/agent_dispatcher.py.md|process_vault_tasks]] (function: belongs_to)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/core/agent_dispatcher.py.md|route_task_semantically]] (function: belongs_to)
-<!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -19,8 +28,5 @@
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|TAIndicatorsDashboard.renderPatterns]] (method: belongs_to)
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|TAIndicatorsDashboard]] (class: belongs_to)
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|TAIndicatorsDashboard]] (class: defines_method)
-- [[web-interface/web-interface/web/static/js/ta-indicators.js.md|onmessage]] (function: belongs_to)
-<!-- SYNC:END -->
-d]] (class: defines_method)
 - [[web-interface/web-interface/web/static/js/ta-indicators.js.md|onmessage]] (function: belongs_to)
 <!-- SYNC:END -->

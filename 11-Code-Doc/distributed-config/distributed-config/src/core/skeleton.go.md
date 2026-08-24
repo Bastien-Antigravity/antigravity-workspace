@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -9,6 +18,6 @@
 ### 🔌 Consumers (Inbound)
 - [[distributed-config/distributed-config/src/core/skeleton.go.md|NewSkeletonConfig]] (function: belongs_to)
 <!-- SYNC:END -->
-� Consumers (Inbound)
+ Consumers (Inbound)
 - [[distributed-config/distributed-config/src/core/skeleton.go.md|NewSkeletonConfig]] (function: belongs_to)
 <!-- SYNC:END -->

@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -21,5 +30,8 @@
 - [[flexible-logger/flexible-logger/src/sink/async.go.md|async.go]] (calls)
 - [[flexible-logger/flexible-logger/src/sink/multi.go.md|multi.go]] (calls)
 - [[flexible-logger/flexible-logger/src/sink/sink_test.go.md|sink_test.go]] (calls)
+- [[flexible-logger/flexible-logger/src/sink/writer.go.md|writer.go]] (calls)
+<!-- SYNC:END -->
+gger/src/sink/sink_test.go.md|sink_test.go]] (calls)
 - [[flexible-logger/flexible-logger/src/sink/writer.go.md|writer.go]] (calls)
 <!-- SYNC:END -->

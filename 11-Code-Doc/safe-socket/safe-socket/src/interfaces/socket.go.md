@@ -1,23 +1,16 @@
 ---
-source: safe-socket/src/interfaces/socket.go
-workspace: safe-socket
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:27.896090
-microservice: obsidian-brain
+microservice: 08-Base-Scripts
+type: note
+status: active
 tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: socket.go
-
-## 📝 Description
-Automatically generated mirror for `safe-socket/src/interfaces/socket.go`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - None detected
@@ -28,6 +21,3 @@ Automatically generated mirror for `safe-socket/src/interfaces/socket.go`.
 - [[safe-socket/safe-socket/src/interfaces/socket.go.md|SocketType]] (struct: belongs_to)
 - [[safe-socket/safe-socket/src/interfaces/socket.go.md|Socket]] (interface: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

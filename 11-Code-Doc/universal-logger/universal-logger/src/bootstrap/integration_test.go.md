@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -19,5 +28,8 @@
 - [[universal-logger/universal-logger/src/bootstrap/integration_test.go.md|TestConfigInjection]] (function: belongs_to)
 - [[universal-logger/universal-logger/src/bootstrap/integration_test.go.md|TestLogLevelSynchronization]] (function: belongs_to)
 - [[universal-logger/universal-logger/src/bootstrap/integration_test.go.md|TestManualNotifierBinding]] (function: belongs_to)
+- [[universal-logger/universal-logger/src/bootstrap/integration_test.go.md|TestMetadataInjection]] (function: belongs_to)
+<!-- SYNC:END -->
+ongs_to)
 - [[universal-logger/universal-logger/src/bootstrap/integration_test.go.md|TestMetadataInjection]] (function: belongs_to)
 <!-- SYNC:END -->

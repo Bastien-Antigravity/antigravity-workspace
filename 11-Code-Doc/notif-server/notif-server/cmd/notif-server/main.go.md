@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -13,11 +22,6 @@
 - [[notif-server/notif-server/src/server/server.go.md|NewServer]] (function: calls)
 - [[notif-server/notif-server/src/server/server.go.md|server.go]] (imports)
 - [[notif-server/notif-server/src/telegram/manager.go.md|manager.go]] (imports)
-
-### 🔌 Consumers (Inbound)
-- [[notif-server/notif-server/cmd/notif-server/main.go.md|main]] (function: belongs_to)
-<!-- SYNC:END -->
-]] (imports)
 
 ### 🔌 Consumers (Inbound)
 - [[notif-server/notif-server/cmd/notif-server/main.go.md|main]] (function: belongs_to)

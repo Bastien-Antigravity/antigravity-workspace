@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -18,8 +27,5 @@
 - [[log-server/log-server/src/protocols/capnp/logger_msg.rs.md|Reader<'_,>.clone]] (method: calls)
 
 ### 🔌 Consumers (Inbound)
-- [[log-server/log-server/src/core/reorder_test.rs.md|test_gap_timeout_recovery]] (function: belongs_to)
-<!-- SYNC:END -->
- 🔌 Consumers (Inbound)
 - [[log-server/log-server/src/core/reorder_test.rs.md|test_gap_timeout_recovery]] (function: belongs_to)
 <!-- SYNC:END -->

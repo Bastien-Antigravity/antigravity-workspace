@@ -32,3 +32,6 @@ tags:
 - [[microservice-toolbox/microservice-toolbox/go/pkg/lifecycle/manager_test.go.md|manager_test.go]] (same_package)
 - [[microservice-toolbox/microservice-toolbox/rust/src/lifecycle/manager.rs.md|manager.rs]] (calls)
 <!-- SYNC:END -->
+nager_test.go]] (same_package)
+- [[microservice-toolbox/microservice-toolbox/rust/src/lifecycle/manager.rs.md|manager.rs]] (calls)
+<!-- SYNC:END -->

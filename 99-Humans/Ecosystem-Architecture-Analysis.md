@@ -126,7 +126,7 @@ graph LR
     B -- check_permission --> C{Access Matrix / Firewall}
     C -- Denied --> D[Return Matrix Block Error]
     C -- Allowed --> E[Route to RAGFacade]
-    E -- query_brain --> F[(ChromaDB Vector Store)]
+    E -- query_brain --> F[(PostgreSQL pgvector Store)]
     E -- file read/write --> G[(Workspace Filesystem)]
 ```
 
@@ -136,7 +136,7 @@ graph LR
    - Enforces the `access_matrix.yaml` rules based on the active mode (e.g., blocking markdown read in Mode 1).
    - Enforces directory restrictions, rejecting write calls outside of registered fleet directories.
    - Prevents code modification or reading if restricted by the active mode.
-3. **Persisted Vector DB** (`chroma_store.py`): Uses local `sentence-transformers` (`all-MiniLM-L6-v2`) to embed document chunks in a ChromaDB database offline.
+3. **Persisted Vector DB** (`pgvector.py`): Uses local embeddings (`BAAI/bge-m3`) to store document chunks in a PostgreSQL/pgvector database offline.
 4. **File Watcher** (`file_watcher.py`): Observes the filesystem using Python `watchdog`. Debounces file creation/modification events with a `0.5s` quiet-window before invoking the incremental indexer.
 
 ---

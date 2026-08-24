@@ -1,23 +1,16 @@
 ---
-source: web-interface/src/router/dynamic.go
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:30.194133
-microservice: obsidian-brain
+microservice: 08-Base-Scripts
+type: note
+status: active
 tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: dynamic.go
-
-## 📝 Description
-Automatically generated mirror for `web-interface/src/router/dynamic.go`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/src/fundamental_analysis/fundamental_analysis.go.md|GetTopStocks]] (function: calls)
@@ -32,6 +25,3 @@ Automatically generated mirror for `web-interface/src/router/dynamic.go`.
 - [[web-interface/web-interface/src/router/router.go.md|router.go]] (calls)
 - [[web-interface/web-interface/src/router/router.go.md|router.go]] (same_package)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

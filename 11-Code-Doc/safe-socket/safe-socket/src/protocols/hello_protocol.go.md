@@ -1,23 +1,16 @@
 ---
-source: safe-socket/src/protocols/hello_protocol.go
-workspace: safe-socket
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:27.867397
-microservice: obsidian-brain
+microservice: 08-Base-Scripts
+type: note
+status: active
 tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: hello_protocol.go
-
-## 📝 Description
-Automatically generated mirror for `safe-socket/src/protocols/hello_protocol.go`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[safe-socket/safe-socket/src/interfaces/transport.go.md|transport.go]] (imports)
@@ -59,6 +52,3 @@ Automatically generated mirror for `safe-socket/src/protocols/hello_protocol.go`
 - [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|HelloProtocol]] (struct: defines_method)
 - [[safe-socket/safe-socket/src/protocols/hello_protocol.go.md|NewHelloProtocol]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -28,6 +37,10 @@
 - [[web-interface/web-interface/cmd/web-interface/main_test.go.md|mockLogger.Stream]] (method: defines_method)
 - [[web-interface/web-interface/cmd/web-interface/main_test.go.md|mockLogger.Trade]] (method: defines_method)
 - [[web-interface/web-interface/cmd/web-interface/main_test.go.md|mockLogger.Warning]] (method: defines_method)
+- [[web-interface/web-interface/src/mfe/registry.go.md|NewRegistry]] (function: calls)
+- [[web-interface/web-interface/src/mfe/registry.go.md|Registry.RegisterHandlers]] (method: calls)
+- [[web-interface/web-interface/src/mfe/registry.go.md|registry.go]] (imports)
+- [[web-interface/web-interface/src/renderer/renderer.go.md|renderer.go]] (imports)
 - [[web-interface/web-interface/src/router/router.go.md|RegisterRoutes]] (function: calls)
 - [[web-interface/web-interface/src/router/static.go.md|static.go]] (imports)
 
@@ -37,6 +50,7 @@
 - [[web-interface/web-interface/cmd/web-interface/main.go.md|main.go]] (calls)
 - [[web-interface/web-interface/cmd/web-interface/main.go.md|main.go]] (same_package)
 - [[web-interface/web-interface/cmd/web-interface/main_test.go.md|TestConcatenatedJSEndpoints]] (function: belongs_to)
+- [[web-interface/web-interface/cmd/web-interface/main_test.go.md|TestOpenMFERegistrationAPIAndFluidLayout]] (function: belongs_to)
 - [[web-interface/web-interface/cmd/web-interface/main_test.go.md|TestSetupRoutesAndRendering]] (function: belongs_to)
 - [[web-interface/web-interface/cmd/web-interface/main_test.go.md|TestSetupRoutesMFERouting]] (function: belongs_to)
 - [[web-interface/web-interface/cmd/web-interface/main_test.go.md|init]] (function: belongs_to)

@@ -244,7 +244,7 @@ The **09-RAG-Engine** is a localized, offline vector database indexer that integ
 
 ### Dynamic Architecture
 - **Dynamic Virtual Environment**: The system automatically utilizes the central vault `.venv` if configured; otherwise, it falls back to the RAG subfolder virtual environment.
-- **Sovereign Embeddings**: Runs 100% offline using `SentenceTransformer` (`all-MiniLM-L6-v2`) inside a local `ChromaDB` instance, keeping all intellectual property strictly offline and local.
+- **Sovereign Embeddings**: Runs 100% offline using `BAAI/bge-m3` embeddings inside a local `PostgreSQL` (pgvector) database, keeping all intellectual property strictly offline and local.
 - **Automatic Event Watcher**: Spawns a background file watcher daemon (`watcher.py`) with a thread-safe `0.5s` debounced quiet-window when starting the squad session. When you edit, rename, or delete any note in Obsidian, the index updates instantly in the background.
 
 ### Core RAG Tools

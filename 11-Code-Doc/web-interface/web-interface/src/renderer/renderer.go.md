@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -8,6 +17,7 @@
 
 ### 🔌 Consumers (Inbound)
 - [[web-interface/web-interface/cmd/web-interface/main.go.md|main.go]] (imports)
+- [[web-interface/web-interface/cmd/web-interface/main_test.go.md|main_test.go]] (imports)
 - [[web-interface/web-interface/src/renderer/renderer.go.md|PageData]] (struct: belongs_to)
 - [[web-interface/web-interface/src/renderer/renderer.go.md|RenderPage]] (function: belongs_to)
 - [[web-interface/web-interface/src/router/dynamic.go.md|dynamic.go]] (calls)

@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -15,5 +24,8 @@
 - [[distributed-config/distributed-config/src/cgo_bridge/networking.go.md|networking.go]] (same_package)
 - [[distributed-config/distributed-config/src/cgo_bridge/sanitizer.go.md|sanitizeString]] (function: belongs_to)
 - [[distributed-config/distributed-config/src/cgo_bridge/security.go.md|security.go]] (calls)
+- [[distributed-config/distributed-config/src/cgo_bridge/security.go.md|security.go]] (same_package)
+<!-- SYNC:END -->
+y.go.md|security.go]] (calls)
 - [[distributed-config/distributed-config/src/cgo_bridge/security.go.md|security.go]] (same_package)
 <!-- SYNC:END -->

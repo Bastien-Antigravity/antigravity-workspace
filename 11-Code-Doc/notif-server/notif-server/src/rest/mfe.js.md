@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -47,5 +56,8 @@
 - [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE.renderSkeleton]] (method: belongs_to)
 - [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE]] (class: belongs_to)
 - [[notif-server/notif-server/src/rest/mfe.js.md|NotifServerMFE]] (class: defines_method)
+- [[notif-server/notif-server/src/rest/mfe.js.md|ggerEdit = ]] (function: belongs_to)
+<!-- SYNC:END -->
+.md|NotifServerMFE]] (class: defines_method)
 - [[notif-server/notif-server/src/rest/mfe.js.md|ggerEdit = ]] (function: belongs_to)
 <!-- SYNC:END -->

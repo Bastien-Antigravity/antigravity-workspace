@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -20,5 +29,8 @@
 - [[universal-logger/universal-logger/src/config/config_handler.go.md|DistConfig.SetConfig]] (method: belongs_to)
 - [[universal-logger/universal-logger/src/config/config_handler.go.md|DistConfig]] (struct: belongs_to)
 - [[universal-logger/universal-logger/src/config/config_handler.go.md|DistConfig]] (struct: defines_method)
+- [[universal-logger/universal-logger/src/config/config_handler.go.md|NewDistributedConfig]] (function: belongs_to)
+<!-- SYNC:END -->
+efines_method)
 - [[universal-logger/universal-logger/src/config/config_handler.go.md|NewDistributedConfig]] (function: belongs_to)
 <!-- SYNC:END -->

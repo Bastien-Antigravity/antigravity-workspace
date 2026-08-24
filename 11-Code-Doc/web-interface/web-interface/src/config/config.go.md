@@ -1,28 +1,16 @@
-
-
-## 🏗️ Architectural Context
-
-<!-- SYNC:START -->
-### 📦 Dependencies (Outbound)
-- None detected
-
-### 🔌 Consumers (Inbound)
-- None detected
-<!-- SYNC:END -->
-dian-brain
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
 tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: config.go
-
-## 📝 Description
-Automatically generated mirror for `web-interface/src/config/config.go`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - None detected
@@ -30,6 +18,3 @@ Automatically generated mirror for `web-interface/src/config/config.go`.
 ### 🔌 Consumers (Inbound)
 - None detected
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

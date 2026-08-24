@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -7,10 +16,6 @@
 - None detected
 
 ### 🔌 Consumers (Inbound)
-- [[universal-logger/universal-logger/src/cgo_bridge/distconf_bridge.go.md|distconf_bridge.go]] (calls)
-- [[universal-logger/universal-logger/src/cgo_bridge/notif_callback.go.md|notif_callback.go]] (calls)
-- [[universal-logger/universal-logger/src/cgo_bridge/vba_message_pump.go.md|vba_message_pump.go]] (calls)
-- [[universal-logger/universal-logger/src/cgo_bridge/vba_message_pump_stub.go.md|vba_message_pump_stub.go]] (calls)
 - [[universal-logger/universal-logger/unilog/cpp/UniversalLogger.hpp.md|UniversalLogger.hpp]] (imports)
 - [[universal-logger/universal-logger/unilog/libunilog/libunilog.h.md|DISTCONF_ERR_DECRYPTION_FAILED]] (macro: belongs_to)
 - [[universal-logger/universal-logger/unilog/libunilog/libunilog.h.md|DISTCONF_ERR_GENERIC]] (macro: belongs_to)

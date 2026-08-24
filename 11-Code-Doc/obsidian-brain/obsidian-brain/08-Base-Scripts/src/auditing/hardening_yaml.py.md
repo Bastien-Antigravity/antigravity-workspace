@@ -1,23 +1,16 @@
 ---
-source: obsidian-brain/08-Base-Scripts/src/auditing/hardening_yaml.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-11 13:22:10.815461
 microservice: 08-Base-Scripts
+type: note
+status: active
 tags:
 - '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: hardening_yaml.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/auditing/hardening_yaml.py`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/bootstrap.py.md|bootstrap.py]] (imports)
@@ -37,6 +30,3 @@ Automatically generated mirror for `obsidian-brain/08-Base-Scripts/src/auditing/
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/preflight_check.py.md|preflight_check.py]] (calls)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/preflight_check.py.md|preflight_check.py]] (same_package)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -18,6 +27,8 @@
 ### 🔌 Consumers (Inbound)
 - [[web-interface/web-interface/cmd/web-interface/main.go.md|main.go]] (calls)
 - [[web-interface/web-interface/cmd/web-interface/main.go.md|main.go]] (imports)
+- [[web-interface/web-interface/cmd/web-interface/main_test.go.md|main_test.go]] (calls)
+- [[web-interface/web-interface/cmd/web-interface/main_test.go.md|main_test.go]] (imports)
 - [[web-interface/web-interface/src/mfe/registry.go.md|NewRegistry]] (function: belongs_to)
 - [[web-interface/web-interface/src/mfe/registry.go.md|Registry.List]] (method: belongs_to)
 - [[web-interface/web-interface/src/mfe/registry.go.md|Registry.RegisterHandlers]] (method: belongs_to)

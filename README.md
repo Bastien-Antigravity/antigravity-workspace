@@ -36,7 +36,29 @@ This Brain is an **Operational Engine**. Use the following scripts to govern the
     export DEEPSEEK_BASE_URL="https://api.deepseek.com"
     export DEEPSEEK_MODEL="deepseek-chat"
     ```
-    `DEEPSEEK_BASE_URL` and `DEEPSEEK_MODEL` are optional. See .
+    `DEEPSEEK_BASE_URL` and `DEEPSEEK_MODEL` are optional. See [AI-Client-Startup-Guide.md](99-Humans/AI-Client-Startup-Guide.md).
+
+---
+
+## ⚡ Quick Start: RAG Database Hydration (PostgreSQL + pgvector)
+
+When cloning this project from GitHub, spin up the local `pgvector` database and hydrate RAG data in seconds:
+
+```bash
+# 1. Start PostgreSQL with pgvector container (runs on port 5432)
+docker-compose -f docker-compose.db.yml up -d
+
+# 2. Setup RAG Engine python virtualenv
+cd 09-RAG-Engine
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Hydrate local database from repository seed package
+python3 main.py import-seed --in data/seed
+
+# 4. Export updated seed dataset (when modifying docs or code)
+python3 main.py export-seed --out data/seed
+```
 
 ---
 
@@ -111,7 +133,7 @@ Regardless of how you interact with the AI, every session MUST be initialized co
 
 ## 🧠 The Semantic Search Engine (RAG-mcp)
 To guarantee optimal token efficiency during AI squad sessions, the repository features an integrated Model Context Protocol (MCP) server: ****.
-* **Offline Embeddings**: Uses a local vector database index via ChromaDB and `all-MiniLM-L6-v2` SentenceTransformers to perform sub-paragraph level queries.
+* **Offline Embeddings**: Uses a local vector database index via PostgreSQL (pgvector) and `BAAI/bge-m3` embeddings to perform sub-paragraph level queries.
 * **Auto-Watcher**: Silently starts a background thread-safe file watcher directly inside the FastMCP server process with a `0.5s` quiet-window debounce to capture note updates instantly without SQLite lock contentions.
 * **Custom Tools**: Exposes `query_brain`, `get_brain_stats`, and semantic graph lookups via `find_similar_files`.
 

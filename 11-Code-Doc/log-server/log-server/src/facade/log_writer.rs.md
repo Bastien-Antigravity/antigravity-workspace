@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -42,8 +51,5 @@
 - [[log-server/log-server/src/facade/log_writer.rs.md|WriterConfig]] (struct: belongs_to)
 - [[log-server/log-server/src/facade/log_writer.rs.md|WriterConfig]] (struct: defines_method)
 - [[log-server/log-server/src/lib.rs.md|lib.rs]] (imports)
-- [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (calls)
-<!-- SYNC:END -->
--server/log-server/src/lib.rs.md|lib.rs]] (imports)
 - [[log-server/log-server/src/utils/terminal_ui.rs.md|terminal_ui.rs]] (calls)
 <!-- SYNC:END -->

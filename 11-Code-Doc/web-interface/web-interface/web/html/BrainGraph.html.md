@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -41,8 +50,5 @@
 - [[web-interface/web-interface/web/static/js/parts/cytoscape_part6.js.md|cytoscape_part6.js]] (calls)
 - [[web-interface/web-interface/web/static/js/parts/cytoscape_part7.js.md|cytoscape_part7.js]] (calls)
 - [[web-interface/web-interface/web/static/js/parts/cytoscape_part8.js.md|cytoscape_part8.js]] (calls)
-- [[web-interface/web-interface/web/static/js/parts/cytoscape_part9.js.md|cytoscape_part9.js]] (calls)
-<!-- SYNC:END -->
-ytoscape_part8.js]] (calls)
 - [[web-interface/web-interface/web/static/js/parts/cytoscape_part9.js.md|cytoscape_part9.js]] (calls)
 <!-- SYNC:END -->

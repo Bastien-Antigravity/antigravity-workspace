@@ -1,23 +1,16 @@
 ---
-source: sandbox-testing/02-Scenarios/go/orderbook_ingestion_test.go
-workspace: sandbox-testing
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:28.167355
-microservice: obsidian-brain
+microservice: 08-Base-Scripts
+type: note
+status: active
 tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: orderbook_ingestion_test.go
-
-## 📝 Description
-Automatically generated mirror for `sandbox-testing/02-Scenarios/go/orderbook_ingestion_test.go`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - None detected
@@ -26,6 +19,3 @@ Automatically generated mirror for `sandbox-testing/02-Scenarios/go/orderbook_in
 - [[sandbox-testing/sandbox-testing/02-Scenarios/go/orderbook_ingestion_test.go.md|OrderbookEvent]] (struct: belongs_to)
 - [[sandbox-testing/sandbox-testing/02-Scenarios/go/orderbook_ingestion_test.go.md|TestOrderbookIngestion]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

@@ -1,24 +1,16 @@
-
-
-## 🏗️ Architectural Context
-
-<!-- SYNC:START -->
-### 📦 Dependencies (Outbound)
-- None detected
-
-### 🔌 Consumers (Inbound)
-- [[sandbox-testing/sandbox-testing/02-Scenarios/go/test_job.py.md|test_func]] (function: belongs_to)
-<!-- SYNC:END -->
-e/auto-generated'
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
 - '#zone/3-fleet'
 ---
 
-# Mirror: test_job.py
-
-## 📝 Description
-Automatically generated mirror for `sandbox-testing/02-Scenarios/go/test_job.py`.
-
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - None detected
@@ -26,6 +18,3 @@ Automatically generated mirror for `sandbox-testing/02-Scenarios/go/test_job.py`
 ### 🔌 Consumers (Inbound)
 - [[sandbox-testing/sandbox-testing/02-Scenarios/go/test_job.py.md|test_func]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

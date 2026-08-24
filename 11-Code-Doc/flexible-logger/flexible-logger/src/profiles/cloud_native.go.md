@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -29,13 +38,3 @@
 - [[flexible-logger/flexible-logger/src/profiles/cloud_native.go.md|NewCloudLogger]] (function: belongs_to)
 - [[flexible-logger/flexible-logger/src/profiles/cloud_native.go.md|ServerCap]] (struct: belongs_to)
 <!-- SYNC:END -->
-ogger/flexible-logger/src/sink/multi.go.md|NewMultiSink]] (function: calls)
-- [[flexible-logger/flexible-logger/src/sink/writer.go.md|NewWriterSink]] (function: calls)
-
-### 🔌 Consumers (Inbound)
-- [[flexible-logger/flexible-logger/src/profiles/cloud_native.go.md|NewCloudLogger]] (function: belongs_to)
-- [[flexible-logger/flexible-logger/src/profiles/cloud_native.go.md|ServerCap]] (struct: belongs_to)
-<!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

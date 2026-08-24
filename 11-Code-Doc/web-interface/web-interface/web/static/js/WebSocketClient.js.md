@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -42,8 +51,5 @@
 - [[web-interface/web-interface/web/static/lib/bastien-ui.js.md|bastien-ui.js]] (calls)
 - [[web-interface/web-interface/web/static/lib/components/ComponentRegistry.js.md|ComponentRegistry.js]] (calls)
 - [[web-interface/web-interface/web/static/lib/layout/LayoutManager.js.md|LayoutManager.js]] (calls)
-- [[web-interface/web-interface/web/static/lib/theme/ThemeEngine.js.md|ThemeEngine.js]] (calls)
-<!-- SYNC:END -->
-js.md|LayoutManager.js]] (calls)
 - [[web-interface/web-interface/web/static/lib/theme/ThemeEngine.js.md|ThemeEngine.js]] (calls)
 <!-- SYNC:END -->

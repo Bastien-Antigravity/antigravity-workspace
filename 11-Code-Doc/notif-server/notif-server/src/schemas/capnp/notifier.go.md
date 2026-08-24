@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -66,8 +75,5 @@
 - [[notif-server/notif-server/src/schemas/capnp/notifier.go.md|NotifierMsg_TypeID]] (constant: belongs_to)
 - [[notif-server/notif-server/src/schemas/capnp/notifier.go.md|ReadRootNotifierMsg]] (function: belongs_to)
 - [[notif-server/notif-server/src/schemas/capnp/notifier.go.md|RegisterSchema]] (function: belongs_to)
-- [[notif-server/notif-server/src/schemas/capnp/notifier.go.md|schema_cd0e7dad96752db7]] (constant: belongs_to)
-<!-- SYNC:END -->
-ction: belongs_to)
 - [[notif-server/notif-server/src/schemas/capnp/notifier.go.md|schema_cd0e7dad96752db7]] (constant: belongs_to)
 <!-- SYNC:END -->

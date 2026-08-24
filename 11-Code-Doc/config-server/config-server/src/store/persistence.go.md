@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -26,5 +35,8 @@
 - [[config-server/config-server/src/store/persistence.go.md|PersistenceManager]] (struct: belongs_to)
 - [[config-server/config-server/src/store/persistence.go.md|PersistenceManager]] (struct: defines_method)
 - [[config-server/config-server/src/store/persistence_test.go.md|persistence_test.go]] (calls)
+- [[config-server/config-server/src/store/persistence_test.go.md|persistence_test.go]] (same_package)
+<!-- SYNC:END -->
+ersistence_test.go]] (calls)
 - [[config-server/config-server/src/store/persistence_test.go.md|persistence_test.go]] (same_package)
 <!-- SYNC:END -->

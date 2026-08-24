@@ -1,4 +1,13 @@
-
+---
+microservice: 08-Base-Scripts
+type: note
+status: active
+tags:
+- '#service/08-Base-Scripts'
+- '#type/note'
+- '#state/active'
+- '#zone/3-fleet'
+---
 
 ## 🏗️ Architectural Context
 
@@ -177,73 +186,3 @@
 - [[config-server/config-server/src/grpc_control/grpc_service.go.md|grpc_service.go]] (calls)
 - [[config-server/config-server/src/grpc_control/grpc_service.go.md|grpc_service.go]] (same_package)
 <!-- SYNC:END -->
-.md|grpc_service.go]] (calls)
-- [[config-server/config-server/src/grpc_control/grpc_service.go.md|grpc_service.go]] (same_package)
-<!-- SYNC:END -->
-
-
-<!-- SYNC:START -->
-### 📦 Dependencies (Outbound)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.GetErrorCode]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.GetMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.GetSuccess]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.GetTimestamp]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ControlResponse.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigRequest.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigRequest.GetKey]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigRequest.GetSection]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigRequest.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigRequest.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigRequest.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigRequest.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.GetSuccess]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.GetTimestamp]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.GetValue]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetConfigResponse.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusRequest.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusRequest.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusRequest.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusRequest.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusRequest.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.GetActiveClients]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.GetClientNames]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.GetHealthy]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.GetStatus]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.GetTimestamp]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.GetVersion]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|GetStatusResponse.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigRequest.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigRequest.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigRequest.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigRequest.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigRequest.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.GetJsonConfig]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.GetSuccess]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.GetTimestamp]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ListConfigResponse.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|PersistConfigRequest.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|PersistConfigRequest.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|PersistConfigRequest.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|PersistConfigRequest.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|PersistConfigRequest.String]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ReloadConfigRequest.Descriptor]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ReloadConfigRequest.ProtoMessage]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ReloadConfigRequest.ProtoReflect]] (method: defines_method)
-- [[config-server/config-server/src/grpc_control/config_server.pb.go.md|ReloadConfigRequest.Reset]] (method: defines_method)
-- [[config-server/config-server/src/grpc_c

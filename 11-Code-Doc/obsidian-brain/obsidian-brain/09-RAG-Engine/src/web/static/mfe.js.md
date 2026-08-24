@@ -4,6 +4,7 @@
 
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/web/static/mfe.js.md|BaseScriptsMFE.        ]] (method: calls)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/mfe.js.md|ObsidianBrainMFE. if (!text]] (method: defines_method)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/mfe.js.md|ObsidianBrainMFE.Line(terminal, tex]] (method: defines_method)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/mfe.js.md|ObsidianBrainMFE.View(container) ]] (method: defines_method)
