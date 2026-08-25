@@ -72,6 +72,9 @@ zzz_memo
 temp/
 
 # --- Standard Ecosystem Protections ---
+08-Base-Scripts/logs/
+09-RAG-Engine/logs/
+logs/
 *.log
 *.pyc
 .venv/

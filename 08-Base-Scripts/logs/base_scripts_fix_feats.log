@@ -1,5 +1,0 @@
-2026-07-12T23:04:33.653868000Z    iMac.local   base_scripts_fix_feats INFO       loader.py            set_logger                483    AppConfig : Logger updated successfully [metadata: mod=microservice_toolbox.config.loader]
-2026-07-12T23:04:33.716089000Z    iMac.local   base_scripts_fix_feats INFO       pg_pool.py           get_pg_pool               68     SharedPool : Connecting to 127.0.0.1:5432 (database=obsidiandb) [metadata: mod=lib.pg_pool]
-2026-07-12T23:04:33.842928000Z    iMac.local   base_scripts_fix_feats INFO       memory.py            _init_db                  109    PostgresMemoryStore : Initialised database schema '08-Base-Scripts' [metadata: mod=lib.memory]
-2026-07-12T23:04:33.855780000Z    iMac.local   base_scripts_fix_feats INFO       fix_feats.py         process_feats             97     FeatFixer : Starting FEAT file standardization... [metadata: mod=src.fleet.fix_feats]
-2026-07-12T23:04:33.953069000Z    iMac.local   base_scripts_fix_feats INFO       fix_feats.py         process_feats             117    FeatFixer : FEAT file standardization complete. [metadata: mod=src.fleet.fix_feats]
