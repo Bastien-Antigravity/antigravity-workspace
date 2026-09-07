@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -72,5 +63,8 @@ tags:
 - [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|LoadConfig]] (function: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/config/AppConfig.hpp.md|MICROSERVICE_TOOLBOX_APP_CONFIG_HPP]] (macro: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (calls)
+- [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (imports)
+<!-- SYNC:END -->
+eck.cpp]] (calls)
 - [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (imports)
 <!-- SYNC:END -->

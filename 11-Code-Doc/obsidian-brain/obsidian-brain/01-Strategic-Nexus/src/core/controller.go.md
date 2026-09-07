@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -34,5 +25,8 @@ tags:
 - [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|StrategicController]] (struct: defines_method)
 - [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|erns(content string) []] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|ontent string) []] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|string) string ]] (function: belongs_to)
+<!-- SYNC:END -->
+elongs_to)
 - [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|string) string ]] (function: belongs_to)
 <!-- SYNC:END -->

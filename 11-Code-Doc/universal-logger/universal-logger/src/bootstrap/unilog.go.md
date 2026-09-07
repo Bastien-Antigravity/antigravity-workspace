@@ -32,6 +32,7 @@ tags:
 - [[universal-logger/universal-logger/src/bootstrap/resilience_test.go.md|resilience_test.go]] (calls)
 - [[universal-logger/universal-logger/src/bootstrap/resilience_test.go.md|resilience_test.go]] (same_package)
 - [[universal-logger/universal-logger/src/bootstrap/unilog.go.md|BootstrapOptions]] (struct: belongs_to)
+- [[universal-logger/universal-logger/src/bootstrap/unilog.go.md|InitService]] (function: belongs_to)
 - [[universal-logger/universal-logger/src/bootstrap/unilog.go.md|InitWithOptions]] (function: belongs_to)
 - [[universal-logger/universal-logger/src/bootstrap/unilog.go.md|Init]] (function: belongs_to)
 - [[universal-logger/universal-logger/src/bootstrap/unilog_test.go.md|unilog_test.go]] (calls)

@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -78,5 +69,8 @@ tags:
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/web/static/mfe.js.md|BaseScriptsMFE]] (class: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/web/static/mfe.js.md|BaseScriptsMFE]] (class: defines_method)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/web/static/mfe.js.md|tBox.va]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/mfe.js.md|mfe.js]] (calls)
+<!-- SYNC:END -->
+e.js.md|tBox.va]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/mfe.js.md|mfe.js]] (calls)
 <!-- SYNC:END -->

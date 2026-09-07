@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -72,8 +63,5 @@ tags:
 - [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig]] (class: belongs_to)
 - [[distributed-config/distributed-config/distconf/cpp/DistConf.hpp.md|DistConfig]] (class: defines_method)
 - [[distributed-config/distributed-config/distconf/cpp/examples/basic_usage.cpp.md|basic_usage.cpp]] (calls)
-- [[distributed-config/distributed-config/distconf/cpp/examples/basic_usage.cpp.md|basic_usage.cpp]] (imports)
-<!-- SYNC:END -->
-usage.cpp]] (calls)
 - [[distributed-config/distributed-config/distconf/cpp/examples/basic_usage.cpp.md|basic_usage.cpp]] (imports)
 <!-- SYNC:END -->

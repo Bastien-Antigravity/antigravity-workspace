@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -38,5 +29,8 @@ tags:
 - [[flexible-logger/flexible-logger/cmd/test-log-server/connection_test.go.md|connection_test.go]] (calls)
 - [[flexible-logger/flexible-logger/cmd/test-log-server/main.go.md|main.go]] (calls)
 - [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|NewNoLockLogger]] (function: belongs_to)
+- [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|ServerCap]] (struct: belongs_to)
+<!-- SYNC:END -->
+ockLogger]] (function: belongs_to)
 - [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|ServerCap]] (struct: belongs_to)
 <!-- SYNC:END -->

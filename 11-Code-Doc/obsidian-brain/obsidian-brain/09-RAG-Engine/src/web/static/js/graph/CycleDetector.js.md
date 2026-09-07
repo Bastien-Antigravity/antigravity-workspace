@@ -15,5 +15,3 @@
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/graph/CycleDetector.js.md|isCyclicNode]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/graph/CycleDetector.js.md|strongConnect]] (function: belongs_to)
 <!-- SYNC:END -->
-- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/graph/CycleDetector.js.md|strongConnect]] (function: belongs_to)
-<!-- SYNC:END -->

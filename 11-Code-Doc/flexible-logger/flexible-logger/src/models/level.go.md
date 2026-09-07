@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -33,5 +24,8 @@ tags:
 - [[flexible-logger/flexible-logger/src/models/level.go.md|Level]] (struct: defines_method)
 - [[flexible-logger/flexible-logger/src/models/level.go.md|ParseLevel]] (function: belongs_to)
 - [[flexible-logger/flexible-logger/src/models/level_test.go.md|level_test.go]] (calls)
+- [[flexible-logger/flexible-logger/src/models/level_test.go.md|level_test.go]] (same_package)
+<!-- SYNC:END -->
+_test.go.md|level_test.go]] (calls)
 - [[flexible-logger/flexible-logger/src/models/level_test.go.md|level_test.go]] (same_package)
 <!-- SYNC:END -->

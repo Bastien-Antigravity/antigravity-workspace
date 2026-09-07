@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -34,4 +25,6 @@ tags:
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/check_coherence.py.md|run_coherence_check]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/check_coherence.py.md|strip_frontmatter]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/check_coherence.py.md|strip_sandbox_headers]] (function: belongs_to)
+<!-- SYNC:END -->
+ [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/auditing/check_coherence.py.md|strip_sandbox_headers]] (function: belongs_to)
 <!-- SYNC:END -->

@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -19,6 +10,7 @@ tags:
 - [[microservice-toolbox/microservice-toolbox/go/pkg/config/loader.go.md|loader.go]] (same_package)
 
 ### 🔌 Consumers (Inbound)
+- [[microservice-toolbox/microservice-toolbox/go/pkg/bootstrap/bootstrap.go.md|bootstrap.go]] (imports)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/config/args_test.go.md|TestDockerGuard]] (function: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/config/args_test.go.md|TestNativeMode]] (function: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/integration/expansion_check.go.md|expansion_check.go]] (imports)

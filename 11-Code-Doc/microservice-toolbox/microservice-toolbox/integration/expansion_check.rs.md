@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -19,5 +10,8 @@ tags:
 - [[microservice-toolbox/microservice-toolbox/rust/src/config/mod.rs.md|mod.rs]] (imports)
 
 ### 🔌 Consumers (Inbound)
+- [[microservice-toolbox/microservice-toolbox/integration/expansion_check.rs.md|main]] (function: belongs_to)
+<!-- SYNC:END -->
+ Consumers (Inbound)
 - [[microservice-toolbox/microservice-toolbox/integration/expansion_check.rs.md|main]] (function: belongs_to)
 <!-- SYNC:END -->

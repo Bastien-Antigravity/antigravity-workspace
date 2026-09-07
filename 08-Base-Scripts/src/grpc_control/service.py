@@ -61,14 +61,20 @@ class SquadControlServiceImpl(squad_control_pb2_grpc.SquadControlServiceServicer
                 message=str(e)
             )
 
+_grpc_server = None
+
 async def start_grpc_server(controller, ip, port, logger):
     """Initializes and starts the asynchronous Squad Control gRPC server."""
-    server = grpc.aio.server()
+    global _grpc_server
+    _grpc_server = grpc.aio.server()
     squad_control_pb2_grpc.add_SquadControlServiceServicer_to_server(
-        SquadControlServiceImpl(controller, logger), server
+        SquadControlServiceImpl(controller, logger), _grpc_server
     )
     listen_addr = f"{ip}:{port}"
-    server.add_insecure_port(listen_addr)
-    logger.info(f"Starting gRPC Squad Control server on {listen_addr}...")
-    await server.start()
-    return server
+    bound_port = _grpc_server.add_insecure_port(listen_addr)
+    if bound_port == 0:
+        logger.error(f"Failed to bind gRPC Squad Control server on {listen_addr}")
+        return None
+    logger.info(f"Starting gRPC Squad Control server on {listen_addr} (bound port: {bound_port})...")
+    await _grpc_server.start()
+    return _grpc_server

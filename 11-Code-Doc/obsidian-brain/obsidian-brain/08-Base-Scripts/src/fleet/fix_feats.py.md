@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -27,5 +18,8 @@ tags:
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|_move_root_feats]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|_process_single_file]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|main]] (function: belongs_to)
+- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|process_feats]] (function: belongs_to)
+<!-- SYNC:END -->
+on: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|process_feats]] (function: belongs_to)
 <!-- SYNC:END -->
