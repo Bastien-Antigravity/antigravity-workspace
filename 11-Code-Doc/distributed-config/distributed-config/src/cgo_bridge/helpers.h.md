@@ -17,6 +17,3 @@
 - [[distributed-config/distributed-config/src/cgo_bridge/helpers.h.md|DISTCONF_SUCCESS]] (macro: belongs_to)
 - [[distributed-config/distributed-config/src/cgo_bridge/helpers.h.md|HELPERS_H]] (macro: belongs_to)
 <!-- SYNC:END -->
-UCCESS]] (macro: belongs_to)
-- [[distributed-config/distributed-config/src/cgo_bridge/helpers.h.md|HELPERS_H]] (macro: belongs_to)
-<!-- SYNC:END -->

@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -27,5 +18,8 @@ tags:
 - [[distributed-config/distributed-config/distributed_config.go.md|ProcessNode]] (function: belongs_to)
 - [[distributed-config/distributed-config/distributed_config.go.md|ResolveConfigPath]] (function: belongs_to)
 - [[distributed-config/distributed-config/src/cgo_bridge/initialize.go.md|initialize.go]] (imports)
+- [[distributed-config/distributed-config/src/cgo_bridge/security.go.md|security.go]] (imports)
+<!-- SYNC:END -->
+ze.go.md|initialize.go]] (imports)
 - [[distributed-config/distributed-config/src/cgo_bridge/security.go.md|security.go]] (imports)
 <!-- SYNC:END -->

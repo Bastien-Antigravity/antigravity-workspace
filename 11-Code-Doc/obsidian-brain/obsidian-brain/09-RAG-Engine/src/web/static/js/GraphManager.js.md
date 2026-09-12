@@ -76,6 +76,3 @@
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/GraphManager.js.md|GraphManager]] (class: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/GraphManager.js.md|GraphManager]] (class: defines_method)
 <!-- SYNC:END -->
-gs_to)
-- [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/web/static/js/GraphManager.js.md|GraphManager]] (class: defines_method)
-<!-- SYNC:END -->

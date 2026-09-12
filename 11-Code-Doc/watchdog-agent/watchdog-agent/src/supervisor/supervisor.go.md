@@ -1,23 +1,7 @@
----
-source: watchdog-agent/src/supervisor/supervisor.go
-workspace: watchdog-agent
-type: code-mirror
-status: auto-generated
-last_sync: 2026-08-05 14:15:03.702223
-microservice: 08-Base-Scripts
-tags:
-- '#service/08-Base-Scripts'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: supervisor.go
-
-## 📝 Description
-Automatically generated mirror for `watchdog-agent/src/supervisor/supervisor.go`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[watchdog-agent/watchdog-agent/src/utils/lock_windows.go.md|lock_windows.go]] (imports)
@@ -43,6 +27,3 @@ Automatically generated mirror for `watchdog-agent/src/supervisor/supervisor.go`
 - [[watchdog-agent/watchdog-agent/src/supervisor/supervisor.go.md|RegisterCmd]] (function: belongs_to)
 - [[watchdog-agent/watchdog-agent/src/supervisor/supervisor.go.md|UnregisterCmd]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

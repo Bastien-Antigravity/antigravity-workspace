@@ -9,8 +9,3 @@
 ### 🔌 Consumers (Inbound)
 - [[flexible-logger/flexible-logger/src/interfaces/logger.go.md|Logger]] (interface: belongs_to)
 <!-- SYNC:END -->
-ts)
-
-### 🔌 Consumers (Inbound)
-- [[flexible-logger/flexible-logger/src/interfaces/logger.go.md|Logger]] (interface: belongs_to)
-<!-- SYNC:END -->

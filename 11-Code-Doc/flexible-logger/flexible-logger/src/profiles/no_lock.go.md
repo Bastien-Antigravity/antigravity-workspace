@@ -31,6 +31,3 @@
 - [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|NewNoLockLogger]] (function: belongs_to)
 - [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|ServerCap]] (struct: belongs_to)
 <!-- SYNC:END -->
-ockLogger]] (function: belongs_to)
-- [[flexible-logger/flexible-logger/src/profiles/no_lock.go.md|ServerCap]] (struct: belongs_to)
-<!-- SYNC:END -->

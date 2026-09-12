@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -37,8 +28,5 @@ tags:
 - [[web-interface/web-interface/web/static/js/parts/layout_part1.js.md|layout_part1.js]] (calls)
 - [[web-interface/web-interface/web/static/js/parts/layout_part4.js.md|layout_part4.js]] (calls)
 - [[web-interface/web-interface/web/static/js/parts/layout_part5.js.md|layout_part5.js]] (calls)
-- [[web-interface/web-interface/web/static/lib/layout/LayoutManager.js.md|LayoutManager.js]] (calls)
-<!-- SYNC:END -->
-.md|layout_part5.js]] (calls)
 - [[web-interface/web-interface/web/static/lib/layout/LayoutManager.js.md|LayoutManager.js]] (calls)
 <!-- SYNC:END -->

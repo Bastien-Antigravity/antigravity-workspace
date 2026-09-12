@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -20,8 +11,5 @@ tags:
 
 ### 🔌 Consumers (Inbound)
 - [[distributed-config/distributed-config/distconf/python/ffi_validation.py.md|LIB_PATH]] (constant: belongs_to)
-- [[distributed-config/distributed-config/distconf/python/ffi_validation.py.md|validate_ffi]] (function: belongs_to)
-<!-- SYNC:END -->
-: belongs_to)
 - [[distributed-config/distributed-config/distconf/python/ffi_validation.py.md|validate_ffi]] (function: belongs_to)
 <!-- SYNC:END -->

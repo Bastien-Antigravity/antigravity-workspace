@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -39,8 +30,5 @@ tags:
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|clear]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/memory.py.md|retrieve]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/sovereignty.py.md|sovereignty.py]] (calls)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/sovereignty.py.md|sovereignty.py]] (same_package)
-<!-- SYNC:END -->
-vereignty.py]] (calls)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/lib/sovereignty.py.md|sovereignty.py]] (same_package)
 <!-- SYNC:END -->

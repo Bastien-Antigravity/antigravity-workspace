@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -51,8 +42,5 @@ tags:
 - [[web-interface/web-interface/web/templates/base.html.md|IS_LOGGED_IN]] (constant: belongs_to)
 - [[web-interface/web-interface/web/templates/base.html.md|SITE_BASE_URL]] (constant: belongs_to)
 - [[web-interface/web-interface/web/templates/base.html.md|SITE_WSS_URL]] (constant: belongs_to)
-- [[web-interface/web-interface/web/templates/base.html.md|updateClock]] (function: belongs_to)
-<!-- SYNC:END -->
-E_WSS_URL]] (constant: belongs_to)
 - [[web-interface/web-interface/web/templates/base.html.md|updateClock]] (function: belongs_to)
 <!-- SYNC:END -->

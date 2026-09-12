@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -130,5 +121,8 @@ tags:
 - [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|ReadRootHelloMsg]] (function: belongs_to)
 - [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|ReadRootPacketEnvelope]] (function: belongs_to)
 - [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|RegisterSchema]] (function: belongs_to)
+- [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|schema_cf4762d38e91a0b1]] (constant: belongs_to)
+<!-- SYNC:END -->
+unction: belongs_to)
 - [[safe-socket/safe-socket/src/schemas/messages.capnp.go.md|schema_cf4762d38e91a0b1]] (constant: belongs_to)
 <!-- SYNC:END -->

@@ -21,4 +21,5 @@ tags:
 - [[watchdog-agent/watchdog-agent/main.go.md|main.go]] (imports)
 - [[watchdog-agent/watchdog-agent/src/config/heal.go.md|HealSymlinks]] (function: belongs_to)
 - [[watchdog-agent/watchdog-agent/src/config/heal.go.md|SymlinkTarget]] (struct: belongs_to)
+- [[watchdog-agent/watchdog-agent/src/config/heal.go.md|safeLinkOrCopy]] (function: belongs_to)
 <!-- SYNC:END -->

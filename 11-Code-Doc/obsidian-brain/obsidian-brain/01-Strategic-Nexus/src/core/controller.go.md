@@ -27,6 +27,3 @@
 - [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|ontent string) []] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|string) string ]] (function: belongs_to)
 <!-- SYNC:END -->
-elongs_to)
-- [[obsidian-brain/obsidian-brain/01-Strategic-Nexus/src/core/controller.go.md|string) string ]] (function: belongs_to)
-<!-- SYNC:END -->

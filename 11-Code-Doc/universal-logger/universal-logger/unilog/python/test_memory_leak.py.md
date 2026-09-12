@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -21,8 +12,5 @@ tags:
 
 ### 🔌 Consumers (Inbound)
 - [[universal-logger/universal-logger/unilog/python/test_memory_leak.py.md|get_memory_usage]] (function: belongs_to)
-- [[universal-logger/universal-logger/unilog/python/test_memory_leak.py.md|main]] (function: belongs_to)
-<!-- SYNC:END -->
-]] (function: belongs_to)
 - [[universal-logger/universal-logger/unilog/python/test_memory_leak.py.md|main]] (function: belongs_to)
 <!-- SYNC:END -->

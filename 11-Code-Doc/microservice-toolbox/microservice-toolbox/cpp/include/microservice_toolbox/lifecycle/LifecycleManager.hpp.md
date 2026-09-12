@@ -26,5 +26,3 @@
 - [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/lifecycle/LifecycleManager.hpp.md|LifecycleManager]] (class: defines_method)
 - [[microservice-toolbox/microservice-toolbox/cpp/include/microservice_toolbox/lifecycle/LifecycleManager.hpp.md|MICROSERVICE_TOOLBOX_LIFECYCLE_MANAGER_HPP]] (macro: belongs_to)
 <!-- SYNC:END -->
-pp/include/microservice_toolbox/lifecycle/LifecycleManager.hpp.md|MICROSERVICE_TOOLBOX_LIFECYCLE_MANAGER_HPP]] (macro: belongs_to)
-<!-- SYNC:END -->

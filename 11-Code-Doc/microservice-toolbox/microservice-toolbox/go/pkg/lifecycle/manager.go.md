@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -30,8 +21,5 @@ tags:
 - [[microservice-toolbox/microservice-toolbox/go/pkg/lifecycle/manager.go.md|ShutdownFunc]] (struct: belongs_to)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/lifecycle/manager_test.go.md|manager_test.go]] (calls)
 - [[microservice-toolbox/microservice-toolbox/go/pkg/lifecycle/manager_test.go.md|manager_test.go]] (same_package)
-- [[microservice-toolbox/microservice-toolbox/rust/src/lifecycle/manager.rs.md|manager.rs]] (calls)
-<!-- SYNC:END -->
-nager_test.go]] (same_package)
 - [[microservice-toolbox/microservice-toolbox/rust/src/lifecycle/manager.rs.md|manager.rs]] (calls)
 <!-- SYNC:END -->

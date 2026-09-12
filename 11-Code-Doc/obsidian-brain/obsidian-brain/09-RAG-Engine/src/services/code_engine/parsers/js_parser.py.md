@@ -29,5 +29,3 @@
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/code_engine/parsers/js_parser.py.md|parse_definitions]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/code_engine/parsers/js_parser.py.md|parse_references]] (function: belongs_to)
 <!-- SYNC:END -->
-dian-brain/obsidian-brain/09-RAG-Engine/src/services/code_engine/parsers/js_parser.py.md|parse_references]] (function: belongs_to)
-<!-- SYNC:END -->

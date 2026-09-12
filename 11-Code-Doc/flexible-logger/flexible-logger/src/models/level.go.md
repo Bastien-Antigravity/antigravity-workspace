@@ -26,6 +26,3 @@
 - [[flexible-logger/flexible-logger/src/models/level_test.go.md|level_test.go]] (calls)
 - [[flexible-logger/flexible-logger/src/models/level_test.go.md|level_test.go]] (same_package)
 <!-- SYNC:END -->
-_test.go.md|level_test.go]] (calls)
-- [[flexible-logger/flexible-logger/src/models/level_test.go.md|level_test.go]] (same_package)
-<!-- SYNC:END -->

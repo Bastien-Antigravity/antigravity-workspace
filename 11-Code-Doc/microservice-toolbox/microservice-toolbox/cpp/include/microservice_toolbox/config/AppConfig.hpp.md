@@ -65,6 +65,3 @@
 - [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (calls)
 - [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (imports)
 <!-- SYNC:END -->
-eck.cpp]] (calls)
-- [[microservice-toolbox/microservice-toolbox/integration/expansion_check.cpp.md|expansion_check.cpp]] (imports)
-<!-- SYNC:END -->

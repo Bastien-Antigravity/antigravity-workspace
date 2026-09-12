@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -35,6 +26,9 @@ tags:
 - [[notif-server/notif-server/src/schemas/protobuf/notif_service_grpc.pb.go.md|notifServiceClient.SendNotification]] (method: belongs_to)
 - [[notif-server/notif-server/src/schemas/protobuf/notif_service_grpc.pb.go.md|notifServiceClient]] (struct: belongs_to)
 - [[notif-server/notif-server/src/schemas/protobuf/notif_service_grpc.pb.go.md|notifServiceClient]] (struct: defines_method)
+- [[notif-server/notif-server/src/server/server.go.md|server.go]] (calls)
+<!-- SYNC:END -->
+c.pb.go.md|notifServiceClient]] (struct: defines_method)
 - [[notif-server/notif-server/src/server/server.go.md|server.go]] (calls)
 <!-- SYNC:END -->
 c.pb.go.md|notifServiceClient]] (struct: defines_method)

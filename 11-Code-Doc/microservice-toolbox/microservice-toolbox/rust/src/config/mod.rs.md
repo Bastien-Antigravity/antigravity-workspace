@@ -12,6 +12,3 @@
 - [[microservice-toolbox/microservice-toolbox/rust/src/config/loader.rs.md|loader.rs]] (imports)
 - [[microservice-toolbox/microservice-toolbox/rust/src/messaging/connector.rs.md|connector.rs]] (imports)
 <!-- SYNC:END -->
-md|loader.rs]] (imports)
-- [[microservice-toolbox/microservice-toolbox/rust/src/messaging/connector.rs.md|connector.rs]] (imports)
-<!-- SYNC:END -->

@@ -24,6 +24,9 @@
 - [[safe-socket/safe-socket/src/profiles/tls_profile.go.md|NewTlsServerProfile]] (function: calls)
 - [[safe-socket/safe-socket/src/profiles/udp_profile.go.md|NewUdpHelloProfile]] (function: calls)
 - [[safe-socket/safe-socket/src/profiles/udp_profile.go.md|NewUdpProfile]] (function: calls)
+- [[safe-socket/safe-socket/src/utils/machine_detector.go.md|GetMachineDetector]] (function: calls)
+- [[safe-socket/safe-socket/src/utils/machine_detector.go.md|MachineDetector.IsLocalAddress]] (method: calls)
+- [[safe-socket/safe-socket/src/utils/machine_detector_test.go.md|machine_detector_test.go]] (imports)
 
 ### 🔌 Consumers (Inbound)
 - [[safe-socket/safe-socket/cmd/test/deadline_test.go.md|deadline_test.go]] (calls)

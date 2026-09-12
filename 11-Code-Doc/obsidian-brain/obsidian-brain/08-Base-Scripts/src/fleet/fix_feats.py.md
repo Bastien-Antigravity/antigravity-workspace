@@ -20,6 +20,3 @@
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|main]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|process_feats]] (function: belongs_to)
 <!-- SYNC:END -->
-on: belongs_to)
-- [[obsidian-brain/obsidian-brain/08-Base-Scripts/src/fleet/fix_feats.py.md|process_feats]] (function: belongs_to)
-<!-- SYNC:END -->

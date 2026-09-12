@@ -1,23 +1,7 @@
----
-source: web-interface/web/static/lib/bastien-ui.js
-workspace: web-interface
-type: code-mirror
-status: auto-generated
-last_sync: 2026-07-04 17:57:29.804918
-microservice: obsidian-brain
-tags:
-- '#service/obsidian-brain'
-- '#type/code-mirror'
-- '#state/auto-generated'
-- '#zone/3-fleet'
----
 
-# Mirror: bastien-ui.js
-
-## 📝 Description
-Automatically generated mirror for `web-interface/web/static/lib/bastien-ui.js`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[web-interface/web-interface/web/static/js/WebSocketClient.js.md|EventEmitter.emit]] (method: calls)
@@ -45,6 +29,3 @@ Automatically generated mirror for `web-interface/web/static/lib/bastien-ui.js`.
 - [[web-interface/web-interface/web/static/lib/bastien-ui.js.md|BastienUIClass]] (class: belongs_to)
 - [[web-interface/web-interface/web/static/lib/bastien-ui.js.md|BastienUIClass]] (class: defines_method)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

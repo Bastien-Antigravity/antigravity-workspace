@@ -1,17 +1,7 @@
----
-source: obsidian-brain/09-RAG-Engine/src/services/seed/seed_service.py
-workspace: obsidian-brain
-type: code-mirror
-status: auto-generated
-last_sync: 2026-08-24T18:28:30.175806
----
 
-# Mirror: seed_service.py
-
-## 📝 Description
-Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/seed/seed_service.py`.
 
 ## 🏗️ Architectural Context
+
 <!-- SYNC:START -->
 ### 📦 Dependencies (Outbound)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/utils/pg_pool.py.md|get_pg_pool]] (function: calls)
@@ -33,6 +23,3 @@ Automatically generated mirror for `obsidian-brain/09-RAG-Engine/src/services/se
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/seed/seed_service.py.md|json_dumps]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/09-RAG-Engine/src/services/seed/seed_service.py.md|json_loads]] (function: belongs_to)
 <!-- SYNC:END -->
-
-## 🔍 Implementation Details
-(Add manual notes here)

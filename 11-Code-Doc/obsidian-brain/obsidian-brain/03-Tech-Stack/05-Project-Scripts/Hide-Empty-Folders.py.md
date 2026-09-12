@@ -17,6 +17,3 @@
 - [[obsidian-brain/obsidian-brain/03-Tech-Stack/05-Project-Scripts/Hide-Empty-Folders.py.md|css_escape]] (function: belongs_to)
 - [[obsidian-brain/obsidian-brain/03-Tech-Stack/05-Project-Scripts/Hide-Empty-Folders.py.md|main]] (function: belongs_to)
 <!-- SYNC:END -->
-ongs_to)
-- [[obsidian-brain/obsidian-brain/03-Tech-Stack/05-Project-Scripts/Hide-Empty-Folders.py.md|main]] (function: belongs_to)
-<!-- SYNC:END -->

@@ -12,6 +12,3 @@
 ### 🔌 Consumers (Inbound)
 - [[microservice-toolbox/microservice-toolbox/integration/expansion_check.rs.md|main]] (function: belongs_to)
 <!-- SYNC:END -->
- Consumers (Inbound)
-- [[microservice-toolbox/microservice-toolbox/integration/expansion_check.rs.md|main]] (function: belongs_to)
-<!-- SYNC:END -->

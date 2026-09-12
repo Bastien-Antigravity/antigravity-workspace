@@ -12,6 +12,3 @@
 - [[distributed-config/distributed-config/src/loader/path_resolver_test.go.md|path_resolver_test.go]] (calls)
 - [[distributed-config/distributed-config/src/loader/path_resolver_test.go.md|path_resolver_test.go]] (same_package)
 <!-- SYNC:END -->
-.go]] (calls)
-- [[distributed-config/distributed-config/src/loader/path_resolver_test.go.md|path_resolver_test.go]] (same_package)
-<!-- SYNC:END -->

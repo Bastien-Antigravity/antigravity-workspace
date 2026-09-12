@@ -1,13 +1,4 @@
----
-microservice: 08-Base-Scripts
-type: note
-status: active
-tags:
-- '#service/08-Base-Scripts'
-- '#type/note'
-- '#state/active'
-- '#zone/3-fleet'
----
+
 
 ## 🏗️ Architectural Context
 
@@ -24,8 +15,5 @@ tags:
 - [[notif-server/notif-server/src/notifiers/telegram.go.md|TelegramSender.GetTag]] (method: belongs_to)
 - [[notif-server/notif-server/src/notifiers/telegram.go.md|TelegramSender.SendMessage]] (method: belongs_to)
 - [[notif-server/notif-server/src/notifiers/telegram.go.md|TelegramSender]] (struct: belongs_to)
-- [[notif-server/notif-server/src/notifiers/telegram.go.md|TelegramSender]] (struct: defines_method)
-<!-- SYNC:END -->
-Sender]] (struct: belongs_to)
 - [[notif-server/notif-server/src/notifiers/telegram.go.md|TelegramSender]] (struct: defines_method)
 <!-- SYNC:END -->
